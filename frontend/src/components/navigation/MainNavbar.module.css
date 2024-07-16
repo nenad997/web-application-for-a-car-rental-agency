@@ -1,0 +1,27 @@
+.nav {
+  background-color: #cddeb5;
+}
+
+.list {
+  display: flex;
+  justify-content: space-around;
+  padding: 30px 15px;
+}
+
+.routes {
+  display: flex;
+  gap: 25px;
+}
+
+.item {
+  & a {
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 20px;
+  }
+}
+
+.active {
+  border-bottom: 2px solid #547B1E;
+}
