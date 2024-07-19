@@ -2,7 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "./components/layouts/RootLayout";
-import Feed from "./routes/Feed";
+import Feed, { loader as carsLoader } from "./routes/Feed";
 import AddNewCar from "./routes/AddNewCar";
 import Record from "./routes/Record";
 import ShowAndSort from "./routes/ShowAndSort";
@@ -19,6 +19,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Feed />,
+        loader: carsLoader,
       },
       {
         path: "add-new-car",
