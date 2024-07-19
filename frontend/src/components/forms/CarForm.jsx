@@ -44,6 +44,16 @@ const CarForm = memo(() => {
         />
       </div>
       <div className={classes.control}>
+        <label className="text-label" htmlFor="more-info">
+          More Info
+        </label>
+        <textarea
+          name="moreInfo"
+          id="more-info"
+          placeholder="Enter more information about vehicle"
+        ></textarea>
+      </div>
+      <div className={classes.control}>
         <Input
           label="Type of fuel"
           config={{
