@@ -1,21 +1,25 @@
 const path = require("path");
-
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
+const feedRoutes = require("./routes/feed");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(process.cwd(), "public")));
 
-app.use((req, res, next) => {
-  console.log("First middleware");
-  next();
-});
+app.use(feedRoutes);
 
-app.use((req, res, next) => {
-  console.log("Second middleware");
-});
-
-app.listen(3000);
+mongoose
+  .connect(
+    "mongodb+srv://Nenad:nenad123@cluster0.ovwtp0c.mongodb.net/car-rental-app"
+  )
+  .then((res) => {
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
