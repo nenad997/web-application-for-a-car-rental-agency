@@ -15,7 +15,7 @@ app.use(feedRoutes);
 
 mongoose
   .connect(
-    "mongodb+srv://Nenad:nenad123@cluster0.ovwtp0c.mongodb.net/car-rental-app"
+    "mongodb+srv://Nenad:nenad123456@cluster0.ovwtp0c.mongodb.net/car-rental-app"
   )
   .then((res) => {
     app.listen(3000);
