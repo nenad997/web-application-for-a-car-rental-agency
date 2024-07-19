@@ -8,6 +8,7 @@ import Record from "./routes/Record";
 import ShowAndSort from "./routes/ShowAndSort";
 import AdditionalExpenses from "./routes/AdditionalExpenses";
 import ClientReverses from "./routes/ClientReverses";
+import CarDetails from "./routes/CarDetails";
 import Auth from "./routes/Auth";
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "all-reverses-by-client",
         element: <ClientReverses />,
+      },
+      {
+        path: "car/:carId",
+        element: <CarDetails />,
       },
       {
         path: "auth",

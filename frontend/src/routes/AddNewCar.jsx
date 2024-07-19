@@ -1,7 +1,9 @@
 import React from "react";
 
+import CarForm from "../components/forms/CarForm";
+
 const AddNewCar = () => {
-  return <h1>The AddNewCar Route</h1>;
+  return <CarForm />;
 };
 
 export default AddNewCar;

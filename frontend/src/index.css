@@ -14,3 +14,9 @@ ol {
 image {
   display: block;
 }
+
+input,
+select,
+label {
+  display: block;
+}
