@@ -14,6 +14,10 @@ const carSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    imageUrl: {
+      type: String,
+      required: true,
+    },
     moreInfo: {
       type: String,
       required: false,
