@@ -34,6 +34,17 @@ const CarForm = memo(() => {
       </div>
       <div className={classes.control}>
         <Input
+          label="Image URL"
+          config={{
+            type: "url",
+            id: "image",
+            name: "image",
+            placeholder: "http://www.imageUrl.com",
+          }}
+        />
+      </div>
+      <div className={classes.control}>
+        <Input
           label="Registration number"
           config={{
             type: "text",
