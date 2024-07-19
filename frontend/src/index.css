@@ -20,3 +20,7 @@ select,
 label {
   display: block;
 }
+
+body {
+  background-color: #D3E9E3;
+}

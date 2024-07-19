@@ -1,7 +1,9 @@
 import React from "react";
 
+import CarList from "../components/feed/CarList";
+
 const Feed = () => {
-  return <h1>The Feed Route</h1>;
+  return <CarList />;
 };
 
 export default Feed;
