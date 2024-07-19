@@ -1,3 +1,4 @@
+require("dotenv").config();
 const path = require("path");
 const express = require("express");
 const cors = require("cors");
@@ -15,7 +16,7 @@ app.use(feedRoutes);
 
 mongoose
   .connect(
-    "mongodb+srv://Nenad:nenad123456@cluster0.ovwtp0c.mongodb.net/car-rental-app"
+    `mongodb+srv://Nenad:${process.env.password}@cluster0.ovwtp0c.mongodb.net/car-rental-app`
   )
   .then((res) => {
     app.listen(3000);
