@@ -1,5 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { PiCarSimpleFill } from "react-icons/pi";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { FaRecordVinyl, FaSortAlphaDown } from "react-icons/fa";
+import { GiExpense } from "react-icons/gi";
+import { FaBraveReverse } from "react-icons/fa6";
+import { CiLogin } from "react-icons/ci";
 
 import classes from "./MainNavbar.module.css";
 
@@ -16,7 +22,7 @@ const MainNavbar = () => {
               }
               end
             >
-              Feed
+              <PiCarSimpleFill title="Feed" />
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -26,7 +32,7 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              Add New Car
+              <IoIosAddCircleOutline title="Add New Car" />
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -36,7 +42,7 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              Record
+              <FaRecordVinyl title="Record" />
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -46,7 +52,7 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              Show & Sort
+              <FaSortAlphaDown title="Show & Sort" />
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -56,7 +62,7 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              Additional Expenses
+              <GiExpense title="Additional Expenses" />
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -66,20 +72,20 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              Client's reverses
+              <FaBraveReverse title="Client's reverses" />
             </NavLink>
           </li>
         </div>
-          <li className={classes.item}>
-            <NavLink
-              to="auth"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              Auth
-            </NavLink>
-          </li>
+        <li className={classes.item}>
+          <NavLink
+            to="auth"
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+          >
+            <CiLogin title="Authenticate" />
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );
