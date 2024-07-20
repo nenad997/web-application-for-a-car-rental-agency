@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "./components/layouts/RootLayout";
 import Feed, { loader as carsLoader } from "./routes/Feed";
-import AddNewCar from "./routes/AddNewCar";
+import AddNewCar, { action as addNewCarAction } from "./routes/AddNewCar";
 import Record from "./routes/Record";
 import ShowAndSort from "./routes/ShowAndSort";
 import AdditionalExpenses from "./routes/AdditionalExpenses";
@@ -24,6 +24,7 @@ const router = createBrowserRouter([
       {
         path: "add-new-car",
         element: <AddNewCar />,
+        action: addNewCarAction,
       },
       {
         path: "record",

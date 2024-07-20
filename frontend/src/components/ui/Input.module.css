@@ -24,3 +24,14 @@
 .option {
   padding: 10px;
 }
+
+.error {
+  font-size: 17px;
+  margin-top: 7px;
+  color: red;
+  padding: 10px;
+}
+
+.error-input {
+  border: 1px solid red;
+}
