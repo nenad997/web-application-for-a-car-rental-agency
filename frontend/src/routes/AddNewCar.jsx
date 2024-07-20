@@ -14,7 +14,7 @@ const AddNewCar = () => {
 
 export default AddNewCar;
 
-export async function action({ request, params }) {
+export async function action({ request }) {
   const formData = await request.formData();
   const {
     make,
@@ -24,6 +24,7 @@ export async function action({ request, params }) {
     expiration,
     moreInfo,
     fuel,
+    price,
   } = Object.fromEntries(formData);
   console.log({
     make,
@@ -58,7 +59,14 @@ export async function action({ request, params }) {
     });
   }
 
-  if (isRegistrationNumberValid(registration_number)) {
+  if (!price || isNaN(price) || +price < 0) {
+    validationErrors.push({
+      message: "Invalid price entered",
+      path: "price",
+    });
+  }
+
+  if (!isRegistrationNumberValid(registration_number)) {
     validationErrors.push({
       message: "The value you provided is not a valid registration number",
       path: "reg_number",
@@ -80,11 +88,39 @@ export async function action({ request, params }) {
   }
 
   if (validationErrors.length > 0) {
+    console.log(validationErrors);
     return json(
       { message: "Validation failed!", errors: validationErrors },
       { status: 403 }
     );
   }
-  
-  return null;
+
+  try {
+    const response = await fetch("http://localhost:3000/add-new-car", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        vehicleMake: make,
+        vehicleModel: model,
+        registrationNumber: registration_number.toUpperCase(),
+        imageUrl: image,
+        moreInfo,
+        fuel,
+        price,
+        expiration,
+      }),
+    });
+
+    if (!response.ok) {
+      return json({ message: "An Error Occurred!" }, { status: 500 });
+    }
+
+    await response.json();
+
+    return redirect("/");
+  } catch (error) {
+    return json({ message: error.message }, { status: 500 });
+  }
 }

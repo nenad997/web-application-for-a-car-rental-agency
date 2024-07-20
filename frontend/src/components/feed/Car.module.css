@@ -25,6 +25,11 @@
   transition: all 0.2s ease-in;
 }
 
+.price {
+  font-size: 30px;
+  letter-spacing: 2px;
+}
+
 .link {
   text-transform: uppercase;
   text-decoration: none;

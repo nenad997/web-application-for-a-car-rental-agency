@@ -10,22 +10,25 @@ const fuelsString =
 const CarForm = memo(({ method }) => {
   const actionData = useActionData();
 
-  const isMakeInvalid = actionData?.errors.find(
+  const isMakeInvalid = actionData?.errors?.find(
     (error) => error.path === "make"
   );
-  const isModelInvalid = actionData?.errors.find(
+  const isModelInvalid = actionData?.errors?.find(
     (error) => error.path === "model"
   );
-  const isImageURLInvalid = actionData?.errors.find(
+  const isImageURLInvalid = actionData?.errors?.find(
     (error) => error.path === "image"
   );
-  const isRegistrationNumberInvalid = actionData?.errors.find(
+  const isPriceInvalid = actionData?.errors?.find(
+    (error) => error.path === "price"
+  );
+  const isRegistrationNumberInvalid = actionData?.errors?.find(
     (error) => error.path === "reg_number"
   );
-  const isDateInvalid = actionData?.errors.find(
+  const isDateInvalid = actionData?.errors?.find(
     (error) => error.path === "date"
   );
-  const isFuelInvalid = actionData?.errors.find(
+  const isFuelInvalid = actionData?.errors?.find(
     (error) => error.path === "fuel"
   );
 
@@ -72,6 +75,19 @@ const CarForm = memo(({ method }) => {
       </div>
       <div className={classes.control}>
         <Input
+          label="Price per day"
+          config={{
+            type: "text",
+            id: "price",
+            name: "price",
+            placeholder: "Enter a vehicle price (per day)",
+          }}
+          hasError={isPriceInvalid}
+          errorText={isDateInvalid?.message}
+        />
+      </div>
+      <div className={classes.control}>
+        <Input
           label="Registration number *"
           config={{
             type: "text",
@@ -91,7 +107,7 @@ const CarForm = memo(({ method }) => {
             id: "reg-exp",
             name: "expiration",
           }}
-          hasError={actionData?.errors.find((error) => error.path === "date")}
+          hasError={actionData?.errors?.find((error) => error.path === "date")}
           errorText={isDateInvalid?.message}
         />
       </div>
@@ -116,7 +132,7 @@ const CarForm = memo(({ method }) => {
             .split(",")
             .map((item) => item.trim().toUpperCase())}
           isSelect={true}
-          hasError={actionData?.errors.find((error) => error.path === "fuel")}
+          hasError={isFuelInvalid}
           errorText={isFuelInvalid?.message}
         />
       </div>

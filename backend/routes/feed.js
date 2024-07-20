@@ -22,7 +22,7 @@ router.post(
     }),
     body("imageUrl").isURL(),
     body("fuel").isString(),
-    body("price").isNumeric(),
+    body("price").isString(),
   ],
   addNewCar
 );
