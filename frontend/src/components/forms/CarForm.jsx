@@ -75,7 +75,7 @@ const CarForm = memo(({ method }) => {
       </div>
       <div className={classes.control}>
         <Input
-          label="Price per day"
+          label="Price per day *"
           config={{
             type: "text",
             id: "price",
@@ -141,6 +141,7 @@ const CarForm = memo(({ method }) => {
           Add
         </button>
       </div>
+      <p className="text">* REQUIRED FIELDS</p>
     </Form>
   );
 });

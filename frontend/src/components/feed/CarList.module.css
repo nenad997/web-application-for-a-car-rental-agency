@@ -12,4 +12,32 @@
 .fallback {
   margin: auto;
   text-align: center;
+  max-width: fit-content;
+  margin-top: 5rem;
+  padding: 10px 15px;
+  background-color: rgba(236, 243, 226, .6);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 7px;
+
+  & h1 {
+    font-size: 40px;
+  }
+
+  & p {
+    font-size: 25px;
+  }
+
+  & a {
+    max-width: fit-content;
+    align-self: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    background-color: #5a9900;
+    border: none;
+    border-radius: 4px;
+    color: white;
+  }
 }

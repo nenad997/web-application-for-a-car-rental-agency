@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 import classes from "./CarList.module.css";
 import Car from "./Car";
@@ -12,6 +12,18 @@ const CarList = () => {
       <div className={classes.fallback}>
         <h1>Failed to fetch data</h1>
         <p>Something went wrong, please try again later</p>
+      </div>
+    );
+  }
+
+  if (cars && cars.length === 0) {
+    return (
+      <div className={classes.fallback}>
+        <h1>Nothing to show here</h1>
+        <p>Start adding some cars</p>
+        <Link to="add-new-car" title="Start adding...">
+          Add
+        </Link>
       </div>
     );
   }

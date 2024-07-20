@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   gap: 25px;
-  background-color: #75c2ad;
+  background-color: rgba(236, 243, 226, .6);
   border-radius: 20px;
   -webkit-box-shadow: 7px 10px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 7px 10px 5px 0px rgba(0, 0, 0, 0.75);

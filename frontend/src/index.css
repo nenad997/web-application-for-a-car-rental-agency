@@ -28,13 +28,21 @@ textarea {
   padding: 10px;
   font-size: 20px;
   resize: none;
+  border: none;
+  border-radius: 5px;
 }
 
 body {
   background-color: #D3E9E3;
+  background: url("./assets/cars-bg.jpg");
+  background-size: cover;
 }
 
 .text-label {
   margin-bottom: 10px;
   font-size: 20px;
+}
+
+.text {
+  padding: 0 20px;
 }
