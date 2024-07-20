@@ -7,6 +7,15 @@ import Car from "./Car";
 const CarList = () => {
   const cars = useLoaderData();
 
+  if (cars.message) {
+    return (
+      <div className={classes.fallback}>
+        <h1>Failed to fetch data</h1>
+        <p>Something went wrong, please try again later</p>
+      </div>
+    );
+  }
+
   return (
     <ul className={classes.list}>
       {cars.map((car) => (

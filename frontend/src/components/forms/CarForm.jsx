@@ -55,6 +55,16 @@ const CarForm = memo(() => {
         />
       </div>
       <div className={classes.control}>
+        <Input
+          label="Registration expiration date"
+          config={{
+            type: "date",
+            id: "reg-exp",
+            name: "expiration",
+          }}
+        />
+      </div>
+      <div className={classes.control}>
         <label className="text-label" htmlFor="more-info">
           More Info
         </label>
