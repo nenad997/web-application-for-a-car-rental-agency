@@ -35,7 +35,7 @@ exports.addNewCar = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.json({
       message: "Validation failed",
-      errors,
+      errors: errors.array(),
       status: 403,
     });
   }
