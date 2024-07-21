@@ -22,49 +22,53 @@ exports.getAllCars = async (req, res, next) => {
 };
 
 exports.addNewCar = async (req, res, next) => {
-  const {
-    vehicleMake,
-    vehicleModel,
-    registrationNumber,
-    imageUrl,
-    moreInfo,
-    fuel,
-    price,
-  } = req.body;
+  try {
+    const {
+      vehicleMake,
+      vehicleModel,
+      registrationNumber,
+      imageUrl,
+      moreInfo,
+      fuel,
+      price,
+    } = req.body;
 
-  const errors = validationResult(req);
+    const errors = validationResult(req);
 
-  if (!errors.isEmpty()) {
-    return res.status(403).json({
-      message: "Validation failed",
-      data: errors.array(),
+    if (!errors.isEmpty()) {
+      const error = new Error("Validation failed");
+      error.status = 403;
+      error.data = errors.array();
+      throw error;
+    }
+
+    const newCar = new Car({
+      vehicleModel,
+      vehicleMake,
+      registrationNumber,
+      imageUrl,
+      moreInfo,
+      fuel,
+      price,
     });
+
+    const result = await newCar.save();
+
+    if (!result) {
+      const error = new Error("Failed to add new car");
+      error.status = 400;
+      throw error;
+    }
+
+    res.status(204).json({
+      message: "Added new car successfully",
+      data: {
+        id: result._id.toString(),
+      },
+    });
+  } catch (err) {
+    next(err);
   }
-
-  const newCar = new Car({
-    vehicleModel,
-    vehicleMake,
-    registrationNumber,
-    imageUrl,
-    moreInfo,
-    fuel,
-    price,
-  });
-
-  const newCarResult = await newCar.save();
-
-  if (!newCarResult) {
-    const error = new Error("Failed to add new car");
-    error.status = 400;
-    throw error;
-  }
-
-  res.status(204).json({
-    message: "Added new car successfully",
-    data: {
-      id: newCarResult._id.toString(),
-    },
-  });
 };
 
 exports.getCarById = async (req, res, next) => {

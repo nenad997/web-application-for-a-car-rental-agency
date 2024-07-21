@@ -12,7 +12,7 @@ router.post(
     body("vehicleMake").trim().isLength({ min: 3, max: 20 }),
     body("vehicleModel").trim().isLength({ min: 3, max: 20 }),
     body("registrationNumber").custom((value) => {
-      const regex = /^[a-zA-Z]{2}-\d+-[a-zA-Z]{2}$/;
+      const regex = /^[\p{L}]{2}-\d+-[\p{L}]{2}$/u;
       if (!regex.test(value)) {
         throw new Error(
           "Registration number must be in the format MM - Numbers - MM"
@@ -22,7 +22,7 @@ router.post(
     }),
     body("imageUrl").isURL(),
     body("fuel").isString(),
-    body("price").isString(),
+    body("price").isNumeric(),
   ],
   addNewCar
 );
