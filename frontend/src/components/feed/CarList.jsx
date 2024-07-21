@@ -37,6 +37,7 @@ const CarList = () => {
           title={`${car.vehicleMake} - ${car.vehicleModel}`}
           imageUrl={car.imageUrl}
           price={car.price}
+          isAvailable={car.available}
         />
       ))}
     </ul>

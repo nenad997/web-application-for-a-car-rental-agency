@@ -8,7 +8,7 @@ import Record from "./routes/Record";
 import ShowAndSort from "./routes/ShowAndSort";
 import AdditionalExpenses from "./routes/AdditionalExpenses";
 import ClientReverses from "./routes/ClientReverses";
-import CarDetails from "./routes/CarDetails";
+import CarDetails, { loader as carDetailsLoader } from "./routes/CarDetails";
 import Auth from "./routes/Auth";
 
 const router = createBrowserRouter([
@@ -45,6 +45,7 @@ const router = createBrowserRouter([
       {
         path: "car/:carId",
         element: <CarDetails />,
+        loader: carDetailsLoader,
       },
       {
         path: "auth",
