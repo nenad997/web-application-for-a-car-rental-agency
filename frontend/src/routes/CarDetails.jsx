@@ -1,7 +1,13 @@
 import React from "react";
 
+import Details from "../components/car/CarDetails";
+
 const CarDetails = () => {
-  return <h1>The CarDetails Route</h1>;
+  return <Details />;
 };
 
 export default CarDetails;
+
+export async function loader({ params }) {
+  const { carId } = params;
+}

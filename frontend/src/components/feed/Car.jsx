@@ -10,7 +10,17 @@ const Car = ({ title, imageUrl, id, price }) => {
       <figure className={classes.figure}>
         <img className={classes.img} src={imageUrl} alt={title} />
       </figure>
-      <p className={classes.price}>{price}€/day</p>
+      <p className={classes.price}>
+        {price}
+        {" "}
+        <span>
+          <sup>€</sup>
+        </span>
+        {"/"}
+        <span>
+          <sub>day</sub>
+        </span>
+      </p>
       <Link className={classes.link} to={`car/${id}`}>
         See Info
       </Link>
