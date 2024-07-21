@@ -13,7 +13,7 @@ exports.getAllCars = async (req, res, next) => {
     }
 
     res.status(200).json({
-      cars: allCars,
+      cars: fetchedCars,
       message: "Success",
       status: 204,
     });
