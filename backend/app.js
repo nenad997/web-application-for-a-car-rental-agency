@@ -14,6 +14,14 @@ app.use(express.static(path.join(process.cwd(), "public")));
 
 app.use(feedRoutes);
 
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  const message = err.message;
+  const data = err.data;
+
+  res.status(status).json({ message, data });
+});
+
 mongoose
   .connect(
     `mongodb+srv://Nenad:${process.env.password}@cluster0.ovwtp0c.mongodb.net/car-rental-app`

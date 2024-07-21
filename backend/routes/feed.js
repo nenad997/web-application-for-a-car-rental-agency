@@ -1,7 +1,7 @@
 const express = require("express");
 const { body } = require("express-validator");
 
-const { getAllCars, addNewCar } = require("../controllers/feed");
+const { getAllCars, addNewCar, getCarById } = require("../controllers/feed");
 
 const router = express.Router();
 
@@ -26,5 +26,6 @@ router.post(
   ],
   addNewCar
 );
+router.get("/car/:carId", getCarById);
 
 module.exports = router;
