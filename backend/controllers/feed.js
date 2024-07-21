@@ -3,75 +3,90 @@ const { validationResult } = require("express-validator");
 const Car = require("../models/Car");
 
 exports.getAllCars = async (req, res, next) => {
-  const allCars = await Car.find();
+  try {
+    const fetchedCars = await Car.find();
 
-  if (!allCars || allCars.length === 0) {
-    return res.json({
-      message: "Could not fetch cars",
-      status: 404,
+    if (!fetchedCars || fetchedCars.length === 0) {
+      const error = new Error("Could not fetch cars");
+      error.status = 400;
+      throw error;
+    }
+
+    res.status(200).json({
+      cars: allCars,
+      message: "Success",
+      status: 204,
     });
+  } catch (err) {
+    next(err);
   }
-
-  res.json({
-    cars: allCars,
-    message: "Success",
-    status: 204,
-  });
 };
 
 exports.addNewCar = async (req, res, next) => {
-  const {
-    vehicleMake,
-    vehicleModel,
-    registrationNumber,
-    imageUrl,
-    moreInfo,
-    fuel,
-    price,
-  } = req.body;
+  try {
+    const {
+      vehicleMake,
+      vehicleModel,
+      registrationNumber,
+      imageUrl,
+      moreInfo,
+      fuel,
+      price,
+    } = req.body;
 
-  const errors = validationResult(req);
+    const errors = validationResult(req);
 
-  if (!errors.isEmpty()) {
-    return res.json({
-      message: "Validation failed",
-      errors: errors.array(),
-      status: 403,
+    if (!errors.isEmpty()) {
+      return res.json({
+        message: "Validation failed",
+        data: errors.array(),
+        status: 403,
+      });
+    }
+
+    const newCar = new Car({
+      vehicleModel,
+      vehicleMake,
+      registrationNumber,
+      imageUrl,
+      moreInfo,
+      fuel,
+      price,
     });
-  }
 
-  const newCar = new Car({
-    vehicleModel,
-    vehicleMake,
-    registrationNumber,
-    imageUrl,
-    moreInfo,
-    fuel,
-    price,
-  });
+    const newCarResult = await newCar.save();
 
-  const newCarResult = await newCar.save();
+    if (!newCarResult) {
+      const error = new Error("Failed to add new car");
+      error.status = 400;
+      throw error;
+    }
 
-  if (!newCarResult) {
-    return res.json({
-      message: "Failed to add new car",
-      status: 400,
+    res.status(202).json({
+      message: "Added new car successfully",
+      status: 204,
+      id: newCarResult._id.toString(),
     });
+  } catch (err) {
+    next(err);
   }
-
-  res.json({
-    message: "Added new car successfully",
-    status: 204,
-    id: newCarResult._id.toString(),
-  });
 };
 
-// {
-//   "vehicleMake": "Renault",
-//   "vehicleModel": "Clio 1.2",
-//   "registrationNumber": "ŠI - 22 - MM",
-//   "imageUrl": "https://images.unsplash.com/photo-1666335009164-2597314da8e7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-//   "moreInfo": "Nice Car. Test",
-//   "fuel": "Diesel",
-//   "price": 25
-// }
+exports.getCarById = async (req, res, next) => {
+  try {
+    const { carId } = req.params;
+    const foundCar = await Car.findById(carId);
+    if (!foundCar) {
+      const error = new Error("Failed to fetch a car");
+      error.status = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Success",
+      car: foundCar,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
