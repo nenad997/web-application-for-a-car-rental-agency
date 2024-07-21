@@ -8,14 +8,13 @@ exports.getAllCars = async (req, res, next) => {
 
     if (!fetchedCars || fetchedCars.length === 0) {
       const error = new Error("Could not fetch cars");
-      error.status = 400;
+      error.status = 404;
       throw error;
     }
 
     res.status(200).json({
-      cars: fetchedCars,
+      data: fetchedCars,
       message: "Success",
-      status: 204,
     });
   } catch (err) {
     next(err);
@@ -36,10 +35,9 @@ exports.addNewCar = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.json({
+    return res.status(403).json({
       message: "Validation failed",
       data: errors.array(),
-      status: 403,
     });
   }
 
@@ -61,10 +59,11 @@ exports.addNewCar = async (req, res, next) => {
     throw error;
   }
 
-  res.json({
+  res.status(204).json({
     message: "Added new car successfully",
-    status: 204,
-    id: newCarResult._id.toString(),
+    data: {
+      id: newCarResult._id.toString(),
+    },
   });
 };
 
@@ -77,11 +76,12 @@ exports.getCarById = async (req, res, next) => {
     if (!fetchedCar) {
       const error = new Error("Could not fetch a car");
       error.status = 404;
+      throw error;
     }
 
     res.status(200).json({
       message: "Success",
-      car: fetchedCar,
+      data: fetchedCar,
     });
   } catch (err) {
     next(err);

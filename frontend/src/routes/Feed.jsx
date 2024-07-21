@@ -18,7 +18,7 @@ export async function loader() {
     }
 
     const responseData = await response.json();
-    return responseData.cars || [];
+    return responseData.data || [];
   } catch (error) {
     return json({ message: error.message }, { status: 404 });
   }
