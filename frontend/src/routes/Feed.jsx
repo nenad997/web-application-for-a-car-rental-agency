@@ -18,8 +18,8 @@ export async function loader() {
     }
 
     const responseData = await response.json();
-    return responseData.data || [];
+    return responseData;
   } catch (error) {
-    return json({ message: error.message }, { status: 404 });
+    return json({ message: error.message, data: null }, { status: 404 });
   }
 }

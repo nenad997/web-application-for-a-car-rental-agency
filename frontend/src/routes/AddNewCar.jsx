@@ -26,15 +26,6 @@ export async function action({ request }) {
     fuel,
     price,
   } = Object.fromEntries(formData);
-  console.log({
-    make,
-    model,
-    image,
-    registration_number,
-    expiration,
-    moreInfo,
-    fuel,
-  });
 
   const validationErrors = [];
 
@@ -88,7 +79,6 @@ export async function action({ request }) {
   }
 
   if (validationErrors.length > 0) {
-    console.log(validationErrors);
     return json(
       { message: "Validation failed!", errors: validationErrors },
       { status: 403 }

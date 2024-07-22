@@ -1,10 +1,16 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link, useParams } from "react-router-dom";
 
 import classes from "./CarDetails.module.css";
 
 const CarDetails = () => {
-  const data = useLoaderData();
+  const { carId } = useParams();
+  const loaderData = useLoaderData();
+  const data = loaderData?.data ? loaderData.data : null;
+
+  if (!data) {
+    return <h1>No data</h1>;
+  }
 
   return (
     <div
@@ -29,6 +35,7 @@ const CarDetails = () => {
         </p>
         <p>More: {data.moreInfo}</p>
       </details>
+      <Link to={`/edit/${carId}?edit=${true}`}>Edit</Link>
     </div>
   );
 };

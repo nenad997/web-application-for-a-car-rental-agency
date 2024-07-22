@@ -20,8 +20,8 @@ export async function loader({ params }) {
     }
 
     const responseData = await response.json();
-    return responseData.data;
+    return responseData;
   } catch (err) {
-    return json({ message: err.message }, { status: 404 });
+    return json({ message: err.message, data: null }, { status: 404 });
   }
 }

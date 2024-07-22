@@ -5,9 +5,10 @@ import classes from "./CarList.module.css";
 import Car from "./Car";
 
 const CarList = () => {
-  const cars = useLoaderData();
+  const loaderData = useLoaderData();
+  const data = loaderData?.data ? loaderData.data : [];
 
-  if (cars.message) {
+  if (!data) {
     return (
       <div className={classes.fallback}>
         <h1>Failed to fetch data</h1>
@@ -16,7 +17,7 @@ const CarList = () => {
     );
   }
 
-  if (cars && cars.length === 0) {
+  if (data && data.length === 0) {
     return (
       <div className={classes.fallback}>
         <h1>Nothing to show here</h1>
@@ -30,14 +31,14 @@ const CarList = () => {
 
   return (
     <ul className={classes.list}>
-      {cars.map((car) => (
+      {data.map((item) => (
         <Car
-          key={car._id}
-          id={car._id}
-          title={`${car.vehicleMake} - ${car.vehicleModel}`}
-          imageUrl={car.imageUrl}
-          price={car.price}
-          isAvailable={car.available}
+          key={item._id}
+          id={item._id}
+          title={`${item.vehicleMake} - ${item.vehicleModel}`}
+          imageUrl={item.imageUrl}
+          price={item.price}
+          isAvailable={item.available}
         />
       ))}
     </ul>
