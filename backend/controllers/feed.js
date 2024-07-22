@@ -91,3 +91,60 @@ exports.getCarById = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.editCar = async (req, res, next) => {
+  try {
+    const { carId } = req.params;
+    const {
+      vehicleMake,
+      vehicleModel,
+      registrationNumber,
+      imageUrl,
+      moreInfo,
+      fuel,
+      price,
+    } = req.body;
+
+    const fetchedCar = await Car.findById(carId);
+
+    if (!fetchedCar) {
+      const error = new Error("Could not fetch a car");
+      error.status = 404;
+      throw error;
+    }
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const error = new Error("Validation failed");
+      error.status = 403;
+      error.data = errors.array();
+      throw error;
+    }
+
+    fetchedCar.vehicleMake = vehicleMake;
+    fetchedCar.vehicleModel = vehicleModel;
+    fetchedCar.registrationNumber = registrationNumber;
+    fetchedCar.imageUrl = imageUrl;
+    fetchedCar.moreInfo = moreInfo;
+    fetchedCar.fuel = fuel;
+    fetchedCar.price = price;
+
+    const result = await fetchedCar.save();
+
+    if (!result) {
+      const error = new Error("Failed to update the car");
+      error.status = 406;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Update successful",
+      data: {
+        id: result._id.toString(),
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};

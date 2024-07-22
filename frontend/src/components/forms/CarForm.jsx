@@ -7,7 +7,7 @@ import classes from "./CarForm.module.css";
 const fuelsString =
   "None, G-Drive Diesel, G-Drive 100, OPTI Diesel, OPTI Benzin 95, OPTI Auto Gas, Euro Diesel, Euro Premium BMB95, Metan CNG, Electrical Charger";
 
-const CarForm = memo(({ method }) => {
+const CarForm = memo(({ method, car = null }) => {
   const actionData = useActionData();
 
   const isMakeInvalid = actionData?.errors?.find(
@@ -42,6 +42,7 @@ const CarForm = memo(({ method }) => {
             id: "make",
             name: "make",
             placeholder: "Enter vehicle make (Renault)",
+            defaultValue: car ? car.vehicleMake : null,
           }}
           hasError={isMakeInvalid}
           errorText={isMakeInvalid?.message}
@@ -55,6 +56,7 @@ const CarForm = memo(({ method }) => {
             id: "model",
             name: "model",
             placeholder: "Enter vehicle model (Clio 1.2)",
+            defaultValue: car ? car.vehicleModel : null,
           }}
           hasError={isModelInvalid}
           errorText={isModelInvalid?.message}
@@ -68,6 +70,7 @@ const CarForm = memo(({ method }) => {
             id: "image",
             name: "image",
             placeholder: "http://www.imageUrl.com",
+            defaultValue: car ? car.imageUrl : null,
           }}
           hasError={isImageURLInvalid}
           errorText={isImageURLInvalid?.message}
@@ -81,6 +84,7 @@ const CarForm = memo(({ method }) => {
             id: "price",
             name: "price",
             placeholder: "Enter a vehicle price (per day)",
+            defaultValue: car ? car.price : null,
           }}
           hasError={isPriceInvalid}
           errorText={isDateInvalid?.message}
@@ -94,6 +98,7 @@ const CarForm = memo(({ method }) => {
             id: "registration-number",
             name: "registration_number",
             placeholder: "Format (CC - 123 - AA)",
+            defaultValue: car ? car.registrationNumber : null,
           }}
           hasError={isRegistrationNumberInvalid}
           errorText={isRegistrationNumberInvalid?.message}
@@ -106,6 +111,7 @@ const CarForm = memo(({ method }) => {
             type: "date",
             id: "reg-exp",
             name: "expiration",
+            defaultValue: car ? car.regExpiration.split("T")[0] : null,
           }}
           hasError={actionData?.errors?.find((error) => error.path === "date")}
           errorText={isDateInvalid?.message}
@@ -119,14 +125,17 @@ const CarForm = memo(({ method }) => {
           name="moreInfo"
           id="more-info"
           placeholder="Enter more information about vehicle"
+          defaultValue={car ? car.moreInfo : null}
         ></textarea>
       </div>
       <div className={classes.control}>
         <Input
           label="Type of fuel *"
           config={{
+            type: "text",
             id: "fuel",
             name: "fuel",
+            defaultValue: car ? car.fuel : null,
           }}
           options={fuelsString
             .split(",")
@@ -138,7 +147,7 @@ const CarForm = memo(({ method }) => {
       </div>
       <div className={classes.control}>
         <button className={classes["add-button"]} type="submit" title="Add">
-          Add
+          {!car ? "Add" : "Edit"}
         </button>
       </div>
       <p className="text">* REQUIRED FIELDS</p>

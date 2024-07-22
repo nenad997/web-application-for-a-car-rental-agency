@@ -35,7 +35,14 @@ const CarDetails = () => {
         </p>
         <p>More: {data.moreInfo}</p>
       </details>
-      <Link to={`/edit/${carId}?edit=${true}`}>Edit</Link>
+      <div style={{ textAlign: "center" }}>
+        <Link
+          className={classes["edit-link"]}
+          to={`/edit/${carId}?edit=${true}`}
+        >
+          Edit
+        </Link>
+      </div>
     </div>
   );
 };
