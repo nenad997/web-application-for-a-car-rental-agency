@@ -14,9 +14,9 @@ router.get("/", getAllCars);
 router.post(
   "/add-new-car",
   [
-    body("vehicleMake").trim().isLength({ min: 3, max: 20 }),
-    body("vehicleModel").trim().isLength({ min: 3, max: 20 }),
-    body("registrationNumber").custom((value) => {
+    body("vehicleMake").trim().notEmpty().isString(),
+    body("vehicleModel").trim().notEmpty().isString(),
+    body("registrationNumber").custom((value, { req }) => {
       const regex = /^[\p{L}]{2}-\d+-[\p{L}]{2}$/u;
       if (!regex.test(value)) {
         throw new Error(
@@ -25,9 +25,9 @@ router.post(
       }
       return true;
     }),
-    body("imageUrl").isURL(),
-    body("fuel").isString(),
-    body("price").isNumeric(),
+    body("imageUrl").notEmpty().isURL(),
+    body("fuel").notEmpty().isString(),
+    body("price").isString(),
   ],
   addNewCar
 );
@@ -35,9 +35,9 @@ router.get("/car/:carId", getCarById);
 router.put(
   "/edit/:carId",
   [
-    body("vehicleMake").trim().isLength({ min: 3, max: 20 }),
-    body("vehicleModel").trim().isLength({ min: 3, max: 20 }),
-    body("registrationNumber").custom((value) => {
+    body("vehicleMake").trim().notEmpty().isString(),
+    body("vehicleModel").trim().notEmpty().isString(),
+    body("registrationNumber").custom((value, { req }) => {
       const regex = /^[\p{L}]{2}-\d+-[\p{L}]{2}$/u;
       if (!regex.test(value)) {
         throw new Error(
@@ -46,9 +46,9 @@ router.put(
       }
       return true;
     }),
-    body("imageUrl").isURL(),
-    body("fuel").isString(),
-    body("price").isNumeric(),
+    body("imageUrl").notEmpty().isURL(),
+    body("fuel").notEmpty().isString(),
+    body("price").isString(),
   ],
   editCar
 );

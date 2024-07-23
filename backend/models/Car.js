@@ -13,6 +13,7 @@ const carSchema = new mongoose.Schema(
     registrationNumber: {
       type: String,
       required: true,
+      unique: true,
     },
     imageUrl: {
       type: String,
