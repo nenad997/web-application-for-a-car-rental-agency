@@ -130,8 +130,6 @@ export async function action({ params, request }) {
       throw error;
     }
 
-    await response.json();
-
     return redirect("/");
   } catch (err) {
     return json({ message: err.message }, { status: err.status });

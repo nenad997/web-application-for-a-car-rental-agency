@@ -31,6 +31,7 @@ exports.addNewCar = async (req, res, next) => {
       moreInfo,
       fuel,
       price,
+      expiration,
     } = req.body;
 
     const errors = validationResult(req);
@@ -50,6 +51,7 @@ exports.addNewCar = async (req, res, next) => {
       moreInfo,
       fuel,
       price,
+      regExpiration: expiration,
     });
 
     const result = await newCar.save();

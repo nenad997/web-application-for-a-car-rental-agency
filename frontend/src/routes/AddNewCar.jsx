@@ -92,8 +92,8 @@ export async function action({ request }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        vehicleMake: make,
-        vehicleModel: model,
+        vehicleMake: make.toUpperCase(),
+        vehicleModel: model.toUpperCase(),
         registrationNumber: registration_number.toUpperCase(),
         imageUrl: image,
         moreInfo,
@@ -104,13 +104,13 @@ export async function action({ request }) {
     });
 
     if (!response.ok) {
-      return json({ message: "An Error Occurred!" }, { status: 500 });
+      const error = new Error("An Error Occurred!");
+      error.status = 500;
+      throw error;
     }
-
-    await response.json();
 
     return redirect("/");
   } catch (error) {
-    return json({ message: error.message }, { status: 500 });
+    return json({ message: error.message }, { status: error.status });
   }
 }

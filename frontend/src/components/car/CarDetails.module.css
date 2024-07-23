@@ -30,7 +30,7 @@
   font-size: 30px;
   padding: 5px 7px;
   
-  & > * {
+  & > *:not(summary) {
     background-color: #c5b94b;
     margin-bottom: 5px;
     padding: 5px;
