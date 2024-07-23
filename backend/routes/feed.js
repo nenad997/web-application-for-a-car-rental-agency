@@ -6,6 +6,7 @@ const {
   addNewCar,
   getCarById,
   editCar,
+  deleteCarById,
 } = require("../controllers/feed");
 
 const router = express.Router();
@@ -52,5 +53,7 @@ router.put(
   ],
   editCar
 );
+
+router.delete("/car/:carId", deleteCarById);
 
 module.exports = router;

@@ -150,3 +150,30 @@ exports.editCar = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteCarById = async (req, res, next) => {
+  const { carId } = req.params;
+  try {
+    const fetchedCar = await Car.findById(carId);
+
+    if (!fetchedCar) {
+      const error = new Error("Could not fetch a car");
+      error.status = 404;
+      throw error;
+    }
+
+    const deletionResult = await Car.findByIdAndDelete(carId);
+
+    if (!deletionResult) {
+      const error = new Error("Failed to delete the car");
+      error.status = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Success",
+    });
+  } catch (err) {
+    next(err);
+  }
+};

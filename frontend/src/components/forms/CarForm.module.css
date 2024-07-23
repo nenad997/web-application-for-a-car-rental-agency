@@ -4,7 +4,7 @@
   margin-top: 55px;
   margin-bottom: 55px;
   padding: 20px 30px;
-  background-color: rgba(236, 243, 226, .6);
+  background-color: rgba(236, 243, 226, 0.6);
   border-radius: 12px;
 }
 
@@ -12,13 +12,21 @@
   padding: 15px 20px;
 }
 
-.add-button {
+.button {
   padding: 10px 30px;
   cursor: pointer;
   text-transform: uppercase;
   border: none;
   outline: none;
-  background-color: #8eee07;
   color: black;
   border-radius: 5px;
+  margin-right: 10px;
+}
+
+.add-button {
+  background-color: #8eee07;
+}
+
+.delete-button {
+  background-color: red;
 }
