@@ -29,6 +29,11 @@
     letter-spacing: 1px;
     font-size: 20px;
     color: wheat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 
     & svg {
       font-size: 28px;

@@ -22,7 +22,8 @@ const MainNavbar = () => {
               }
               end
             >
-              <PiCarSimpleFill title="Feed" />
+              <PiCarSimpleFill />
+              <span>Feed</span>
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -32,7 +33,8 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              <IoIosAddCircleOutline title="Add New Car" />
+              <IoIosAddCircleOutline />
+              <span>Add New Car</span>
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -42,7 +44,8 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              <FaRecordVinyl title="Record" />
+              <FaRecordVinyl />
+              <span>Record</span>
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -52,7 +55,8 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              <FaSortAlphaDown title="Show & Sort" />
+              <FaSortAlphaDown />
+              <span>Show & Sort</span>
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -62,7 +66,8 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              <GiExpense title="Additional Expenses" />
+              <GiExpense />
+              <span>Additional Expenses</span>
             </NavLink>
           </li>
           <li className={classes.item}>
@@ -72,7 +77,8 @@ const MainNavbar = () => {
                 isActive ? classes.active : undefined
               }
             >
-              <FaBraveReverse title="Client's reverses" />
+              <FaBraveReverse />
+              <span>Client's reverses</span>
             </NavLink>
           </li>
         </div>
@@ -83,7 +89,8 @@ const MainNavbar = () => {
               isActive ? classes.active : undefined
             }
           >
-            <CiLogin title="Authenticate" />
+            <CiLogin />
+            <span>Auth</span>
           </NavLink>
         </li>
       </ul>
