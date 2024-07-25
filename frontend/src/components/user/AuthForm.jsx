@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   useSearchParams,
@@ -11,6 +11,7 @@ import classes from "./AuthForm.module.css";
 import Input from "../ui/Input";
 
 const AuthForm = () => {
+  const [error, setError] = useState();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const actionData = useActionData();
@@ -18,14 +19,27 @@ const AuthForm = () => {
   const mode = searchParams.get("mode") || "signup";
   const submitButtonText = mode === "login" ? "Sign in" : "Signup";
 
+  const closeErrorTextHandler = () => {
+    setError(null);
+  };
+
   useEffect(() => {
     if (mode !== "login" && mode !== "signup") {
       navigate("?mode=login");
     }
   }, [mode, navigate]);
 
+  useEffect(() => {
+    setError(actionData);
+  }, [setError, actionData]);
+
   return (
     <Form method="POST" className={classes.form}>
+      {error?.message && (
+        <p className={classes.error} onClick={closeErrorTextHandler}>
+          {error?.message}
+        </p>
+      )}
       <div className={classes.control}>
         <Input
           label="Email address *"
@@ -35,9 +49,9 @@ const AuthForm = () => {
             name: "email",
             placeholder: "Enter your email address",
           }}
-          hasError={actionData?.errors.find((error) => error.path === "email")}
+          hasError={actionData?.errors?.find((error) => error.path === "email")}
           errorText={
-            actionData?.errors.find((error) => error.path === "email")?.message
+            actionData?.errors?.find((error) => error.path === "email")?.message
           }
         />
       </div>
@@ -52,11 +66,11 @@ const AuthForm = () => {
                 name: "user_name",
                 placeholder: "Enter user name",
               }}
-              hasError={actionData?.errors.find(
+              hasError={actionData?.errors?.find(
                 (error) => error.path === "user_name"
               )}
               errorText={
-                actionData?.errors.find((error) => error.path === "user_name")
+                actionData?.errors?.find((error) => error.path === "user_name")
                   ?.message
               }
             />
@@ -70,11 +84,11 @@ const AuthForm = () => {
                 name: "id_card_number",
                 placeholder: "Enter your ID card number",
               }}
-              hasError={actionData?.errors.find(
+              hasError={actionData?.errors?.find(
                 (error) => error.path === "id_card_number"
               )}
               errorText={
-                actionData?.errors.find(
+                actionData?.errors?.find(
                   (error) => error.path === "id_card_number"
                 )?.message
               }
@@ -91,11 +105,11 @@ const AuthForm = () => {
             name: "password",
             placeholder: "Enter your password",
           }}
-          hasError={actionData?.errors.find(
+          hasError={actionData?.errors?.find(
             (error) => error.path === "password"
           )}
           errorText={
-            actionData?.errors.find((error) => error.path === "password")
+            actionData?.errors?.find((error) => error.path === "password")
               ?.message
           }
         />
@@ -110,13 +124,12 @@ const AuthForm = () => {
               name: "repeat_password",
               placeholder: "Repeat your password",
             }}
-            hasError={actionData?.errors.find(
-              (error) => error.path === "repeat_password"
+            hasError={actionData?.errors?.find(
+              (error) => error.path === "password"
             )}
             errorText={
-              actionData?.errors.find(
-                (error) => error.path === "repeat_password"
-              )?.message
+              actionData?.errors?.find((error) => error.path === "password")
+                ?.message
             }
           />
         </div>

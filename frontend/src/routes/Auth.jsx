@@ -1,5 +1,5 @@
 import React from "react";
-import { json } from "react-router-dom";
+import { json, redirect } from "react-router-dom";
 
 import AuthForm from "../components/user/AuthForm";
 import {
@@ -33,7 +33,7 @@ export async function action({ request }) {
     });
   }
 
-  if(mode === "signup") {
+  if (mode === "signup") {
     if (!isUsernameValid(user_name)) {
       validationErrors.push({
         message:
@@ -65,6 +65,45 @@ export async function action({ request }) {
     );
   }
 
-  console.log(entries);
-  return null;
+  let redirectPath;
+
+  if (mode === "signup") {
+    try {
+      const response = await fetch("http://localhost:3000/auth/create-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          user_name,
+          id_card_number,
+          password,
+          repeat_password,
+        }),
+      });
+
+      if (!response.ok) {
+        return json(
+          { message: "User with this email address already exists" },
+          { status: 409 }
+        );
+      }
+
+      const responseData = await response.json();
+
+      if (!responseData?.data.id) {
+        return json(
+          { message: "User with this email address already exists" },
+          { status: 409 }
+        );
+      }
+
+      redirectPath = "/";
+    } catch (err) {
+      return json({ message: err.message }, { status: err.status });
+    }
+  }
+
+  return redirect(redirectPath);
 }
