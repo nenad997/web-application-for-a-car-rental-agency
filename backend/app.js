@@ -5,6 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+const authRoutes = require("./routes/auth");
 const feedRoutes = require("./routes/feed");
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(process.cwd(), "public")));
 
+app.use("/auth", authRoutes);
 app.use(feedRoutes);
 
 app.use((err, req, res, next) => {
