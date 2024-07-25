@@ -13,7 +13,7 @@ import Edit, {
   action as editCarAction,
   loader as editCarLoader,
 } from "./routes/Edit";
-import Auth from "./routes/Auth";
+import Auth, { action as authAction } from "./routes/Auth";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +60,7 @@ const router = createBrowserRouter([
       {
         path: "auth",
         element: <Auth />,
+        action: authAction,
       },
     ],
   },

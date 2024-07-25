@@ -1,0 +1,35 @@
+.form {
+  max-width: 800px;
+  margin: auto;
+  margin-top: 55px;
+  margin-bottom: 55px;
+  padding: 20px 30px;
+  background-color: rgba(236, 243, 226, 0.6);
+  border-radius: 12px;
+}
+
+.control {
+  padding: 15px 20px;
+}
+
+.button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white;
+  font-size: 15px;
+  border-radius: 10px;
+}
+
+.auth-button {
+  background-color: rgb(75, 130, 20);
+}
+
+.switch-mode {
+  background-color: darkcyan;
+  margin-left: 15px;
+  text-decoration: none;
+}
