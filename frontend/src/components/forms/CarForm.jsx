@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import {
   Form,
   useActionData,
@@ -13,10 +13,12 @@ const fuelsString =
   "None, G-Drive Diesel, G-Drive 100, OPTI Diesel, OPTI Benzin 95, OPTI Auto Gas, Euro Diesel, Euro Premium BMB95, Metan CNG, Electrical Charger";
 
 const CarForm = memo(({ method, car = null }) => {
+  const [error, setError] = useState();
   const actionData = useActionData();
   const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
   const { carId } = useParams();
+
+  const isSubmitting = navigation.state === "submitting";
 
   const deleteCarHandler = () => {
     fetch(`http://localhost:3000/car/${carId}`, {
@@ -28,13 +30,10 @@ const CarForm = memo(({ method, car = null }) => {
           error.status = 404;
           throw error;
         }
-        return res;
-      })
-      .then((resData) => {
         location.href = "/";
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.message);
       });
   };
 
@@ -176,14 +175,18 @@ const CarForm = memo(({ method, car = null }) => {
         >
           {isSubmitting ? "Submitting" : !car ? "Add" : "Edit"}
         </button>
-        <button
-          className={`${classes.button} ${classes["delete-button"]}`}
-          type="button"
-          onClick={deleteCarHandler}
-        >
-          Delete
-        </button>
+        {car && (
+          <button
+            className={`${classes.button} ${classes["delete-button"]}`}
+            type="button"
+            title="Confirm"
+            onClick={deleteCarHandler}
+          >
+            Delete
+          </button>
+        )}
       </div>
+      {error && <p className={classes.error}>{error}</p>}
       <p className="text">* REQUIRED FIELDS</p>
     </Form>
   );
