@@ -16,7 +16,6 @@ export default Auth;
 
 export async function action({ request }) {
   const formData = await request.formData();
-  const entries = Object.fromEntries(formData);
   const { email, user_name, id_card_number, password, repeat_password, mode } =
     Object.fromEntries(formData);
 
@@ -99,10 +98,35 @@ export async function action({ request }) {
         );
       }
 
-      redirectPath = "/";
+      redirectPath = "/auth?mode=login";
     } catch (err) {
       return json({ message: err.message }, { status: err.status });
     }
+  }
+
+  if (mode === "login") {
+    const response = await fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    if (!response.ok) {
+      return json({ message: "Invalid email or password" }, { status: 401 });
+    }
+
+    const responseData = await response.json();
+
+    if (!responseData?.userId) {
+      return json({ message: "Invalid email or password" }, { status: 401 });
+    }
+
+    redirectPath = "/";
   }
 
   return redirect(redirectPath);
