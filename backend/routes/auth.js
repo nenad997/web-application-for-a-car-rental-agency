@@ -1,7 +1,7 @@
 const express = require("express");
 const { body } = require("express-validator");
 
-const { createUser } = require("../controllers/auth");
+const { createUser, login } = require("../controllers/auth");
 
 const router = express.Router();
 
@@ -31,6 +31,23 @@ router.post(
       }),
   ],
   createUser
+);
+
+router.post(
+  "/login",
+  [
+    body("email").notEmpty().isEmail().normalizeEmail(),
+    body("password")
+      .notEmpty()
+      .custom((value) => {
+        const regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        if (!regex.test(value)) {
+          throw new Error("Invalid password provided");
+        }
+        return true;
+      }),
+  ],
+  login
 );
 
 module.exports = router;
