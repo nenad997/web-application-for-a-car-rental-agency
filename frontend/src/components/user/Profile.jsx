@@ -20,18 +20,6 @@ const Profile = ({ onRemoveAuthToken }) => {
   const closeModalHandler = () => {
     setIsModalVisible(false);
   };
-
-  const portal = createPortal(
-    <Modal>
-      <UserForm
-        onCloseModal={closeModalHandler}
-        user={user}
-        error={error}
-        onSubmitForm={submitFormHandler}
-      />
-    </Modal>,
-    document.getElementById("modal")
-  );
   
   const submitFormHandler = useCallback(
     (inputs) => {
@@ -54,6 +42,18 @@ const Profile = ({ onRemoveAuthToken }) => {
       });
     },
     [userId]
+  );
+
+  const portal = createPortal(
+    <Modal>
+      <UserForm
+        onCloseModal={closeModalHandler}
+        user={user}
+        error={error}
+        onSubmitForm={submitFormHandler}
+      />
+    </Modal>,
+    document.getElementById("modal")
   );
   
   useEffect(() => {
