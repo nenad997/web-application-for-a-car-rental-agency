@@ -43,6 +43,7 @@ const CarForm = memo(({ method, car = null }) => {
 
   return (
     <Form className={classes.form} method={method}>
+      {error && <p className={classes.error}>{error}</p>}
       <div className={classes.control}>
         <Input
           label="Vehicle Make *"
@@ -190,7 +191,6 @@ const CarForm = memo(({ method, car = null }) => {
           </button>
         )}
       </div>
-      {error && <p className={classes.error}>{error}</p>}
       <p className="text">* REQUIRED FIELDS</p>
     </Form>
   );

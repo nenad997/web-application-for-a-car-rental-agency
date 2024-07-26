@@ -8,12 +8,14 @@ const {
   editCar,
   deleteCarById,
 } = require("../controllers/feed");
+const isAuth = require("../middlewares/isAuth");
 
 const router = express.Router();
 
 router.get("/", getAllCars);
 router.post(
   "/add-new-car",
+  isAuth,
   [
     body("vehicleMake").trim().notEmpty().isString(),
     body("vehicleModel").trim().notEmpty().isString(),
@@ -35,6 +37,7 @@ router.post(
 router.get("/car/:carId", getCarById);
 router.put(
   "/edit/:carId",
+  isAuth,
   [
     body("vehicleMake").trim().notEmpty().isString(),
     body("vehicleModel").trim().notEmpty().isString(),
@@ -54,6 +57,6 @@ router.put(
   editCar
 );
 
-router.delete("/car/:carId", deleteCarById);
+router.delete("/car/:carId", isAuth, deleteCarById);
 
 module.exports = router;

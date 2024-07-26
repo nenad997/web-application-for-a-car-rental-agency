@@ -126,6 +126,10 @@ export async function action({ request }) {
         return json({ message: "Invalid email or password" }, { status: 401 });
       }
 
+      const token = responseData?.token;
+
+      localStorage.setItem("token", token);
+
       redirectPath = "/";
     } catch (err) {
       return json({ message: err.message }, { status: err.status });
