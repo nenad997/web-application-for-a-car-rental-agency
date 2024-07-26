@@ -12,13 +12,14 @@ import {
   setAuthToken,
   removeAuthToken,
   setUserId,
+  getUserId,
 } from "../util/authorization";
 
 const Auth = () => {
   const token = useRouteLoaderData("root");
 
   if (token) {
-    return <Profile onRemoveAuthToken={removeAuthToken} />;
+    return <Profile onRemoveAuthToken={removeAuthToken} userId={getUserId()} />;
   }
 
   return <AuthForm />;
