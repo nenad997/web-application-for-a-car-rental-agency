@@ -57,7 +57,6 @@ export async function action({ request }) {
   }
 
   if (validationErrors.length > 0) {
-    console.log(validationErrors);
     return json(
       { message: "Validation failed", errors: validationErrors },
       { status: 403 }
@@ -97,7 +96,7 @@ export async function action({ request }) {
           { status: 409 }
         );
       }
-
+      alert("Registration successful");
       redirectPath = "/auth?mode=login";
     } catch (err) {
       return json({ message: err.message }, { status: err.status });
@@ -105,28 +104,32 @@ export async function action({ request }) {
   }
 
   if (mode === "login") {
-    const response = await fetch("http://localhost:3000/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-    if (!response.ok) {
-      return json({ message: "Invalid email or password" }, { status: 401 });
+      if (!response.ok) {
+        return json({ message: "Invalid email or password" }, { status: 401 });
+      }
+
+      const responseData = await response.json();
+
+      if (!responseData?.userId) {
+        return json({ message: "Invalid email or password" }, { status: 401 });
+      }
+
+      redirectPath = "/";
+    } catch (err) {
+      return json({ message: err.message }, { status: err.status });
     }
-
-    const responseData = await response.json();
-
-    if (!responseData?.userId) {
-      return json({ message: "Invalid email or password" }, { status: 401 });
-    }
-
-    redirectPath = "/";
   }
 
   return redirect(redirectPath);
