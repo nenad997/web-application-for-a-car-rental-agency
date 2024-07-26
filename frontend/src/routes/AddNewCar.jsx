@@ -7,6 +7,7 @@ import {
   isRegistrationNumberValid,
   isValidURL,
 } from "../util/validator";
+import { getAuthToken } from "../util/authorization";
 
 const AddNewCar = () => {
   return <CarForm method="POST" />;
@@ -85,11 +86,14 @@ export async function action({ request }) {
     );
   }
 
+  const token = getAuthToken();
+
   try {
     const response = await fetch("http://localhost:3000/add-new-car", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         vehicleMake: make.toUpperCase(),

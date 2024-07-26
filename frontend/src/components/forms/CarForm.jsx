@@ -8,6 +8,7 @@ import {
 
 import Input from "../ui/Input";
 import classes from "./CarForm.module.css";
+import { getAuthToken } from "../../util/authorization";
 
 const fuelsString =
   "None, G-Drive Diesel, G-Drive 100, OPTI Diesel, OPTI Benzin 95, OPTI Auto Gas, Euro Diesel, Euro Premium BMB95, Metan CNG, Electrical Charger";
@@ -19,6 +20,7 @@ const CarForm = memo(({ method, car = null }) => {
   const { carId } = useParams();
 
   const isSubmitting = navigation.state === "submitting";
+  const token = getAuthToken();
 
   const deleteCarHandler = () => {
     if (!window.confirm("Are you sure?")) {
@@ -27,6 +29,9 @@ const CarForm = memo(({ method, car = null }) => {
 
     fetch(`http://localhost:3000/car/${carId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         if (!res.ok) {

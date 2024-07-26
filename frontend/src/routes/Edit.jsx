@@ -7,6 +7,7 @@ import {
   isRegistrationNumberValid,
   isDateValid,
 } from "../util/validator";
+import { getAuthToken } from "../util/authorization";
 
 const Edit = () => {
   const loadedData = useLoaderData();
@@ -107,11 +108,15 @@ export async function action({ params, request }) {
       { status: 403 }
     );
   }
+
+  const token = getAuthToken();
+
   try {
     const response = await fetch(`http://localhost:3000/edit/${carId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         vehicleMake: make,
