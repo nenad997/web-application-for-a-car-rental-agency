@@ -8,7 +8,7 @@ import {
   isPasswordValid,
 } from "../../util/validator";
 
-const UserForm = ({ onCloseModal, user, error }) => {
+const UserForm = ({ onCloseModal, user, error, onSubmitForm }) => {
   const initialInputs = {
     email: user ? user.email : "",
     user_name: user ? user.username : "",
@@ -66,8 +66,7 @@ const UserForm = ({ onCloseModal, user, error }) => {
       return;
     }
 
-    console.log("Submitted");
-    console.log(inputs);
+    onSubmitForm(inputs);
   };
 
   return (
@@ -123,15 +122,16 @@ const UserForm = ({ onCloseModal, user, error }) => {
       </div>
       <div className={classes.control}>
         <Input
-          label="New password *"
+          label="Your password (or pick a new one) *"
           config={{
-            type: "text",
+            type: "password",
             id: "password",
             name: "password",
             placeholder: "Enter your password",
             onBlur: blurInputHandler,
             onChange: changeInputHandler,
             value: inputs.password,
+            required: true,
           }}
           hasError={isPasswordInvalid || !doPasswordsMatch}
           errorText={
@@ -152,6 +152,7 @@ const UserForm = ({ onCloseModal, user, error }) => {
             onBlur: blurInputHandler,
             onChange: changeInputHandler,
             value: inputs.repeat_password,
+            required: true,
           }}
           hasError={isPasswordInvalid || !doPasswordsMatch}
           errorText={

@@ -100,7 +100,7 @@ const MainNavbar = () => {
             }
           >
             <CiLogin />
-            <span>{token ? "Logout" : "Auth"}</span>
+            <span>{token ? "Profile" : "Auth"}</span>
           </NavLink>
         </li>
       </ul>
