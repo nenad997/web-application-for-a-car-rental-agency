@@ -8,13 +8,13 @@ import {
   isPasswordValid,
 } from "../../util/validator";
 
-const UserForm = ({ onCloseModal }) => {
+const UserForm = ({ onCloseModal, user, error }) => {
   const initialInputs = {
-    email: "",
-    user_name: "",
-    id_card_number: "",
-    password: "",
-    repeat_password: "",
+    email: user ? user.email : "",
+    user_name: user ? user.username : "",
+    id_card_number: user ? user.id_card_number : "",
+    password: user ? user.password : "",
+    repeat_password: user ? user.password : "",
   };
   const initialTouch = {
     email: false,
@@ -72,6 +72,7 @@ const UserForm = ({ onCloseModal }) => {
 
   return (
     <form className={classes.form} onSubmit={submitFormHandler}>
+      {error && <p className={classes.error}>{error}</p>}
       <div className={classes.control}>
         <Input
           label="Email address *"
@@ -124,7 +125,7 @@ const UserForm = ({ onCloseModal }) => {
         <Input
           label="Password *"
           config={{
-            type: "password",
+            type: "text",
             id: "password",
             name: "password",
             placeholder: "Enter your password",

@@ -33,3 +33,9 @@
   margin-left: 15px;
   text-decoration: none;
 }
+
+.error {
+  text-align: center;
+  font-size: 25px;
+  color: red;
+}
