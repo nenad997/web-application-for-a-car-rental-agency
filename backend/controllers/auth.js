@@ -138,3 +138,51 @@ exports.getUserDataById = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.editUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { email, user_name, id_card_number, password } = req.body;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const error = new Error("Validation failed");
+      error.status = 409;
+      error.data = errors.array();
+      throw error;
+    }
+
+    const fetchedUser = await User.findById(userId);
+
+    if (!fetchedUser) {
+      const error = new Error("User not found!");
+      error.status = 404;
+      throw error;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    fetchedUser.email = email;
+    fetchedUser.username = user_name;
+    fetchedUser.id_card_number = id_card_number;
+    fetchedUser.password = hashedPassword;
+
+    const userResult = await fetchedUser.save();
+
+    if (!userResult) {
+      const error = new Error("Failed to edit user");
+      error.status = 406;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Update successful",
+      data: {
+        id: userResult._id.toString(),
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
