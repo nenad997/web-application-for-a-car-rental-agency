@@ -10,9 +10,10 @@ import {
 
 const Edit = () => {
   const loadedData = useLoaderData();
-  const loadedCar = loadedData?.data ? loadedData.data : null;
 
-  return <CarForm method="PATCH" car={loadedCar} />;
+  return (
+    <CarForm method="PATCH" car={loadedData?.data ? loadedData.data : null} />
+  );
 };
 
 export default Edit;

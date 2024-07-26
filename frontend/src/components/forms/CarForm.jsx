@@ -21,6 +21,10 @@ const CarForm = memo(({ method, car = null }) => {
   const isSubmitting = navigation.state === "submitting";
 
   const deleteCarHandler = () => {
+    if (!window.confirm("Are you sure?")) {
+      return;
+    }
+
     fetch(`http://localhost:3000/car/${carId}`, {
       method: "DELETE",
     })
