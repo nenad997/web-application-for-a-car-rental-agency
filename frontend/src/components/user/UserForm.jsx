@@ -13,8 +13,8 @@ const UserForm = ({ onCloseModal, user, error }) => {
     email: user ? user.email : "",
     user_name: user ? user.username : "",
     id_card_number: user ? user.id_card_number : "",
-    password: user ? user.password : "",
-    repeat_password: user ? user.password : "",
+    password: "",
+    repeat_password: "",
   };
   const initialTouch = {
     email: false,
@@ -123,7 +123,7 @@ const UserForm = ({ onCloseModal, user, error }) => {
       </div>
       <div className={classes.control}>
         <Input
-          label="Password *"
+          label="New password *"
           config={{
             type: "text",
             id: "password",
