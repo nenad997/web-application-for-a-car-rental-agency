@@ -16,6 +16,12 @@ const AddNewCar = () => {
 export default AddNewCar;
 
 export async function action({ request }) {
+  const token = getAuthToken();
+
+  if (!token) {
+    return redirect("/auth?mode=login");
+  }
+
   const formData = await request.formData();
   const {
     make,
@@ -86,8 +92,6 @@ export async function action({ request }) {
     );
   }
 
-  const token = getAuthToken();
-
   try {
     const response = await fetch("http://localhost:3000/add-new-car", {
       method: "POST",
@@ -117,4 +121,13 @@ export async function action({ request }) {
   } catch (error) {
     return json({ message: error.message }, { status: error.status });
   }
+}
+
+export function loader() {
+  const token = getAuthToken();
+
+  if (!token) {
+    return redirect("/auth?mode=login");
+  }
+  return null;
 }

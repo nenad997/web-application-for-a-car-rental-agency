@@ -1,14 +1,22 @@
 import React from "react";
-import { json, redirect } from "react-router-dom";
+import { json, redirect, useRouteLoaderData } from "react-router-dom";
 
 import AuthForm from "../components/user/AuthForm";
+import Profile from "../components/user/Profile";
 import {
   isEmailValid,
   isUsernameValid,
   isPasswordValid,
 } from "../util/validator";
+import { setAuthToken, removeAuthToken } from "../util/authorization";
 
 const Auth = () => {
+  const token = useRouteLoaderData("root");
+
+  if (token) {
+    return <Profile onRemoveAuthToken={removeAuthToken} />;
+  }
+
   return <AuthForm />;
 };
 
@@ -128,7 +136,7 @@ export async function action({ request }) {
 
       const token = responseData?.token;
 
-      localStorage.setItem("token", token);
+      setAuthToken(token);
 
       redirectPath = "/";
     } catch (err) {

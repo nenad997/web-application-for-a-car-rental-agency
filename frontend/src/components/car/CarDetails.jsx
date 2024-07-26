@@ -1,11 +1,17 @@
 import React from "react";
-import { useLoaderData, Link, useParams } from "react-router-dom";
+import {
+  useLoaderData,
+  Link,
+  useParams,
+  useRouteLoaderData,
+} from "react-router-dom";
 
 import classes from "./CarDetails.module.css";
 
 const CarDetails = () => {
   const { carId } = useParams();
   const loaderData = useLoaderData();
+  const token = useRouteLoaderData("root");
   const data = loaderData?.data ? loaderData.data : null;
 
   if (!data) {
@@ -35,14 +41,16 @@ const CarDetails = () => {
         </p>
         <p>More: {data.moreInfo}</p>
       </details>
-      <div style={{ textAlign: "center" }}>
-        <Link
-          className={classes["edit-link"]}
-          to={`/edit/${carId}?edit=${true}`}
-        >
-          Edit
-        </Link>
-      </div>
+      {token && (
+        <div style={{ textAlign: "center" }}>
+          <Link
+            className={classes["edit-link"]}
+            to={`/edit/${carId}?edit=${true}`}
+          >
+            Edit
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

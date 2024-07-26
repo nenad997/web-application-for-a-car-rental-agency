@@ -20,6 +20,12 @@ const Edit = () => {
 export default Edit;
 
 export async function loader({ params }) {
+  const token = getAuthToken();
+
+  if (!token) {
+    return redirect("/auth?mode=login");
+  }
+
   const { carId } = params;
   try {
     const response = await fetch(`http://localhost:3000/car/${carId}`);
@@ -38,6 +44,12 @@ export async function loader({ params }) {
 }
 
 export async function action({ params, request }) {
+  const token = getAuthToken();
+
+  if (!token) {
+    return redirect("/auth?mode=login");
+  }
+
   const { carId } = params;
   const formData = await request.formData();
   const {
@@ -108,8 +120,6 @@ export async function action({ params, request }) {
       { status: 403 }
     );
   }
-
-  const token = getAuthToken();
 
   try {
     const response = await fetch(`http://localhost:3000/edit/${carId}`, {

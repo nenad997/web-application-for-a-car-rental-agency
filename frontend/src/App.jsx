@@ -1,24 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import RootLayout from "./components/layouts/RootLayout";
+import RootLayout, {
+  loader as rootLoader,
+} from "./components/layouts/RootLayout";
 import Feed, { loader as carsLoader } from "./routes/Feed";
-import AddNewCar, { action as addNewCarAction } from "./routes/AddNewCar";
-import Record from "./routes/Record";
+import AddNewCar, {
+  action as addNewCarAction,
+  loader as addNewCarLoader,
+} from "./routes/AddNewCar";
+import Record, { loader as recordLoader } from "./routes/Record";
 import ShowAndSort from "./routes/ShowAndSort";
-import AdditionalExpenses from "./routes/AdditionalExpenses";
-import ClientReverses from "./routes/ClientReverses";
+import AdditionalExpenses, {
+  loader as additionalExpensesLoader,
+} from "./routes/AdditionalExpenses";
+import ClientReverses, {
+  loader as clientReversesLoader,
+} from "./routes/ClientReverses";
 import CarDetails, { loader as carDetailsLoader } from "./routes/CarDetails";
 import Edit, {
   action as editCarAction,
   loader as editCarLoader,
 } from "./routes/Edit";
 import Auth, { action as authAction } from "./routes/Auth";
+import { getAuthToken } from "./util/authorization";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    loader: rootLoader,
+    id: "root",
     children: [
       {
         index: true,
@@ -29,10 +41,12 @@ const router = createBrowserRouter([
         path: "add-new-car",
         element: <AddNewCar />,
         action: addNewCarAction,
+        loader: addNewCarLoader,
       },
       {
         path: "record",
         element: <Record />,
+        loader: recordLoader,
       },
       {
         path: "show-and-sort-vehicles",
@@ -41,10 +55,12 @@ const router = createBrowserRouter([
       {
         path: "additional-expenses",
         element: <AdditionalExpenses />,
+        loader: additionalExpensesLoader,
       },
       {
         path: "all-reverses-by-client",
         element: <ClientReverses />,
+        loader: clientReversesLoader,
       },
       {
         path: "car/:carId",
@@ -67,6 +83,10 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  useEffect(() => {
+    getAuthToken();
+  }, []);
+
   return <RouterProvider router={router} />;
 };
 

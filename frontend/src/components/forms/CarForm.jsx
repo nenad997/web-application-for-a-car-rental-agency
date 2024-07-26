@@ -59,9 +59,9 @@ const CarForm = memo(({ method, car = null }) => {
             placeholder: "Enter vehicle make (Renault)",
             defaultValue: car ? car.vehicleMake : null,
           }}
-          hasError={actionData?.errors.find((error) => error.path === "make")}
+          hasError={actionData?.errors?.find((error) => error.path === "make")}
           errorText={
-            actionData?.errors.find((error) => error.path === "make")?.message
+            actionData?.errors?.find((error) => error.path === "make")?.message
           }
         />
       </div>
@@ -75,9 +75,9 @@ const CarForm = memo(({ method, car = null }) => {
             placeholder: "Enter vehicle model (Clio 1.2)",
             defaultValue: car ? car.vehicleModel : null,
           }}
-          hasError={actionData?.errors.find((error) => error.path === "model")}
+          hasError={actionData?.errors?.find((error) => error.path === "model")}
           errorText={
-            actionData?.errors.find((error) => error.path === "model")?.message
+            actionData?.errors?.find((error) => error.path === "model")?.message
           }
         />
       </div>
@@ -91,9 +91,9 @@ const CarForm = memo(({ method, car = null }) => {
             placeholder: "http://www.imageUrl.com",
             defaultValue: car ? car.imageUrl : null,
           }}
-          hasError={actionData?.errors.find((error) => error.path === "image")}
+          hasError={actionData?.errors?.find((error) => error.path === "image")}
           errorText={
-            actionData?.errors.find((error) => error.path === "image")?.message
+            actionData?.errors?.find((error) => error.path === "image")?.message
           }
         />
       </div>
@@ -107,9 +107,9 @@ const CarForm = memo(({ method, car = null }) => {
             placeholder: "Enter a vehicle price (per day)",
             defaultValue: car ? car.price : null,
           }}
-          hasError={actionData?.errors.find((error) => error.path === "price")}
+          hasError={actionData?.errors?.find((error) => error.path === "price")}
           errorText={
-            actionData?.errors.find((error) => error.path === "price")?.message
+            actionData?.errors?.find((error) => error.path === "price")?.message
           }
         />
       </div>
@@ -123,11 +123,11 @@ const CarForm = memo(({ method, car = null }) => {
             placeholder: "Format (CC - 123 - AA)",
             defaultValue: car ? car.registrationNumber : null,
           }}
-          hasError={actionData?.errors.find(
+          hasError={actionData?.errors?.find(
             (error) => error.path === "reg_number"
           )}
           errorText={
-            actionData?.errors.find((error) => error.path === "reg_number")
+            actionData?.errors?.find((error) => error.path === "reg_number")
               ?.message
           }
         />
@@ -141,9 +141,9 @@ const CarForm = memo(({ method, car = null }) => {
             name: "expiration",
             defaultValue: car ? car.regExpiration.split("T")[0] : null,
           }}
-          hasError={actionData?.errors.find((error) => error.path === "date")}
+          hasError={actionData?.errors?.find((error) => error.path === "date")}
           errorText={
-            actionData?.errors.find((error) => error.path === "date")?.message
+            actionData?.errors?.find((error) => error.path === "date")?.message
           }
         />
       </div>
@@ -171,9 +171,9 @@ const CarForm = memo(({ method, car = null }) => {
             .split(",")
             .map((item) => item.trim().toUpperCase())}
           isSelect={true}
-          hasError={actionData?.errors.find((error) => error.path === "fuel")}
+          hasError={actionData?.errors?.find((error) => error.path === "fuel")}
           errorText={
-            actionData?.errors.find((error) => error.path === "fuel")?.message
+            actionData?.errors?.find((error) => error.path === "fuel")?.message
           }
         />
       </div>

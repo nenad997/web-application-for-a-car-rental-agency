@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLoaderData } from "react-router-dom";
 import { PiCarSimpleFill } from "react-icons/pi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { FaRecordVinyl, FaSortAlphaDown } from "react-icons/fa";
@@ -10,6 +10,8 @@ import { CiLogin } from "react-icons/ci";
 import classes from "./MainNavbar.module.css";
 
 const MainNavbar = () => {
+  const token = useLoaderData();
+
   return (
     <nav className={classes.nav}>
       <ul className={classes.list}>
@@ -26,28 +28,32 @@ const MainNavbar = () => {
               <span>Feed</span>
             </NavLink>
           </li>
-          <li className={classes.item}>
-            <NavLink
-              to="add-new-car"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              <IoIosAddCircleOutline />
-              <span>Add New Car</span>
-            </NavLink>
-          </li>
-          <li className={classes.item}>
-            <NavLink
-              to="record"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              <FaRecordVinyl />
-              <span>Record</span>
-            </NavLink>
-          </li>
+          {token && (
+            <>
+              <li className={classes.item}>
+                <NavLink
+                  to="add-new-car"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
+                  <IoIosAddCircleOutline />
+                  <span>Add New Car</span>
+                </NavLink>
+              </li>
+              <li className={classes.item}>
+                <NavLink
+                  to="record"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
+                  <FaRecordVinyl />
+                  <span>Record</span>
+                </NavLink>
+              </li>
+            </>
+          )}
           <li className={classes.item}>
             <NavLink
               to="show-and-sort-vehicles"
@@ -59,28 +65,32 @@ const MainNavbar = () => {
               <span>Show & Sort</span>
             </NavLink>
           </li>
-          <li className={classes.item}>
-            <NavLink
-              to="additional-expenses"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              <GiExpense />
-              <span>Additional Expenses</span>
-            </NavLink>
-          </li>
-          <li className={classes.item}>
-            <NavLink
-              to="all-reverses-by-client"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              <FaBraveReverse />
-              <span>Client's reverses</span>
-            </NavLink>
-          </li>
+          {token && (
+            <>
+              <li className={classes.item}>
+                <NavLink
+                  to="additional-expenses"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
+                  <GiExpense />
+                  <span>Additional Expenses</span>
+                </NavLink>
+              </li>
+              <li className={classes.item}>
+                <NavLink
+                  to="all-reverses-by-client"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
+                  <FaBraveReverse />
+                  <span>Client's reverses</span>
+                </NavLink>
+              </li>
+            </>
+          )}
         </div>
         <li className={classes.item}>
           <NavLink
@@ -90,7 +100,7 @@ const MainNavbar = () => {
             }
           >
             <CiLogin />
-            <span>Auth</span>
+            <span>{token ? "Logout" : "Auth"}</span>
           </NavLink>
         </li>
       </ul>
