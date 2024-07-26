@@ -21,6 +21,41 @@ const Profile = ({ onRemoveAuthToken }) => {
     setIsModalVisible(false);
   };
 
+  const portal = createPortal(
+    <Modal>
+      <UserForm
+        onCloseModal={closeModalHandler}
+        user={user}
+        error={error}
+        onSubmitForm={submitFormHandler}
+      />
+    </Modal>,
+    document.getElementById("modal")
+  );
+  
+  const submitFormHandler = useCallback(
+    (inputs) => {
+      fetch(`http://localhost:3000/auth/edit-user/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputs),
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update profile");
+        }
+        
+        location.reload();
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+    },
+    [userId]
+  );
+  
   useEffect(() => {
     (async function fetchUserData() {
       try {
@@ -39,41 +74,6 @@ const Profile = ({ onRemoveAuthToken }) => {
       }
     })();
   }, [userId]);
-
-  const submitFormHandler = useCallback(
-    (inputs) => {
-      fetch(`http://localhost:3000/auth/edit-user/${userId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputs),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to update profile");
-          }
-
-          location.reload();
-        })
-        .catch((err) => {
-          setError(err.message);
-        });
-    },
-    [userId]
-  );
-
-  const portal = createPortal(
-    <Modal>
-      <UserForm
-        onCloseModal={closeModalHandler}
-        user={user}
-        error={error}
-        onSubmitForm={submitFormHandler}
-      />
-    </Modal>,
-    document.getElementById("modal")
-  );
 
   return (
     <>
