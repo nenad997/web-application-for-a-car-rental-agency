@@ -1,3 +1,28 @@
+export function setUserId(userId) {
+  localStorage.setItem("userId", userId);
+}
+
+function removeUserId() {
+  const userId = localStorage.getItem("userId");
+
+  if (!userId) {
+    return false;
+  }
+
+  localStorage.removeItem("userId");
+  return true;
+}
+
+export function getUserId() {
+  const userId = localStorage.getItem("userId");
+
+  if (!userId) {
+    return null;
+  }
+
+  return userId;
+}
+
 export function setAuthToken(token) {
   const now = new Date().getTime();
   const tokenData = {
@@ -20,6 +45,7 @@ export function getAuthToken() {
 
   if (now - timestamp > twoDaysInMillis) {
     localStorage.removeItem("token");
+    removeUserId();
     return null;
   }
 
@@ -33,6 +59,7 @@ export function removeAuthToken() {
   }
 
   localStorage.removeItem("token");
+  removeUserId();
   location.href = "/auth?mode=login";
   return true;
 }

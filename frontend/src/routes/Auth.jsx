@@ -8,7 +8,11 @@ import {
   isUsernameValid,
   isPasswordValid,
 } from "../util/validator";
-import { setAuthToken, removeAuthToken } from "../util/authorization";
+import {
+  setAuthToken,
+  removeAuthToken,
+  setUserId,
+} from "../util/authorization";
 
 const Auth = () => {
   const token = useRouteLoaderData("root");
@@ -135,8 +139,10 @@ export async function action({ request }) {
       }
 
       const token = responseData?.token;
+      const userId = responseData?.userId;
 
       setAuthToken(token);
+      setUserId(userId);
 
       redirectPath = "/";
     } catch (err) {
