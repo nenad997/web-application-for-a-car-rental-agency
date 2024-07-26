@@ -108,3 +108,33 @@ exports.login = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getUserDataById = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
+      const error = new Error("Invalid user ID format");
+      error.status = 400;
+      throw error;
+    }
+
+    const fetchedUser = await User.findById(userId);
+
+    if (!fetchedUser) {
+      const error = new Error("User not found!");
+      error.status = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Success",
+      user: {
+        ...fetchedUser.toObject(),
+        _id: fetchedUser._id.toString(),
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
