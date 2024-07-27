@@ -4,7 +4,14 @@ const Car = require("../models/Car");
 
 exports.getAllCars = async (req, res, next) => {
   try {
-    const fetchedCars = await Car.find();
+    const limitValue = req.query.limit || 2;
+    const skipValue = req.query.skip || 0;
+
+    const fetchedCars = await Car.find()
+      .limit(limitValue)
+      .skip(skipValue)
+      .sort({ createdAt: -1 });
+    const totalfetchedCars = await Car.find().countDocuments();
 
     if (!fetchedCars || fetchedCars.length === 0) {
       const error = new Error("Could not fetch cars");
@@ -14,6 +21,7 @@ exports.getAllCars = async (req, res, next) => {
 
     res.status(200).json({
       data: fetchedCars,
+      total: totalfetchedCars,
       message: "Success",
     });
   } catch (err) {
