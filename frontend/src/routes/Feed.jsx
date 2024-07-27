@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { json, useLoaderData, useSearchParams } from "react-router-dom";
 
 import CarList from "../components/feed/CarList";
+import Pagination from "../components/feed/Pagination";
 
 const Feed = () => {
   const [_, setSearchParams] = useSearchParams();
@@ -15,7 +16,7 @@ const Feed = () => {
       curLimit < loaderData.total ? curLimit + 2 : curLimit
     );
   };
-  
+
   useEffect(() => {
     setSearchParams({ limit: limitValue });
   }, [setSearchParams, limitValue]);
@@ -23,38 +24,15 @@ const Feed = () => {
   return (
     <>
       <CarList />
-      <div style={styles.wrapper}>
-        <button
-          disabled={!buttonBehaviour}
-          onClick={loadMoreDataHandler}
-          style={{
-            ...styles.button,
-            backgroundColor: !buttonBehaviour ? "lightgreen" : "green",
-            cursor: !buttonBehaviour ? "not-allowed" : "pointer",
-          }}
-        >
-          Load More
-        </button>
-      </div>
+      <Pagination
+        isDisabled={!buttonBehaviour}
+        onLoadMore={loadMoreDataHandler}
+      />
     </>
   );
 };
 
 export default Feed;
-
-const styles = {
-  wrapper: {
-    textAlign: "center",
-    margin: "30px 0"
-  },
-  button: {
-    padding: "15px 22px",
-    color: "white",
-    textTransform: "uppercase",
-    border: "none",
-    borderRadius: "4px",
-  },
-};
 
 export async function loader({ request }) {
   const regex = /[?&]limit=(\d+)/;
