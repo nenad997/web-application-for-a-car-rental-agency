@@ -1,12 +1,27 @@
-import React from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import { Link, useLoaderData, useSearchParams } from "react-router-dom";
 
-import classes from "./CarList.module.css";
 import Car from "./Car";
+import Pagination from "./Pagination";
+import classes from "./CarList.module.css";
 
 const CarList = () => {
   const loaderData = useLoaderData();
+  const [limitValue, setLimitValue] = useState(2);
+  const [_, setSearchParams] = useSearchParams();
+
   const data = loaderData?.data ? loaderData.data : [];
+  const buttonBehaviour = limitValue < loaderData?.total;
+
+  const loadMoreDataHandler = () => {
+    setLimitValue((curLimit) =>
+      curLimit < loaderData?.total ? curLimit + 2 : curLimit
+    );
+  };
+
+  useEffect(() => {
+    setSearchParams({ limit: limitValue });
+  }, [setSearchParams, limitValue]);
 
   if (!data) {
     return (
@@ -30,18 +45,24 @@ const CarList = () => {
   }
 
   return (
-    <ul className={classes.list}>
-      {data.map((item) => (
-        <Car
-          key={item._id}
-          id={item._id}
-          title={`${item.vehicleMake} - ${item.vehicleModel}`}
-          imageUrl={item.imageUrl}
-          price={item.price}
-          isAvailable={item.available}
-        />
-      ))}
-    </ul>
+    <>
+      <ul className={classes.list}>
+        {data.map((item) => (
+          <Car
+            key={item._id}
+            id={item._id}
+            title={`${item.vehicleMake} - ${item.vehicleModel}`}
+            imageUrl={item.imageUrl}
+            price={item.price}
+            isAvailable={item.available}
+          />
+        ))}
+      </ul>
+      <Pagination
+        isDisabled={!buttonBehaviour}
+        onLoadMore={loadMoreDataHandler}
+      />
+    </>
   );
 };
 

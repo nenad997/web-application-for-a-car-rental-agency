@@ -1,35 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { json, useLoaderData, useSearchParams } from "react-router-dom";
+import React from "react";
+import { json } from "react-router-dom";
 
 import CarList from "../components/feed/CarList";
-import Pagination from "../components/feed/Pagination";
 
 const Feed = () => {
-  const [_, setSearchParams] = useSearchParams();
-  const loaderData = useLoaderData();
-  const [limitValue, setLimitValue] = useState(2);
-
-  const buttonBehaviour = limitValue < loaderData?.total;
-
-  const loadMoreDataHandler = () => {
-    setLimitValue((curLimit) =>
-      curLimit < loaderData.total ? curLimit + 2 : curLimit
-    );
-  };
-
-  useEffect(() => {
-    setSearchParams({ limit: limitValue });
-  }, [setSearchParams, limitValue]);
-
-  return (
-    <>
-      <CarList />
-      <Pagination
-        isDisabled={!buttonBehaviour}
-        onLoadMore={loadMoreDataHandler}
-      />
-    </>
-  );
+  return <CarList />;
 };
 
 export default Feed;
