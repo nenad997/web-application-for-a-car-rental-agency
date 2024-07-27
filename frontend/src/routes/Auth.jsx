@@ -96,7 +96,7 @@ export async function action({ request }) {
 
       if (!response.ok) {
         return json(
-          { message: "User with this email address already exists" },
+          { message: "Invalid email or username or id card number" },
           { status: 409 }
         );
       }
@@ -105,14 +105,17 @@ export async function action({ request }) {
 
       if (!responseData?.data.id) {
         return json(
-          { message: "User with this email address already exists" },
+          { message: "Invalid email or username or id card number" },
           { status: 409 }
         );
       }
       alert("Registration successful");
       redirectPath = "/auth?mode=login";
     } catch (err) {
-      return json({ message: err.message }, { status: err.status });
+      return json(
+        { message: err.message, field: err.path },
+        { status: err.status }
+      );
     }
   }
 

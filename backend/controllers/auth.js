@@ -17,13 +17,30 @@ exports.createUser = async (req, res, next) => {
       throw error;
     }
 
-    const fetchedUser = await User.findOne({ email });
+    const fetchedUserByEmail = await User.findOne({ email });
 
-    if (fetchedUser) {
-      const error = new Error(
-        "User with this email address already exists, please pick another email address"
-      );
+    if (fetchedUserByEmail) {
+      const error = new Error("User with this email address already exists!");
       error.status = 409;
+      error.path = "email";
+      throw error;
+    }
+
+    const fetchedUserByCardId = await User.findOne({ id_card_number });
+
+    if (fetchedUserByCardId) {
+      const error = new Error("User with this id card number already exists!");
+      error.status = 409;
+      error.path = "card_id";
+      throw error;
+    }
+
+    const fetchedUserByUsername = await User.findOne({ username: user_name });
+
+    if (fetchedUserByUsername) {
+      const error = new Error("User with this user name already exists!");
+      error.status = 409;
+      error.path = "user_name";
       throw error;
     }
 
