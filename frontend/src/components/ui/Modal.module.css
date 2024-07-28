@@ -10,7 +10,7 @@
 
 @keyframes animateModal {
   0% {
-    top: -400px;
+    top: -1000px;
   }
   100% {
     top: 0;
