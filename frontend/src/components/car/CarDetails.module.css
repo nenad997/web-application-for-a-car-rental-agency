@@ -38,15 +38,28 @@
   }
 }
 
-.edit-link {
-  border: 1px solid black;
-  max-width: fit-content;
+.wrapper {
+  display: flex;
+  align-self: center;
+  gap: 1rem;
+}
+
+.button {
   padding: 1.5rem 2rem;
   text-decoration: none;
-  background-color: #edd709;
   text-transform: uppercase;
   border: none;
   outline: none;
   border-radius: 3px;
   color: black;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.edit-link {
+  background-color: #edd709;
+}
+
+.rent-button {
+  background-color: #30e439;
 }

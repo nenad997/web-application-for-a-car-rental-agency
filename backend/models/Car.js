@@ -47,6 +47,11 @@ const carSchema = new mongoose.Schema(
           `${props.value} is not a valid date! Date must be in format YYYY-MM-DD`,
       },
     },
+    rentedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   {
     timestamps: true,

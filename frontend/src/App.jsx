@@ -17,7 +17,10 @@ import AdditionalExpenses, {
 import ClientReverses, {
   loader as clientReversesLoader,
 } from "./routes/ClientReverses";
-import CarDetails, { loader as carDetailsLoader } from "./routes/CarDetails";
+import CarDetails, {
+  loader as carDetailsLoader,
+  action as toggleRentAction,
+} from "./routes/CarDetails";
 import Edit, {
   action as editCarAction,
   loader as editCarLoader,
@@ -66,6 +69,7 @@ const router = createBrowserRouter([
         path: "car/:carId",
         element: <CarDetails />,
         loader: carDetailsLoader,
+        action: toggleRentAction,
       },
       {
         path: "edit/:carId",

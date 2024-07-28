@@ -85,7 +85,7 @@ exports.getCarById = async (req, res, next) => {
   try {
     const { carId } = req.params;
 
-    const fetchedCar = await Car.findById(carId);
+    const fetchedCar = await Car.findById(carId).populate("rentedBy").exec();
 
     if (!fetchedCar) {
       const error = new Error("Could not fetch a car");
@@ -180,6 +180,44 @@ exports.deleteCarById = async (req, res, next) => {
 
     res.status(200).json({
       message: "Success",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.rentCar = async (req, res, next) => {
+  try {
+    const { carId } = req.params;
+    const { userId, payload } = req.body;
+
+    const fetchedCar = await Car.findById(carId);
+
+    if (!fetchedCar) {
+      const error = new Error("Could not fetch a car");
+      error.status = 404;
+      throw error;
+    }
+
+    if (payload === true) {
+      fetchedCar.rentedBy = null;
+    } else if (payload === false) {
+      fetchedCar.rentedBy = userId;
+    }
+
+    fetchedCar.available = payload;
+
+    const result = await fetchedCar.save();
+
+    if (!result) {
+      const error = new Error("Failed to update the car");
+      error.status = 406;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Car status updated successfully",
+      data: result,
     });
   } catch (err) {
     next(err);

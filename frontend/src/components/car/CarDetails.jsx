@@ -4,6 +4,7 @@ import {
   Link,
   useParams,
   useRouteLoaderData,
+  Form,
 } from "react-router-dom";
 
 import classes from "./CarDetails.module.css";
@@ -42,13 +43,19 @@ const CarDetails = () => {
         <p>More: {data.moreInfo}</p>
       </details>
       {token && (
-        <div style={{ textAlign: "center" }}>
+        <div className={classes.wrapper}>
           <Link
-            className={classes["edit-link"]}
+            className={`${classes.button} ${classes["edit-link"]}`}
             to={`/edit/${carId}?edit=${true}`}
           >
             Edit
           </Link>
+          <Form method="POST">
+            <button className={`${classes.button} ${classes["rent-button"]}`}>
+              {data.available ? "Rent" : "Put Back"}
+            </button>
+            <input type="hidden" name="payload" value={!data.available} />
+          </Form>
         </div>
       )}
     </div>
