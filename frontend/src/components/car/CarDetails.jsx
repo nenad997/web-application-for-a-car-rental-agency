@@ -51,10 +51,13 @@ const CarDetails = () => {
             Edit
           </Link>
           <Form method="POST">
-            <button className={`${classes.button} ${classes["rent-button"]}`}>
+            <input type="hidden" name="payload" value={!data.available} />
+            <button
+              className={`${classes.button} ${classes["rent-button"]}`}
+              type="submit"
+            >
               {data.available ? "Rent" : "Put Back"}
             </button>
-            <input type="hidden" name="payload" value={!data.available} />
           </Form>
         </div>
       )}
