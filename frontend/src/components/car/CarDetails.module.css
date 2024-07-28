@@ -1,22 +1,21 @@
 .item {
-  max-width: 700px;
-  margin: auto;
-  margin-top: 50px;
+  max-width: 70rem;
+  margin: 5rem auto;
   background-color: rgba(236, 243, 226, 0.6);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  gap: 50px;
-  padding: 20px 0;
+  gap: 5rem;
+  padding: 2rem 0;
 }
 
 .title {
-  font-size: 35px;
+  font-size: 3rem;
   text-align: center;
 }
 
 .figure {
-  max-width: 600px;
+  max-width: 60rem;
   border-radius: 20px;
   margin: auto;
 }
@@ -27,14 +26,14 @@
 }
 
 .details {
-  font-size: 30px;
-  padding: 5px 7px;
+  font-size: 2.3rem;
+  padding: .5rem .7rem;
   
   & > *:not(summary) {
     background-color: #c5b94b;
-    margin-bottom: 5px;
-    padding: 5px;
-    border-radius: 7px;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    border-radius: .7rem;
     text-align: justify;
   }
 }
@@ -42,7 +41,7 @@
 .edit-link {
   border: 1px solid black;
   max-width: fit-content;
-  padding: 15px 20px;
+  padding: 1.5rem 2rem;
   text-decoration: none;
   background-color: #edd709;
   text-transform: uppercase;

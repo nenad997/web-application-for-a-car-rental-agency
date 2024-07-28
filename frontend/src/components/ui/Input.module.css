@@ -5,31 +5,31 @@
 }
 
 .label {
-  margin-bottom: 10px;
-  font-size: 20px;
+  margin-bottom: 1rem;
+  font-size: 2rem;
 }
 
 .input {
-  padding: 10px;
+  padding: 1rem;
   border: none;
   border-radius: 5px;
 }
 
 .select {
-  padding: 10px;
+  padding: 1rem;
   border: none;
   border-radius: 5px;
 }
 
 .option {
-  padding: 10px;
+  padding: 1rem;
 }
 
 .error {
-  font-size: 17px;
-  margin-top: 7px;
+  font-size: 1.7rem;
+  margin-top: .7rem;
   color: red;
-  padding: 10px;
+  padding: 1rem;
 }
 
 .error-input {

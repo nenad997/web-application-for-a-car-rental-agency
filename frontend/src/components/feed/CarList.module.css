@@ -1,12 +1,12 @@
 .list {
-  max-width: 1800px;
+  max-width: 180rem;
   margin: auto;
   padding: 1rem;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
-  margin-top: 30px;
+  margin-top: 3rem;
 }
 
 .fallback {
@@ -14,7 +14,7 @@
   text-align: center;
   max-width: fit-content;
   margin-top: 5rem;
-  padding: 10px 15px;
+  padding: 1rem 1.5rem;
   background-color: rgba(236, 243, 226, .6);
   display: flex;
   flex-direction: column;
@@ -22,17 +22,17 @@
   border-radius: 7px;
 
   & h1 {
-    font-size: 40px;
+    font-size: 4rem;
   }
 
   & p {
-    font-size: 25px;
+    font-size: 2.5rem;
   }
 
   & a {
     max-width: fit-content;
     align-self: center;
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     text-decoration: none;
     text-transform: uppercase;
     background-color: #5a9900;

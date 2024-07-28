@@ -1,26 +1,24 @@
 .form {
-  max-width: 800px;
-  margin: auto;
-  margin-top: 55px;
-  margin-bottom: 55px;
-  padding: 20px 30px;
+  max-width: 80rem;
+  margin: 5.5rem auto;
+  padding: 2rem 3rem;
   background-color: rgba(236, 243, 226, 0.6);
   border-radius: 12px;
 }
 
 .control {
-  padding: 15px 20px;
+  padding: 1.5rem 2rem;
 }
 
 .button {
-  padding: 10px 30px;
+  padding: 1rem 3rem;
   cursor: pointer;
   text-transform: uppercase;
   border: none;
   outline: none;
   color: black;
   border-radius: 5px;
-  margin-right: 10px;
+  margin-right: 1rem;
 }
 
 .add-button {
@@ -33,6 +31,6 @@
 
 .error {
   text-align: center;
-  font-size: 25px;
+  font-size: 2.5rem;
   color: red;
 }

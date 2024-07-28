@@ -21,7 +21,7 @@ const CarDetails = () => {
   return (
     <div
       className={classes.item}
-      style={{ border: `4px solid ${data.available ? "green" : "red"}` }}
+      style={{ border: `2px solid ${data.available ? "green" : "red"}` }}
     >
       <h3 className={classes.title}>
         {data.vehicleMake} - {data.vehicleModel}

@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 ul,
 ol {
   list-style: none;
@@ -24,9 +28,9 @@ label {
 
 textarea {
   width: 100%;
-  height: 120px;
-  padding: 10px;
-  font-size: 20px;
+  height: 12rem;
+  padding: 1rem;
+  font-size: 2rem;
   resize: none;
   border: none;
   border-radius: 5px;
@@ -37,10 +41,10 @@ body {
 }
 
 .text-label {
-  margin-bottom: 10px;
-  font-size: 20px;
+  margin-bottom: 1rem;
+  font-size: 2rem;
 }
 
 .text {
-  padding: 0 20px;
+  padding: 0 2rem;
 }
