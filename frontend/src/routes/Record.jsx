@@ -15,4 +15,5 @@ export function loader() {
   if (!token) {
     return redirect("/auth?mode=login");
   }
+  return null;
 }
