@@ -80,7 +80,7 @@ export async function action({ request }) {
 
   if (mode === "signup") {
     try {
-      const response = await fetch("http://localhost:3000/auth/create-user", {
+      const response = await fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export async function action({ request }) {
 
   if (mode === "login") {
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

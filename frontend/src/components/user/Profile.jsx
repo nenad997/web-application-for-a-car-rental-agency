@@ -23,7 +23,7 @@ const Profile = ({ onRemoveAuthToken }) => {
   
   const submitFormHandler = useCallback(
     (inputs) => {
-      fetch(`http://localhost:3000/auth/edit-user/${userId}`, {
+      fetch(`http://localhost:3000/edit/user/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ const Profile = ({ onRemoveAuthToken }) => {
     (async function fetchUserData() {
       try {
         const response = await fetch(
-          `http://localhost:3000/auth/user/${userId}`
+          `http://localhost:3000/get/user/${userId}`
         );
 
         if (!response.ok) {

@@ -14,7 +14,7 @@ export async function loader({ params }) {
   try {
     const { carId } = params;
 
-    const response = await fetch(`http://localhost:3000/car/${carId}`);
+    const response = await fetch(`http://localhost:3000/get/car/${carId}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch data");
@@ -35,7 +35,7 @@ export async function action({ params, request }) {
     const formData = await request.formData();
     const { payload } = Object.fromEntries(formData);
 
-    const response = await fetch(`http://localhost:3000/car/${carId}`, {
+    const response = await fetch(`http://localhost:3000/rent/car/${carId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

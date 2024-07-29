@@ -93,7 +93,7 @@ export async function action({ request }) {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/add-new-car", {
+    const response = await fetch("http://localhost:3000/new/car", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

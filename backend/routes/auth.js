@@ -11,7 +11,7 @@ const {
 const router = express.Router();
 
 router.post(
-  "/create-user",
+  "/signup",
   [
     body("email").notEmpty().isEmail().normalizeEmail(),
     body("user_name").notEmpty().isAlphanumeric(),
@@ -55,10 +55,10 @@ router.post(
   login
 );
 
-router.get("/user/:userId", getUserDataById);
+router.get("/get/user/:userId", getUserDataById);
 
 router.put(
-  "/edit-user/:userId",
+  "/edit/user/:userId",
   [
     body("email").notEmpty().isEmail().normalizeEmail(),
     body("user_name").notEmpty().isAlphanumeric(),

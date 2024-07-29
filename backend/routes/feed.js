@@ -15,8 +15,9 @@ const isAuth = require("../middlewares/isAuth");
 const router = express.Router();
 
 router.get("/", getAllCars);
+
 router.post(
-  "/add-new-car",
+  "/new/car",
   isAuth,
   [
     body("vehicleMake").trim().notEmpty().isString(),
@@ -36,9 +37,11 @@ router.post(
   ],
   addNewCar
 );
-router.get("/car/:carId", getCarById);
+
+router.get("/get/car/:carId", getCarById);
+
 router.put(
-  "/edit/:carId",
+  "/edit/car/:carId",
   isAuth,
   [
     body("vehicleMake").trim().notEmpty().isString(),
@@ -59,8 +62,10 @@ router.put(
   editCar
 );
 
-router.delete("/car/:carId", isAuth, deleteCarById);
-router.patch("/car/:carId", isAuth, rentCar);
-router.get("/rent-car", getRentedCars);
+router.delete("/delete/car/:carId", isAuth, deleteCarById);
+
+router.patch("/rent/car/:carId", isAuth, rentCar);
+
+router.get("/get/rents", getRentedCars);
 
 module.exports = router;
