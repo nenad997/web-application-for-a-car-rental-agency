@@ -1,0 +1,26 @@
+.wrapper {
+  max-width: 70rem;
+  margin: 7rem auto;
+}
+
+.control {
+  margin: auto;
+  margin-top: 7rem;
+  max-width: 60rem;
+  padding: 1rem 2rem;
+
+  & input {
+    border: none;
+    padding: 0.7rem 1rem;
+    width: 100%;
+    border-radius: 12px;
+  }
+}
+
+.list {
+  padding: 1rem;
+}
+
+.fallback {
+  font-size: 2rem;
+}

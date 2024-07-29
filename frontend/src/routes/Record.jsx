@@ -2,9 +2,10 @@ import React from "react";
 import { redirect, json } from "react-router-dom";
 
 import { getAuthToken } from "../util/authorization";
+import Search from "../components/record/Search";
 
 const Record = () => {
-  return <h1>The Record Route</h1>;
+  return <Search />;
 };
 
 export default Record;
