@@ -1,5 +1,5 @@
 import React from "react";
-import { redirect } from "react-router-dom";
+import { redirect, json } from "react-router-dom";
 
 import { getAuthToken } from "../util/authorization";
 
@@ -15,5 +15,4 @@ export function loader() {
   if (!token) {
     return redirect("/auth?mode=login");
   }
-  return null;
 }

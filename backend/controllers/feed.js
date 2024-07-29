@@ -239,24 +239,31 @@ exports.rentCar = async (req, res, next) => {
 
 exports.getRentedCars = async (req, res, next) => {
   try {
-    // Fetch rented cars and count them
-    const [fetchedCars, totalfetchedCars] = await Promise.all([
-      Car.find({ available: false }).populate("rentedBy").exec(),
-      Car.countDocuments({ available: false }).exec(),
-    ]);
+    const { idCardNumber } = req.query;
 
-    // Check if there are no rented cars
+    const user = await User.findOne({ id_card_number: idCardNumber }).exec();
+
+    if (!user) {
+      const error = new Error("User not found");
+      error.status = 404;
+      throw error;
+    }
+
+    const fetchedCars = await Car.find({
+      _id: { $in: user.rentedCars },
+    })
+      .populate("rentedBy")
+      .exec();
+
     if (!fetchedCars || fetchedCars.length === 0) {
-      return res.status(200).json({
-        data: [],
-        total: 0,
-        message: "No rented cars found",
-      });
+      const error = new Error("Could not fetch data");
+      error.status = 404;
+      throw error;
     }
 
     res.status(200).json({
       data: fetchedCars,
-      total: totalfetchedCars,
+      total: fetchedCars.length,
       message: "Success",
     });
   } catch (err) {
