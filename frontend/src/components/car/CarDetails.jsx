@@ -5,6 +5,7 @@ import {
   useParams,
   useRouteLoaderData,
   Form,
+  useNavigation,
 } from "react-router-dom";
 
 import classes from "./CarDetails.module.css";
@@ -13,7 +14,11 @@ const CarDetails = () => {
   const { carId } = useParams();
   const loaderData = useLoaderData();
   const token = useRouteLoaderData("root");
+  const navigation = useNavigation();
+
   const data = loaderData?.data ? loaderData.data : null;
+
+  const isSubmitting = navigation.state === "submitting";
 
   if (!data) {
     return <h1>No data</h1>;
@@ -56,7 +61,11 @@ const CarDetails = () => {
               className={`${classes.button} ${classes["rent-button"]}`}
               type="submit"
             >
-              {data.available ? "Rent" : "Put Back"}
+              {isSubmitting
+                ? "Submitting"
+                : data.available
+                ? "Rent"
+                : "Put Back"}
             </button>
           </Form>
         </div>

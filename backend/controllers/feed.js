@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 
 const Car = require("../models/Car");
+const User = require("../models/User");
 
 exports.getAllCars = async (req, res, next) => {
   try {
@@ -60,6 +61,7 @@ exports.addNewCar = async (req, res, next) => {
       fuel,
       price,
       regExpiration: expiration,
+      initialPrice: price,
     });
 
     const result = await newCar.save();
@@ -192,6 +194,7 @@ exports.rentCar = async (req, res, next) => {
     const { userId, payload } = req.body;
 
     const fetchedCar = await Car.findById(carId);
+    const user = await User.findById(userId);
 
     if (!fetchedCar) {
       const error = new Error("Could not fetch a car");
@@ -201,8 +204,16 @@ exports.rentCar = async (req, res, next) => {
 
     if (payload === true) {
       fetchedCar.rentedBy = null;
+      fetchedCar.rentedAt = null;
+      user.rentedCars = user.rentedCars.filter(
+        (car) => car.toString() !== carId
+      );
     } else if (payload === false) {
       fetchedCar.rentedBy = userId;
+      fetchedCar.rentedAt = new Date();
+      if (!user.rentedCars.includes(carId)) {
+        user.rentedCars.push(carId);
+      }
     }
 
     fetchedCar.available = payload;
@@ -215,9 +226,38 @@ exports.rentCar = async (req, res, next) => {
       throw error;
     }
 
+    user.save();
+
     res.status(200).json({
       message: "Car status updated successfully",
       data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getRentedCars = async (req, res, next) => {
+  try {
+    // Fetch rented cars and count them
+    const [fetchedCars, totalfetchedCars] = await Promise.all([
+      Car.find({ available: false }).populate("rentedBy").exec(),
+      Car.countDocuments({ available: false }).exec(),
+    ]);
+
+    // Check if there are no rented cars
+    if (!fetchedCars || fetchedCars.length === 0) {
+      return res.status(200).json({
+        data: [],
+        total: 0,
+        message: "No rented cars found",
+      });
+    }
+
+    res.status(200).json({
+      data: fetchedCars,
+      total: totalfetchedCars,
+      message: "Success",
     });
   } catch (err) {
     next(err);

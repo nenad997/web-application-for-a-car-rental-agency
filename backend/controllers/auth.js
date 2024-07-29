@@ -136,7 +136,9 @@ exports.getUserDataById = async (req, res, next) => {
       throw error;
     }
 
-    const fetchedUser = await User.findById(userId);
+    const fetchedUser = await User.findById(userId)
+      .populate("rentedCars")
+      .exec();
 
     if (!fetchedUser) {
       const error = new Error("User not found!");

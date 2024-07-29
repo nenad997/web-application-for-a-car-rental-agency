@@ -52,10 +52,26 @@ const carSchema = new mongoose.Schema(
       ref: "User",
       default: null,
     },
+    rentedAt: {
+      type: Date,
+      default: null,
+    },
+    initialPrice: {
+      type: String,
+      required: true,
+      default: null,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+carSchema.pre("save", function (next) {
+  if (!this.initialPrice) {
+    this.initialPrice = this.price;
+  }
+  next();
+});
 
 module.exports = mongoose.model("Car", carSchema);

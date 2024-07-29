@@ -8,6 +8,7 @@ const {
   editCar,
   deleteCarById,
   rentCar,
+  getRentedCars,
 } = require("../controllers/feed");
 const isAuth = require("../middlewares/isAuth");
 
@@ -60,5 +61,6 @@ router.put(
 
 router.delete("/car/:carId", isAuth, deleteCarById);
 router.patch("/car/:carId", isAuth, rentCar);
+router.get("/rent-car", getRentedCars);
 
 module.exports = router;
