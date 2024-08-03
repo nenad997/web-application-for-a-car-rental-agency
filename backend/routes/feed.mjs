@@ -52,6 +52,11 @@ router.post(
       .notEmpty()
       .withMessage("This field should not be empty")
       .isString(),
+    body("regExpiration")
+      .notEmpty()
+      .withMessage("This field should not be empty")
+      .isDate()
+      .withMessage("This field must be a date"),
   ],
   addNewCar
 );

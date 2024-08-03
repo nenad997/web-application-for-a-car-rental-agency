@@ -52,55 +52,46 @@ export async function action({ params, request }) {
 
   const { carId } = params;
   const formData = await request.formData();
-  const {
-    make,
-    model,
-    image,
-    registration_number,
-    expiration,
-    moreInfo,
-    fuel,
-    price,
-  } = Object.fromEntries(formData);
+  const entries = Object.fromEntries(formData);
 
   const validationErrors = [];
 
-  if (!make) {
+  if (!entries.vehicleMake) {
     validationErrors.push({
       message: "Vehicle make property must be set",
       path: "make",
     });
   }
 
-  if (!model) {
+  if (!entries.vehicleModel) {
     validationErrors.push({
       message: "Vehicle model property must be set",
       path: "model",
     });
   }
 
-  if (!isValidURL(image)) {
+  if (!isValidURL(entries.imageUrl)) {
     validationErrors.push({
       message: "The value you provided is not a valid URL",
       path: "image",
     });
   }
 
-  if (!price || isNaN(price) || +price < 0) {
+  if (!entries.price || isNaN(entries.price) || +entries.price < 0) {
     validationErrors.push({
       message: "Invalid price entered",
       path: "price",
     });
   }
 
-  if (!isRegistrationNumberValid(registration_number)) {
+  if (!isRegistrationNumberValid(entries.registrationNumber)) {
     validationErrors.push({
       message: "The value you provided is not a valid registration number",
       path: "reg_number",
     });
   }
 
-  if (!isDateValid(expiration)) {
+  if (!isDateValid(entries.regExpiration)) {
     validationErrors.push({
       message: "Invalid date provided",
       path: "date",
@@ -129,14 +120,10 @@ export async function action({ params, request }) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        vehicleMake: make,
-        vehicleModel: model,
-        registrationNumber: registration_number.toUpperCase(),
-        imageUrl: image,
-        moreInfo,
-        fuel,
-        price,
-        expiration,
+        ...entries,
+        vehicleMake: entries.vehicleMake.toUpperCase(),
+        vehicleModel: entries.vehicleModel.toUpperCase(),
+        registrationNumber: entries.registrationNumber.toUpperCase(),
       }),
     });
 

@@ -2,7 +2,7 @@ import React from "react";
 import { json, redirect } from "react-router-dom";
 
 import Details from "../components/car/CarDetails";
-import { getAuthToken, getUserId } from "../util/authorization";
+import { getAuthToken } from "../util/authorization";
 
 const CarDetails = () => {
   return <Details />;
@@ -30,10 +30,9 @@ export async function loader({ params }) {
 export async function action({ params, request }) {
   try {
     const token = getAuthToken();
-    const userId = getUserId();
     const { carId } = params;
     const formData = await request.formData();
-    const { payload } = Object.fromEntries(formData);
+    const { shouldRent } = Object.fromEntries(formData);
 
     const response = await fetch(`http://localhost:3000/api/cars/${carId}`, {
       method: "PATCH",
@@ -42,8 +41,7 @@ export async function action({ params, request }) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        userId,
-        payload: payload === "true" ? true : false,
+        shouldRent: shouldRent === "true" ? true : false,
       }),
     });
 

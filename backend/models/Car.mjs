@@ -58,8 +58,6 @@ const carSchema = new mongoose.Schema(
     },
     initialPrice: {
       type: mongoose.Schema.Types.String,
-      required: true,
-      default: null,
     },
   },
   {

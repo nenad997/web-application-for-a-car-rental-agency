@@ -1,4 +1,4 @@
-import { validationResult } from "express-validator";
+import { validationResult, matchedData } from "express-validator";
 
 import Car from "../models/Car.mjs";
 import User from "../models/User.mjs";
@@ -30,19 +30,6 @@ export const getAllCars = async (req, res, next) => {
 };
 
 export const addNewCar = async (req, res, next) => {
-  const {
-    body: {
-      vehicleMake,
-      vehicleModel,
-      registrationNumber,
-      imageUrl,
-      moreInfo,
-      fuel,
-      price,
-      expiration,
-    },
-  } = req;
-
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -52,17 +39,10 @@ export const addNewCar = async (req, res, next) => {
     throw error;
   }
 
-  const newCar = new Car({
-    vehicleModel,
-    vehicleMake,
-    registrationNumber,
-    imageUrl,
-    moreInfo,
-    fuel,
-    price,
-    regExpiration: expiration,
-    initialPrice: price,
-  });
+  const validBodyData = matchedData(req);
+
+  const newCar = new Car(validBodyData);
+
   try {
     const result = await newCar.save();
 
@@ -107,17 +87,20 @@ export const getCarById = async (req, res, next) => {
 
 export const editCar = async (req, res, next) => {
   const {
-    body: {
-      vehicleMake,
-      vehicleModel,
-      registrationNumber,
-      imageUrl,
-      moreInfo,
-      fuel,
-      price,
-    },
     params: { carId },
   } = req;
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation failed");
+    error.status = 403;
+    error.data = errors.array();
+    throw error;
+  }
+
+  const validBodyData = matchedData(req);
+
   try {
     const fetchedCar = await Car.findById(carId);
 
@@ -127,22 +110,10 @@ export const editCar = async (req, res, next) => {
       throw error;
     }
 
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      const error = new Error("Validation failed");
-      error.status = 403;
-      error.data = errors.array();
-      throw error;
-    }
-
-    fetchedCar.vehicleMake = vehicleMake;
-    fetchedCar.vehicleModel = vehicleModel;
-    fetchedCar.registrationNumber = registrationNumber;
-    fetchedCar.imageUrl = imageUrl;
-    fetchedCar.moreInfo = moreInfo;
-    fetchedCar.fuel = fuel;
-    fetchedCar.price = price;
+    fetchedCar.set({
+      ...validBodyData,
+      initialPrice: validBodyData.price,
+    });
 
     const result = await fetchedCar.save();
 
@@ -194,13 +165,13 @@ export const deleteCarById = async (req, res, next) => {
 
 export const rentCar = async (req, res, next) => {
   const {
-    body: { userId, payload },
+    body: { shouldRent },
     params: { carId },
   } = req;
 
   try {
     const fetchedCar = await Car.findById(carId);
-    const user = await User.findById(userId);
+    const user = await User.findById(req.userId);
 
     if (!fetchedCar) {
       const error = new Error("Could not fetch a car");
@@ -208,21 +179,21 @@ export const rentCar = async (req, res, next) => {
       throw error;
     }
 
-    if (payload === true) {
+    if (shouldRent) {
       fetchedCar.rentedBy = null;
       fetchedCar.rentedAt = null;
       user.rentedCars = user.rentedCars.filter(
         (car) => car.toString() !== carId
       );
-    } else if (payload === false) {
-      fetchedCar.rentedBy = userId;
+    } else {
+      fetchedCar.rentedBy = req.userId;
       fetchedCar.rentedAt = new Date();
       if (!user.rentedCars.includes(carId)) {
         user.rentedCars.push(carId);
       }
     }
 
-    fetchedCar.available = payload;
+    fetchedCar.available = shouldRent;
 
     const result = await fetchedCar.save();
 
@@ -232,7 +203,14 @@ export const rentCar = async (req, res, next) => {
       throw error;
     }
 
-    user.save();
+    user
+      .save()
+      .then((savedUser) => {})
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
 
     res.status(200).json({
       message: "Car status updated successfully",

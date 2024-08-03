@@ -55,7 +55,7 @@ const CarForm = memo(({ method, car = null }) => {
           config={{
             type: "text",
             id: "make",
-            name: "make",
+            name: "vehicleMake",
             placeholder: "Enter vehicle make (Renault)",
             defaultValue: car ? car.vehicleMake : null,
           }}
@@ -71,7 +71,7 @@ const CarForm = memo(({ method, car = null }) => {
           config={{
             type: "text",
             id: "model",
-            name: "model",
+            name: "vehicleModel",
             placeholder: "Enter vehicle model (Clio 1.2)",
             defaultValue: car ? car.vehicleModel : null,
           }}
@@ -87,7 +87,7 @@ const CarForm = memo(({ method, car = null }) => {
           config={{
             type: "url",
             id: "image",
-            name: "image",
+            name: "imageUrl",
             placeholder: "http://www.imageUrl.com",
             defaultValue: car ? car.imageUrl : null,
           }}
@@ -119,7 +119,7 @@ const CarForm = memo(({ method, car = null }) => {
           config={{
             type: "text",
             id: "registration-number",
-            name: "registration_number",
+            name: "registrationNumber",
             placeholder: "Format (CC - 123 - AA)",
             defaultValue: car ? car.registrationNumber : null,
           }}
@@ -138,7 +138,7 @@ const CarForm = memo(({ method, car = null }) => {
           config={{
             type: "date",
             id: "reg-exp",
-            name: "expiration",
+            name: "regExpiration",
             defaultValue: car ? car.regExpiration.split("T")[0] : null,
           }}
           hasError={actionData?.errors?.find((error) => error.path === "date")}
