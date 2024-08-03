@@ -14,10 +14,10 @@ export const createUser = async (req, res, next) => {
     throw error;
   }
 
-  const data = matchedData(req);
+  const body = matchedData(req);
 
   try {
-    const fetchedUserByEmail = await User.findOne({ email: data.email });
+    const fetchedUserByEmail = await User.findOne({ email: body.email });
 
     if (fetchedUserByEmail) {
       const error = new Error("User with this email address already exists!");
@@ -27,7 +27,7 @@ export const createUser = async (req, res, next) => {
     }
 
     const fetchedUserByCardId = await User.findOne({
-      id_card_number: data.id_card_number,
+      id_card_number: body.id_card_number,
     });
 
     if (fetchedUserByCardId) {
@@ -38,7 +38,7 @@ export const createUser = async (req, res, next) => {
     }
 
     const fetchedUserByUsername = await User.findOne({
-      username: data.username,
+      username: body.username,
     });
 
     if (fetchedUserByUsername) {
@@ -48,16 +48,16 @@ export const createUser = async (req, res, next) => {
       throw error;
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 12);
+    const hashedPassword = await bcrypt.hash(body.password, 12);
 
     const newUser = new User({
-      ...data,
+      ...body,
       password: hashedPassword,
     });
 
-    const newUserResult = await newUser.save();
+    const savedUser = await newUser.save();
 
-    if (!newUserResult) {
+    if (!savedUser) {
       const error = new Error("Failed to create new user");
       error.status = 400;
       throw error;
@@ -65,9 +65,6 @@ export const createUser = async (req, res, next) => {
 
     res.status(201).json({
       message: "User created successfully",
-      data: {
-        id: newUserResult._id.toString(),
-      },
     });
   } catch (err) {
     next(err);
@@ -133,12 +130,6 @@ export const getUserDataById = async (req, res, next) => {
     params: { userId },
   } = req;
 
-  if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
-    const error = new Error("Invalid user ID format");
-    error.status = 400;
-    throw error;
-  }
-
   try {
     const fetchedUser = await User.findById(userId)
       .populate("rentedCars")
@@ -176,7 +167,7 @@ export const editUser = async (req, res, next) => {
     throw error;
   }
 
-  const data = matchedData(req);
+  const body = matchedData(req);
 
   try {
     const fetchedUser = await User.findById(userId);
@@ -187,16 +178,16 @@ export const editUser = async (req, res, next) => {
       throw error;
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 12);
+    const hashedPassword = await bcrypt.hash(body.password, 12);
 
     fetchedUser.set({
-      ...data,
-      password: hashedPassword
+      ...body,
+      password: hashedPassword,
     });
 
-    const userResult = await fetchedUser.save();
+    const savedUser = await fetchedUser.save();
 
-    if (!userResult) {
+    if (!savedUser) {
       const error = new Error("Failed to edit user");
       error.status = 406;
       throw error;
@@ -204,9 +195,6 @@ export const editUser = async (req, res, next) => {
 
     res.status(200).json({
       message: "Update successful",
-      data: {
-        id: userResult._id.toString(),
-      },
     });
   } catch (err) {
     next(err);

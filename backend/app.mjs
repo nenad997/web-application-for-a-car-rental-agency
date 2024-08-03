@@ -1,4 +1,4 @@
-import * as env from "dotenv";
+import * as ENV from "dotenv";
 import { join } from "path";
 import express from "express";
 import cors from "cors";
@@ -7,7 +7,9 @@ import { connect } from "mongoose";
 import authRoutes from "./routes/auth.mjs";
 import feedRoutes from "./routes/feed.mjs";
 
-env.config();
+ENV.config();
+
+const MONGO_DB_URL = `mongodb+srv://${process.env.name}:${process.env.password}@cluster0.ovwtp0c.mongodb.net/${process.env.data_base}`;
 
 const app = express();
 app.use(cors());
@@ -26,10 +28,9 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message, data, path, hasResponseFailed: true });
 });
 
-connect(
-  `mongodb+srv://Nenad:${process.env.password}@cluster0.ovwtp0c.mongodb.net/car-rental-app`
-)
+connect(MONGO_DB_URL)
   .then((res) => {
+    console.log(`App is running on port ${process.env.port}`);
     app.listen(3000);
   })
   .catch((err) => {

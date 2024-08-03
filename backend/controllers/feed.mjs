@@ -6,6 +6,7 @@ import User from "../models/User.mjs";
 export const getAllCars = async (req, res, next) => {
   const limitValue = req.query.limit || 2;
   const skipValue = req.query.skip || 0;
+
   try {
     const fetchedCars = await Car.find()
       .limit(limitValue)
@@ -39,14 +40,14 @@ export const addNewCar = async (req, res, next) => {
     throw error;
   }
 
-  const validBodyData = matchedData(req);
+  const body = matchedData(req);
 
-  const newCar = new Car(validBodyData);
+  const newCar = new Car(body);
 
   try {
-    const result = await newCar.save();
+    const savedCar = await newCar.save();
 
-    if (!result) {
+    if (!savedCar) {
       const error = new Error("Failed to add new car");
       error.status = 400;
       throw error;
@@ -54,9 +55,6 @@ export const addNewCar = async (req, res, next) => {
 
     res.status(204).json({
       message: "Added new car successfully",
-      data: {
-        id: result._id.toString(),
-      },
     });
   } catch (err) {
     next(err);
@@ -67,6 +65,7 @@ export const getCarById = async (req, res, next) => {
   const {
     params: { carId },
   } = req;
+
   try {
     const fetchedCar = await Car.findById(carId).populate("rentedBy").exec();
 
@@ -99,7 +98,7 @@ export const editCar = async (req, res, next) => {
     throw error;
   }
 
-  const validBodyData = matchedData(req);
+  const body = matchedData(req);
 
   try {
     const fetchedCar = await Car.findById(carId);
@@ -111,13 +110,13 @@ export const editCar = async (req, res, next) => {
     }
 
     fetchedCar.set({
-      ...validBodyData,
-      initialPrice: validBodyData.price,
+      ...body,
+      initialPrice: body.price,
     });
 
-    const result = await fetchedCar.save();
+    const savedCar = await fetchedCar.save();
 
-    if (!result) {
+    if (!savedCar) {
       const error = new Error("Failed to update the car");
       error.status = 406;
       throw error;
@@ -125,9 +124,6 @@ export const editCar = async (req, res, next) => {
 
     res.status(200).json({
       message: "Update successful",
-      data: {
-        id: result._id.toString(),
-      },
     });
   } catch (err) {
     next(err);
@@ -138,6 +134,7 @@ export const deleteCarById = async (req, res, next) => {
   const {
     params: { carId },
   } = req;
+
   try {
     const fetchedCar = await Car.findById(carId);
 
@@ -195,9 +192,9 @@ export const rentCar = async (req, res, next) => {
 
     fetchedCar.available = shouldRent;
 
-    const result = await fetchedCar.save();
+    const savedCar = await fetchedCar.save();
 
-    if (!result) {
+    if (!savedCar) {
       const error = new Error("Failed to update the car");
       error.status = 406;
       throw error;
@@ -214,7 +211,6 @@ export const rentCar = async (req, res, next) => {
 
     res.status(200).json({
       message: "Car status updated successfully",
-      data: result,
     });
   } catch (err) {
     next(err);
