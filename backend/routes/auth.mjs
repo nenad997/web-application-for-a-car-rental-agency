@@ -55,7 +55,7 @@ router.post(
   login
 );
 
-router.get("/user:userId", getUserDataById);
+router.get("/user/:userId", getUserDataById);
 
 router.put(
   "/user/:userId",
