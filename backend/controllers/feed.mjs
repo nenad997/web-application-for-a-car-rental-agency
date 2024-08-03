@@ -247,7 +247,17 @@ export const getRentedCars = async (req, res, next) => {
   const {
     query: { idCardNumber },
   } = req;
-  
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new Error("Invalid idCardNumber field");
+    error.status = 402;
+    error.data = errors.array();
+
+    throw error;
+  }
+
   try {
     const user = await User.findOne({ id_card_number: idCardNumber }).exec();
 

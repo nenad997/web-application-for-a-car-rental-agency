@@ -63,7 +63,7 @@ const AuthForm = () => {
               config={{
                 type: "text",
                 id: "user_name",
-                name: "user_name",
+                name: "username",
                 placeholder: "Enter user name",
               }}
               hasError={actionData?.errors?.find(

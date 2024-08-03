@@ -1,15 +1,12 @@
-import { validationResult } from "express-validator";
+import { validationResult, matchedData } from "express-validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import User from "../models/User.mjs";
 
 export const createUser = async (req, res, next) => {
-  const {
-    body: { email, user_name, id_card_number, password },
-  } = req;
-
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     const error = new Error("Validation failed");
     error.status = 409;
@@ -17,8 +14,10 @@ export const createUser = async (req, res, next) => {
     throw error;
   }
 
+  const data = matchedData(req);
+
   try {
-    const fetchedUserByEmail = await User.findOne({ email });
+    const fetchedUserByEmail = await User.findOne({ email: data.email });
 
     if (fetchedUserByEmail) {
       const error = new Error("User with this email address already exists!");
@@ -27,7 +26,9 @@ export const createUser = async (req, res, next) => {
       throw error;
     }
 
-    const fetchedUserByCardId = await User.findOne({ id_card_number });
+    const fetchedUserByCardId = await User.findOne({
+      id_card_number: data.id_card_number,
+    });
 
     if (fetchedUserByCardId) {
       const error = new Error("User with this id card number already exists!");
@@ -36,7 +37,9 @@ export const createUser = async (req, res, next) => {
       throw error;
     }
 
-    const fetchedUserByUsername = await User.findOne({ username: user_name });
+    const fetchedUserByUsername = await User.findOne({
+      username: data.username,
+    });
 
     if (fetchedUserByUsername) {
       const error = new Error("User with this user name already exists!");
@@ -45,12 +48,10 @@ export const createUser = async (req, res, next) => {
       throw error;
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcrypt.hash(data.password, 12);
 
     const newUser = new User({
-      email,
-      username: user_name,
-      id_card_number,
+      ...data,
       password: hashedPassword,
     });
 
@@ -74,10 +75,6 @@ export const createUser = async (req, res, next) => {
 };
 
 export const login = async (req, res, next) => {
-  const {
-    body: { email, password },
-  } = req;
-
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -86,8 +83,11 @@ export const login = async (req, res, next) => {
     error.data = errors.array();
     throw error;
   }
+
+  const data = matchedData(req);
+
   try {
-    const fetchedUser = await User.findOne({ email });
+    const fetchedUser = await User.findOne({ email: data.email });
 
     if (!fetchedUser) {
       const error = new Error(
@@ -98,7 +98,7 @@ export const login = async (req, res, next) => {
     }
 
     const doPasswordsMatch = await bcrypt.compare(
-      password,
+      data.password,
       fetchedUser.password
     );
 
@@ -164,7 +164,6 @@ export const getUserDataById = async (req, res, next) => {
 
 export const editUser = async (req, res, next) => {
   const {
-    body: { email, user_name, id_card_number, password },
     params: { userId },
   } = req;
 
@@ -176,6 +175,9 @@ export const editUser = async (req, res, next) => {
     error.data = errors.array();
     throw error;
   }
+
+  const data = matchedData(req);
+
   try {
     const fetchedUser = await User.findById(userId);
 
@@ -185,12 +187,12 @@ export const editUser = async (req, res, next) => {
       throw error;
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcrypt.hash(data.password, 12);
 
-    fetchedUser.email = email;
-    fetchedUser.username = user_name;
-    fetchedUser.id_card_number = id_card_number;
-    fetchedUser.password = hashedPassword;
+    fetchedUser.set({
+      ...data,
+      password: hashedPassword
+    });
 
     const userResult = await fetchedUser.save();
 

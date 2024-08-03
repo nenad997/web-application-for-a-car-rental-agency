@@ -11,14 +11,14 @@ import {
 const UserForm = ({ onCloseModal, user, error, onSubmitForm }) => {
   const initialInputs = {
     email: user ? user.email : "",
-    user_name: user ? user.username : "",
+    username: user ? user.username : "",
     id_card_number: user ? user.id_card_number : "",
     password: "",
     repeat_password: "",
   };
   const initialTouch = {
     email: false,
-    user_name: false,
+    username: false,
     id_card_number: false,
     password: false,
     repeat_password: false,
@@ -44,7 +44,7 @@ const UserForm = ({ onCloseModal, user, error, onSubmitForm }) => {
 
   const isEmailInvalid = !isEmailValid(inputs.email) && isTouched.email;
   const isUsernameInvalid =
-    !isUsernameValid(inputs.user_name) && isTouched.user_name;
+    !isUsernameValid(inputs.username) && isTouched.username;
   const isIdCardNumberInvalid =
     !inputs.id_card_number && isTouched.id_card_number;
   const isPasswordInvalid =
@@ -94,11 +94,11 @@ const UserForm = ({ onCloseModal, user, error, onSubmitForm }) => {
           config={{
             type: "text",
             id: "user_name",
-            name: "user_name",
+            name: "username",
             placeholder: "Enter user name",
             onBlur: blurInputHandler,
             onChange: changeInputHandler,
-            value: inputs.user_name,
+            value: inputs.username,
           }}
           hasError={isUsernameInvalid}
           errorText="Invalid user name (example: Username123). Use at least 5 characters"

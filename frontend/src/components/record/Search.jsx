@@ -17,7 +17,7 @@ const Search = () => {
     }
 
     const timer = setTimeout(() => {
-      fetch(`http://localhost:3000/get/rents?idCardNumber=${searchTerm}`)
+      fetch(`http://localhost:3000/api/rents?idCardNumber=${searchTerm}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("Failed to fetch user");

@@ -29,24 +29,23 @@ export default Auth;
 
 export async function action({ request }) {
   const formData = await request.formData();
-  const { email, user_name, id_card_number, password, repeat_password, mode } =
-    Object.fromEntries(formData);
+  const entries = Object.fromEntries(formData);
 
   const validationErrors = [];
 
-  if (!isEmailValid(email)) {
+  if (!isEmailValid(entries.email)) {
     validationErrors.push({ message: "Invalid email address", path: "email" });
   }
 
-  if (!isPasswordValid(password)) {
+  if (!isPasswordValid(entries.password)) {
     validationErrors.push({
       message: "Invalid password. Minimum 8 characters of letters and numbers",
       path: "password",
     });
   }
 
-  if (mode === "signup") {
-    if (!isUsernameValid(user_name)) {
+  if (entries.mode === "signup") {
+    if (!isUsernameValid(entries.username)) {
       validationErrors.push({
         message:
           "Invalid user name (example: Username123). Use at least 5 characters",
@@ -54,14 +53,14 @@ export async function action({ request }) {
       });
     }
 
-    if (!id_card_number) {
+    if (!entries.id_card_number) {
       validationErrors.push({
         message: "Please enter id card number",
         path: "id_card_number",
       });
     }
 
-    if (password.toString() !== repeat_password.toString()) {
+    if (entries.password.toString() !== entries.repeat_password.toString()) {
       validationErrors.push({
         message: "Passwords do not match",
         path: "password",
@@ -78,20 +77,14 @@ export async function action({ request }) {
 
   let redirectPath;
 
-  if (mode === "signup") {
+  if (entries.mode === "signup") {
     try {
       const response = await fetch("http://localhost:3000/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          user_name,
-          id_card_number,
-          password,
-          repeat_password,
-        }),
+        body: JSON.stringify(entries),
       });
 
       if (!response.ok) {
@@ -119,7 +112,7 @@ export async function action({ request }) {
     }
   }
 
-  if (mode === "login") {
+  if (entries.mode === "login") {
     try {
       const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",
@@ -127,8 +120,8 @@ export async function action({ request }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
-          password,
+          email: entries.email,
+          password: entries.password,
         }),
       });
 
