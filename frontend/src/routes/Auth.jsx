@@ -80,7 +80,7 @@ export async function action({ request }) {
 
   if (mode === "signup") {
     try {
-      const response = await fetch("http://localhost:3000/signup", {
+      const response = await fetch("http://localhost:3000/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export async function action({ request }) {
 
   if (mode === "login") {
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

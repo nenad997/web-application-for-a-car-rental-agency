@@ -27,7 +27,7 @@ const CarForm = memo(({ method, car = null }) => {
       return;
     }
 
-    fetch(`http://localhost:3000/delete/car/${carId}`, {
+    fetch(`http://localhost:3000/api/cars/${carId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

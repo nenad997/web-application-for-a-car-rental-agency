@@ -93,7 +93,7 @@ export async function action({ request }) {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/new/car", {
+    const response = await fetch("http://localhost:3000/api/cars", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

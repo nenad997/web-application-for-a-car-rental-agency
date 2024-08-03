@@ -28,7 +28,7 @@ export async function loader({ params }) {
 
   const { carId } = params;
   try {
-    const response = await fetch(`http://localhost:3000/get/car/${carId}`);
+    const response = await fetch(`http://localhost:3000/api/cars/${carId}`);
 
     if (!response.ok) {
       const error = new Error("Failed to fetch the car");
@@ -122,7 +122,7 @@ export async function action({ params, request }) {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/edit/car/${carId}`, {
+    const response = await fetch(`http://localhost:3000/api/cars/${carId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -1,14 +1,14 @@
-const express = require("express");
-const { body } = require("express-validator");
+import { Router } from "express";
+import { body } from "express-validator";
 
-const {
+import {
   createUser,
   login,
   getUserDataById,
   editUser,
-} = require("../controllers/auth");
+} from "../controllers/auth.mjs";
 
-const router = express.Router();
+const router = Router();
 
 router.post(
   "/signup",
@@ -55,10 +55,10 @@ router.post(
   login
 );
 
-router.get("/get/user/:userId", getUserDataById);
+router.get("/user:userId", getUserDataById);
 
 router.put(
-  "/edit/user/:userId",
+  "/user/:userId",
   [
     body("email").notEmpty().isEmail().normalizeEmail(),
     body("user_name").notEmpty().isAlphanumeric(),
@@ -85,4 +85,4 @@ router.put(
   editUser
 );
 
-module.exports = router;
+export default router;

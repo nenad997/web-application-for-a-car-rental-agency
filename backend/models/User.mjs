@@ -1,24 +1,24 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
     email: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
       unique: true,
     },
     username: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
       unique: true,
     },
     id_card_number: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
       unique: true,
     },
     password: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
     },
     rentedCars: [
@@ -31,4 +31,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);

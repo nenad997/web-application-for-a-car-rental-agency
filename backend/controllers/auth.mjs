@@ -1,22 +1,23 @@
-const { validationResult } = require("express-validator");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import { validationResult } from "express-validator";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const User = require("../models/User");
+import User from "../models/User.mjs";
 
-exports.createUser = async (req, res, next) => {
+export const createUser = async (req, res, next) => {
+  const {
+    body: { email, user_name, id_card_number, password },
+  } = req;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation failed");
+    error.status = 409;
+    error.data = errors.array();
+    throw error;
+  }
+
   try {
-    const { email, user_name, id_card_number, password } = req.body;
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      const error = new Error("Validation failed");
-      error.status = 409;
-      error.data = errors.array();
-      throw error;
-    }
-
     const fetchedUserByEmail = await User.findOne({ email });
 
     if (fetchedUserByEmail) {
@@ -72,19 +73,20 @@ exports.createUser = async (req, res, next) => {
   }
 };
 
-exports.login = async (req, res, next) => {
+export const login = async (req, res, next) => {
+  const {
+    body: { email, password },
+  } = req;
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation failed");
+    error.status = 409;
+    error.data = errors.array();
+    throw error;
+  }
   try {
-    const { email, password } = req.body;
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      const error = new Error("Validation failed");
-      error.status = 409;
-      error.data = errors.array();
-      throw error;
-    }
-
     const fetchedUser = await User.findOne({ email });
 
     if (!fetchedUser) {
@@ -126,16 +128,18 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.getUserDataById = async (req, res, next) => {
+export const getUserDataById = async (req, res, next) => {
+  const {
+    params: { userId },
+  } = req;
+
+  if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
+    const error = new Error("Invalid user ID format");
+    error.status = 400;
+    throw error;
+  }
+
   try {
-    const { userId } = req.params;
-
-    if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
-      const error = new Error("Invalid user ID format");
-      error.status = 400;
-      throw error;
-    }
-
     const fetchedUser = await User.findById(userId)
       .populate("rentedCars")
       .exec();
@@ -158,20 +162,21 @@ exports.getUserDataById = async (req, res, next) => {
   }
 };
 
-exports.editUser = async (req, res, next) => {
+export const editUser = async (req, res, next) => {
+  const {
+    body: { email, user_name, id_card_number, password },
+    params: { userId },
+  } = req;
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation failed");
+    error.status = 409;
+    error.data = errors.array();
+    throw error;
+  }
   try {
-    const { userId } = req.params;
-    const { email, user_name, id_card_number, password } = req.body;
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      const error = new Error("Validation failed");
-      error.status = 409;
-      error.data = errors.array();
-      throw error;
-    }
-
     const fetchedUser = await User.findById(userId);
 
     if (!fetchedUser) {

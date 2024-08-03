@@ -1,13 +1,12 @@
-const { validationResult } = require("express-validator");
+import { validationResult } from "express-validator";
 
-const Car = require("../models/Car");
-const User = require("../models/User");
+import Car from "../models/Car.mjs";
+import User from "../models/User.mjs";
 
-exports.getAllCars = async (req, res, next) => {
+export const getAllCars = async (req, res, next) => {
+  const limitValue = req.query.limit || 2;
+  const skipValue = req.query.skip || 0;
   try {
-    const limitValue = req.query.limit || 2;
-    const skipValue = req.query.skip || 0;
-
     const fetchedCars = await Car.find()
       .limit(limitValue)
       .skip(skipValue)
@@ -30,9 +29,9 @@ exports.getAllCars = async (req, res, next) => {
   }
 };
 
-exports.addNewCar = async (req, res, next) => {
-  try {
-    const {
+export const addNewCar = async (req, res, next) => {
+  const {
+    body: {
       vehicleMake,
       vehicleModel,
       registrationNumber,
@@ -41,29 +40,30 @@ exports.addNewCar = async (req, res, next) => {
       fuel,
       price,
       expiration,
-    } = req.body;
+    },
+  } = req;
 
-    const errors = validationResult(req);
+  const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      const error = new Error("Validation failed");
-      error.status = 403;
-      error.data = errors.array();
-      throw error;
-    }
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation failed");
+    error.status = 403;
+    error.data = errors.array();
+    throw error;
+  }
 
-    const newCar = new Car({
-      vehicleModel,
-      vehicleMake,
-      registrationNumber,
-      imageUrl,
-      moreInfo,
-      fuel,
-      price,
-      regExpiration: expiration,
-      initialPrice: price,
-    });
-
+  const newCar = new Car({
+    vehicleModel,
+    vehicleMake,
+    registrationNumber,
+    imageUrl,
+    moreInfo,
+    fuel,
+    price,
+    regExpiration: expiration,
+    initialPrice: price,
+  });
+  try {
     const result = await newCar.save();
 
     if (!result) {
@@ -83,10 +83,11 @@ exports.addNewCar = async (req, res, next) => {
   }
 };
 
-exports.getCarById = async (req, res, next) => {
+export const getCarById = async (req, res, next) => {
+  const {
+    params: { carId },
+  } = req;
   try {
-    const { carId } = req.params;
-
     const fetchedCar = await Car.findById(carId).populate("rentedBy").exec();
 
     if (!fetchedCar) {
@@ -104,10 +105,9 @@ exports.getCarById = async (req, res, next) => {
   }
 };
 
-exports.editCar = async (req, res, next) => {
-  try {
-    const { carId } = req.params;
-    const {
+export const editCar = async (req, res, next) => {
+  const {
+    body: {
       vehicleMake,
       vehicleModel,
       registrationNumber,
@@ -115,8 +115,10 @@ exports.editCar = async (req, res, next) => {
       moreInfo,
       fuel,
       price,
-    } = req.body;
-
+    },
+    params: { carId },
+  } = req;
+  try {
     const fetchedCar = await Car.findById(carId);
 
     if (!fetchedCar) {
@@ -161,8 +163,10 @@ exports.editCar = async (req, res, next) => {
   }
 };
 
-exports.deleteCarById = async (req, res, next) => {
-  const { carId } = req.params;
+export const deleteCarById = async (req, res, next) => {
+  const {
+    params: { carId },
+  } = req;
   try {
     const fetchedCar = await Car.findById(carId);
 
@@ -188,11 +192,13 @@ exports.deleteCarById = async (req, res, next) => {
   }
 };
 
-exports.rentCar = async (req, res, next) => {
-  try {
-    const { carId } = req.params;
-    const { userId, payload } = req.body;
+export const rentCar = async (req, res, next) => {
+  const {
+    body: { userId, payload },
+    params: { carId },
+  } = req;
 
+  try {
     const fetchedCar = await Car.findById(carId);
     const user = await User.findById(userId);
 
@@ -237,10 +243,12 @@ exports.rentCar = async (req, res, next) => {
   }
 };
 
-exports.getRentedCars = async (req, res, next) => {
+export const getRentedCars = async (req, res, next) => {
+  const {
+    query: { idCardNumber },
+  } = req;
+  
   try {
-    const { idCardNumber } = req.query;
-
     const user = await User.findOne({ id_card_number: idCardNumber }).exec();
 
     if (!user) {

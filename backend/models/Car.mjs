@@ -1,42 +1,42 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const carSchema = new mongoose.Schema(
   {
     vehicleMake: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
     },
     vehicleModel: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
     },
     registrationNumber: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
       unique: true,
     },
     imageUrl: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
     },
     moreInfo: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: false,
     },
     fuel: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
     },
     price: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
     },
     available: {
-      type: Boolean,
+      type: mongoose.Schema.Types.Boolean,
       default: true,
     },
     regExpiration: {
-      type: Date,
+      type: mongoose.Schema.Types.Date,
       required: true,
       validate: {
         validator: function (value) {
@@ -53,11 +53,11 @@ const carSchema = new mongoose.Schema(
       default: null,
     },
     rentedAt: {
-      type: Date,
+      type: mongoose.Schema.Types.Date,
       default: null,
     },
     initialPrice: {
-      type: String,
+      type: mongoose.Schema.Types.String,
       required: true,
       default: null,
     },
@@ -74,4 +74,4 @@ carSchema.pre("save", function (next) {
   next();
 });
 
-module.exports = mongoose.model("Car", carSchema);
+export default mongoose.model("Car", carSchema);

@@ -1,7 +1,7 @@
-const express = require("express");
-const { body } = require("express-validator");
+import { Router } from "express";
+import { body } from "express-validator";
 
-const {
+import {
   getAllCars,
   addNewCar,
   getCarById,
@@ -9,15 +9,15 @@ const {
   deleteCarById,
   rentCar,
   getRentedCars,
-} = require("../controllers/feed");
-const isAuth = require("../middlewares/isAuth");
+} from "../controllers/feed.mjs";
+import isAuth from "../middlewares/isAuth.mjs";
 
-const router = express.Router();
+const router = Router();
 
 router.get("/", getAllCars);
 
 router.post(
-  "/new/car",
+  "/api/cars",
   isAuth,
   [
     body("vehicleMake").trim().notEmpty().isString(),
@@ -38,10 +38,10 @@ router.post(
   addNewCar
 );
 
-router.get("/get/car/:carId", getCarById);
+router.get("/api/cars/:carId", getCarById);
 
 router.put(
-  "/edit/car/:carId",
+  "/api/cars/:carId",
   isAuth,
   [
     body("vehicleMake").trim().notEmpty().isString(),
@@ -62,10 +62,10 @@ router.put(
   editCar
 );
 
-router.delete("/delete/car/:carId", isAuth, deleteCarById);
+router.delete("/api/cars/:carId", isAuth, deleteCarById);
 
-router.patch("/rent/car/:carId", isAuth, rentCar);
+router.patch("/api/cars/:carId", isAuth, rentCar);
 
-router.get("/get/rents", getRentedCars);
+router.get("/api/rents", getRentedCars);
 
-module.exports = router;
+export default router;
