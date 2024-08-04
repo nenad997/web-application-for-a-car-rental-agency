@@ -177,20 +177,24 @@ export const rentCar = async (req, res, next) => {
     }
 
     if (cancelRent) {
-      fetchedCar.rentedBy = null;
-      fetchedCar.rentedAt = null;
-      user.rentedCars = user.rentedCars.filter(
-        (car) => car.toString() !== carId
-      );
+      if (fetchedCar.rentedBy.toString() === req.userId.toString()) {
+        fetchedCar.rentedBy = null;
+        fetchedCar.rentedAt = null;
+        user.rentedCars = user.rentedCars.filter(
+          (car) => car.toString() !== carId
+        );
+        fetchedCar.available = cancelRent;
+      }
     } else {
-      fetchedCar.rentedBy = req.userId;
-      fetchedCar.rentedAt = new Date();
-      if (!user.rentedCars.includes(carId)) {
-        user.rentedCars.push(carId);
+      if (!fetchedCar.rentedBy && !fetchedCar.rentedAt) {
+        fetchedCar.rentedBy = req.userId;
+        fetchedCar.rentedAt = new Date();
+        if (!user.rentedCars.includes(carId)) {
+          user.rentedCars.push(carId);
+        }
+        fetchedCar.available = cancelRent;
       }
     }
-
-    fetchedCar.available = cancelRent;
 
     const savedCar = await fetchedCar.save();
 
