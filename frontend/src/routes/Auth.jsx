@@ -29,7 +29,7 @@ export default Auth;
 
 export async function action({ request }) {
   const formData = await request.formData();
-  const entries = Object.fromEntries(formData);
+  const { mode, ...entries } = Object.fromEntries(formData);
 
   const validationErrors = [];
 
@@ -44,7 +44,7 @@ export async function action({ request }) {
     });
   }
 
-  if (entries.mode === "signup") {
+  if (mode === "signup") {
     if (!isUsernameValid(entries.username)) {
       validationErrors.push({
         message:
@@ -77,7 +77,7 @@ export async function action({ request }) {
 
   let redirectPath;
 
-  if (entries.mode === "signup") {
+  if (mode === "signup") {
     try {
       const response = await fetch("http://localhost:3000/api/signup", {
         method: "POST",
@@ -95,8 +95,8 @@ export async function action({ request }) {
       }
 
       const responseData = await response.json();
-
-      if (!responseData?.data.id) {
+    
+      if (!responseData.id) {
         return json(
           { message: "Invalid email or username or id card number" },
           { status: 409 }
@@ -112,7 +112,7 @@ export async function action({ request }) {
     }
   }
 
-  if (entries.mode === "login") {
+  if (mode === "login") {
     try {
       const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",

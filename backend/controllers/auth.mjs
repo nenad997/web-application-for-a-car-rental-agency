@@ -65,6 +65,7 @@ export const createUser = async (req, res, next) => {
 
     res.status(201).json({
       message: "User created successfully",
+      id: savedUser._id.toString(),
     });
   } catch (err) {
     next(err);
