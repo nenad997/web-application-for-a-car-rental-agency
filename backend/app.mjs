@@ -10,6 +10,7 @@ import feedRoutes from "./routes/feed.mjs";
 ENV.config();
 
 const MONGO_DB_URL = `mongodb+srv://${process.env.name}:${process.env.password}@cluster0.ovwtp0c.mongodb.net/${process.env.data_base}`;
+const PORT = parseInt(process.env.port) || 8000;
 
 const app = express();
 app.use(cors());
@@ -20,8 +21,8 @@ app.use("/api", authRoutes);
 app.use(feedRoutes);
 
 app.use((err, req, res, next) => {
-  const status = err.status || 500;
-  const message = err.message;
+  const status = err?.status || 500;
+  const message = err?.message;
   const data = err?.data;
   const path = err?.path;
 
@@ -30,8 +31,9 @@ app.use((err, req, res, next) => {
 
 connect(MONGO_DB_URL)
   .then((res) => {
-    console.log(`App is running on port ${process.env.port}`);
-    app.listen(3000);
+    app.listen(PORT, () => {
+      console.log(`App is running on port ${PORT}`);
+    });
   })
   .catch((err) => {
     console.log(err);
