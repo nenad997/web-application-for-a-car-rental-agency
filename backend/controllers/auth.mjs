@@ -14,10 +14,10 @@ export const createUser = async (req, res, next) => {
     throw error;
   }
 
-  const body = matchedData(req);
+  const bodyData = matchedData(req);
 
   try {
-    const fetchedUserByEmail = await User.findOne({ email: body.email });
+    const fetchedUserByEmail = await User.findOne({ email: bodyData.email });
 
     if (fetchedUserByEmail) {
       const error = new Error("User with this email address already exists!");
@@ -27,7 +27,7 @@ export const createUser = async (req, res, next) => {
     }
 
     const fetchedUserByCardId = await User.findOne({
-      id_card_number: body.id_card_number,
+      id_card_number: bodyData.id_card_number,
     });
 
     if (fetchedUserByCardId) {
@@ -38,7 +38,7 @@ export const createUser = async (req, res, next) => {
     }
 
     const fetchedUserByUsername = await User.findOne({
-      username: body.username,
+      username: bodyData.username,
     });
 
     if (fetchedUserByUsername) {
@@ -48,10 +48,10 @@ export const createUser = async (req, res, next) => {
       throw error;
     }
 
-    const hashedPassword = await bcrypt.hash(body.password, 12);
+    const hashedPassword = await bcrypt.hash(bodyData.password, 12);
 
     const newUser = new User({
-      ...body,
+      ...bodyData,
       password: hashedPassword,
     });
 
@@ -81,10 +81,10 @@ export const login = async (req, res, next) => {
     throw error;
   }
 
-  const data = matchedData(req);
+  const bodyData = matchedData(req);
 
   try {
-    const fetchedUser = await User.findOne({ email: data.email });
+    const fetchedUser = await User.findOne({ email: bodyData.email });
 
     if (!fetchedUser) {
       const error = new Error(
@@ -95,7 +95,7 @@ export const login = async (req, res, next) => {
     }
 
     const doPasswordsMatch = await bcrypt.compare(
-      data.password,
+      bodyData.password,
       fetchedUser.password
     );
 
@@ -167,7 +167,7 @@ export const editUser = async (req, res, next) => {
     throw error;
   }
 
-  const body = matchedData(req);
+  const bodyData = matchedData(req);
 
   try {
     const fetchedUser = await User.findById(userId);
@@ -178,10 +178,10 @@ export const editUser = async (req, res, next) => {
       throw error;
     }
 
-    const hashedPassword = await bcrypt.hash(body.password, 12);
+    const hashedPassword = await bcrypt.hash(bodyData.password, 12);
 
     fetchedUser.set({
-      ...body,
+      ...bodyData,
       password: hashedPassword,
     });
 

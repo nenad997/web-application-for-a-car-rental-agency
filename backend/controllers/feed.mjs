@@ -40,9 +40,9 @@ export const addNewCar = async (req, res, next) => {
     throw error;
   }
 
-  const body = matchedData(req);
+  const bodyData = matchedData(req);
 
-  const newCar = new Car(body);
+  const newCar = new Car(bodyData);
 
   try {
     const savedCar = await newCar.save();
@@ -98,7 +98,7 @@ export const editCar = async (req, res, next) => {
     throw error;
   }
 
-  const body = matchedData(req);
+  const bodyData = matchedData(req);
 
   try {
     const fetchedCar = await Car.findById(carId);
@@ -110,8 +110,8 @@ export const editCar = async (req, res, next) => {
     }
 
     fetchedCar.set({
-      ...body,
-      initialPrice: body.price,
+      ...bodyData,
+      initialPrice: bodyData.price,
     });
 
     const savedCar = await fetchedCar.save();
@@ -162,7 +162,7 @@ export const deleteCarById = async (req, res, next) => {
 
 export const rentCar = async (req, res, next) => {
   const {
-    body: { shouldRent },
+    body: { cancelRent },
     params: { carId },
   } = req;
 
@@ -176,7 +176,7 @@ export const rentCar = async (req, res, next) => {
       throw error;
     }
 
-    if (shouldRent) {
+    if (cancelRent) {
       fetchedCar.rentedBy = null;
       fetchedCar.rentedAt = null;
       user.rentedCars = user.rentedCars.filter(
@@ -190,7 +190,7 @@ export const rentCar = async (req, res, next) => {
       }
     }
 
-    fetchedCar.available = shouldRent;
+    fetchedCar.available = cancelRent;
 
     const savedCar = await fetchedCar.save();
 

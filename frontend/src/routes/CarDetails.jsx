@@ -32,7 +32,7 @@ export async function action({ params, request }) {
     const token = getAuthToken();
     const { carId } = params;
     const formData = await request.formData();
-    const { shouldRent } = Object.fromEntries(formData);
+    const { cancelRent } = Object.fromEntries(formData);
 
     const response = await fetch(`http://localhost:3000/api/cars/${carId}`, {
       method: "PATCH",
@@ -41,7 +41,7 @@ export async function action({ params, request }) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        shouldRent: shouldRent === "true" ? true : false,
+        cancelRent: cancelRent === "true" ? true : false,
       }),
     });
 

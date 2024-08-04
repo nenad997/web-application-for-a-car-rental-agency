@@ -56,7 +56,7 @@ const CarDetails = () => {
             Edit
           </Link>
           <Form method="POST">
-            <input type="hidden" name="shouldRent" value={!data.available} />
+            <input type="hidden" name="cancelRent" value={!data.available} />
             <button
               className={`${classes.button} ${classes["rent-button"]}`}
               type="submit"
