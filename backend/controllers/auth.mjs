@@ -16,38 +16,52 @@ export const createUser = async (req, res, next) => {
 
   const bodyData = matchedData(req);
 
-  try {
-    const fetchedUserByEmail = await User.findOne({ email: bodyData.email });
+  let fetchedUser;
 
-    if (fetchedUserByEmail) {
+  try {
+    fetchedUser = await User.findOne({ email: bodyData.email });
+
+    if (fetchedUser) {
       const error = new Error("User with this email address already exists!");
       error.status = 409;
       error.path = "email";
       throw error;
     }
+  } catch (err) {
+    return next(err);
+  }
 
-    const fetchedUserByCardId = await User.findOne({
+  try {
+    fetchedUser = await User.findOne({
       id_card_number: bodyData.id_card_number,
     });
 
-    if (fetchedUserByCardId) {
+    if (fetchedUser) {
       const error = new Error("User with this id card number already exists!");
       error.status = 409;
       error.path = "card_id";
       throw error;
     }
+  } catch (err) {
+    return next(err);
+  }
 
-    const fetchedUserByUsername = await User.findOne({
+  try {
+    fetchedUser = await User.findOne({
       username: bodyData.username,
     });
 
-    if (fetchedUserByUsername) {
+    if (fetchedUser) {
       const error = new Error("User with this user name already exists!");
       error.status = 409;
       error.path = "user_name";
       throw error;
     }
+  } catch (err) {
+    return next(err);
+  }
 
+  try {
     const hashedPassword = await bcrypt.hash(bodyData.password, 12);
 
     const newUser = new User({
