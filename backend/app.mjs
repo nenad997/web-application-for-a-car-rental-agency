@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.static(join(process.cwd(), "public")));
 
 app.use("/api", authRoutes);
-app.use(feedRoutes);
+app.use("/api", feedRoutes);
 
 app.use((err, req, res, next) => {
   const status = err?.status || 500;

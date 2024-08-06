@@ -17,18 +17,18 @@ import {
 
 const router = Router();
 
-router.get("/", getAllCars);
+router.get("/cars", getAllCars);
 
-router.post("/api/cars", isAuth, addNewCarValidationChain, addNewCar);
+router.post("/car", isAuth, addNewCarValidationChain, addNewCar);
 
-router.get("/api/cars/:carId", getCarById);
+router.get("/cars/:carId", getCarById);
 
-router.put("/api/cars/:carId", isAuth, addNewCarValidationChain, editCar);
+router.put("/cars/:carId", isAuth, addNewCarValidationChain, editCar);
 
-router.delete("/api/cars/:carId", isAuth, deleteCarById);
+router.delete("/cars/:carId", isAuth, deleteCarById);
 
-router.patch("/api/cars/:carId", isAuth, rentCar);
+router.patch("/cars/:carId", isAuth, rentCar);
 
-router.get("/api/rents", getRentedCarsValidationChain, getRentedCars);
+router.get("/rents", getRentedCarsValidationChain, getRentedCars);
 
 export default router;

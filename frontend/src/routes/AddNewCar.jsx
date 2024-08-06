@@ -84,7 +84,7 @@ export async function action({ request }) {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/api/cars", {
+    const response = await fetch("http://localhost:3000/api/car", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

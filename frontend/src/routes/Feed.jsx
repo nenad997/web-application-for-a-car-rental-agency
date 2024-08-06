@@ -15,7 +15,9 @@ export async function loader({ request }) {
   const limit = Boolean(match) ? match[1] : 2;
 
   try {
-    const response = await fetch(`http://localhost:3000/?limit=${limit}`);
+    const response = await fetch(
+      `http://localhost:3000/api/cars?limit=${limit}`
+    );
 
     if (!response.ok) {
       throw new Error("Could not fetch data");
