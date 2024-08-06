@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-export const signupValidationChain = [
+export const signupOrEditValidationChain = [
   body("email")
     .notEmpty()
     .withMessage("Email field should not be empty")

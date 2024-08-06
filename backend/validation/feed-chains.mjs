@@ -1,6 +1,6 @@
 import { body, query } from "express-validator";
 
-export const addNewCarValidationChain = [
+export const addOrEditNewCarValidationChain = [
   body("vehicleMake")
     .trim()
     .notEmpty()

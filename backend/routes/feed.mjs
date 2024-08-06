@@ -11,7 +11,7 @@ import {
 } from "../controllers/feed.mjs";
 import isAuth from "../middlewares/isAuth.mjs";
 import {
-  addNewCarValidationChain,
+  addOrEditNewCarValidationChain,
   getRentedCarsValidationChain,
 } from "../validation/feed-chains.mjs";
 
@@ -19,11 +19,11 @@ const router = Router();
 
 router.get("/cars", getAllCars);
 
-router.post("/car", isAuth, addNewCarValidationChain, addNewCar);
+router.post("/car", isAuth, addOrEditNewCarValidationChain, addNewCar);
 
 router.get("/cars/:carId", getCarById);
 
-router.put("/cars/:carId", isAuth, addNewCarValidationChain, editCar);
+router.put("/cars/:carId", isAuth, addOrEditNewCarValidationChain, editCar);
 
 router.delete("/cars/:carId", isAuth, deleteCarById);
 
