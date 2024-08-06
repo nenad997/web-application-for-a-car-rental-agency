@@ -1,16 +1,11 @@
-import * as ENV from "dotenv";
 import { join } from "path";
 import express from "express";
 import cors from "cors";
 import { connect } from "mongoose";
 
+import { MONGO_DB_URL, PORT } from "./util/constants.mjs";
 import authRoutes from "./routes/auth.mjs";
 import feedRoutes from "./routes/feed.mjs";
-
-ENV.config();
-
-const MONGO_DB_URL = `mongodb+srv://${process.env.name}:${process.env.password}@cluster0.ovwtp0c.mongodb.net/${process.env.data_base}`;
-const PORT = parseInt(process.env.port) || 8000;
 
 const app = express();
 app.use(cors());
