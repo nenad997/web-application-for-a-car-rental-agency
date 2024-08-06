@@ -6,6 +6,7 @@ import {
   login,
   getUserDataById,
   editUser,
+  deleteUser,
 } from "../controllers/auth.mjs";
 
 const router = Router();
@@ -122,5 +123,7 @@ router.put(
   ],
   editUser
 );
+
+router.delete("/user/:userId", deleteUser);
 
 export default router;

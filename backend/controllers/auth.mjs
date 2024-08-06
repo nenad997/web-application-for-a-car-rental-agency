@@ -215,3 +215,39 @@ export const editUser = async (req, res, next) => {
     next(err);
   }
 };
+
+export const deleteUser = async (req, res, next) => {
+  const {
+    params: { userId },
+  } = req;
+
+  let fetchedUser;
+
+  try {
+    fetchedUser = await User.findById(userId);
+
+    if (!fetchedUser) {
+      const error = new Error("User not found");
+      error.status = 404;
+      throw error;
+    }
+  } catch (err) {
+    return next(err);
+  }
+
+  try {
+    const result = await User.findByIdAndDelete(fetchedUser._id.toString());
+
+    if (!result) {
+      const error = new Error("Failed to delete user");
+      error.status = 204;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "User deleted successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
