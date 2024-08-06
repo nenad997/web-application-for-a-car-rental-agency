@@ -12,6 +12,7 @@ export const getAllCars = async (req, res, next) => {
       .limit(limitValue)
       .skip(skipValue)
       .sort({ createdAt: -1 });
+
     const totalfetchedCars = await Car.find().countDocuments();
 
     if (!fetchedCars || fetchedCars.length === 0) {
@@ -135,16 +136,24 @@ export const deleteCarById = async (req, res, next) => {
     params: { carId },
   } = req;
 
+  let fetchedCar;
+
   try {
-    const fetchedCar = await Car.findById(carId);
+    fetchedCar = await Car.findById(carId);
 
     if (!fetchedCar) {
       const error = new Error("Could not fetch a car");
       error.status = 404;
       throw error;
     }
+  } catch (err) {
+    return next(err);
+  }
 
-    const deletionResult = await Car.findByIdAndDelete(carId);
+  try {
+    const deletionResult = await Car.findByIdAndDelete(
+      fetchedCar._id.toString()
+    );
 
     if (!deletionResult) {
       const error = new Error("Failed to delete the car");
@@ -153,7 +162,7 @@ export const deleteCarById = async (req, res, next) => {
     }
 
     res.status(200).json({
-      message: "Success",
+      message: "Car deleted successfully",
     });
   } catch (err) {
     next(err);
