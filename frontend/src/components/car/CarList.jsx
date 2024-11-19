@@ -48,14 +48,15 @@ const CarList = () => {
     <>
       <ul className={classes.list}>
         {data.map((item) => (
-          <Car
-            key={item._id}
-            id={item._id}
-            title={`${item.vehicleMake} - ${item.vehicleModel}`}
-            imageUrl={item.imageUrl}
-            price={item.price}
-            isAvailable={item.available}
-          />
+          <li key={item._id}>
+            <Car
+              id={item._id}
+              title={`${item.vehicleMake} - ${item.vehicleModel}`}
+              imageUrl={item.imageUrl}
+              price={item.price}
+              isAvailable={item.available}
+            />
+          </li>
         ))}
       </ul>
       <Pagination

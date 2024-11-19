@@ -1,7 +1,7 @@
 import React from "react";
 import { json } from "react-router-dom";
 
-import CarList from "../components/feed/CarList";
+import CarList from "../components/car/CarList";
 
 const Feed = () => {
   return <CarList />;

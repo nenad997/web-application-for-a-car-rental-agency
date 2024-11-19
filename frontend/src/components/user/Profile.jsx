@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 
 import Modal from "../ui/Modal";
-import UserForm from "./UserForm";
+import UserForm from "../forms/UserForm";
 import classes from "./Profile.module.css";
 import { getUserId } from "../../util/authorization";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { json, redirect, useRouteLoaderData } from "react-router-dom";
 
-import AuthForm from "../components/user/AuthForm";
+import AuthForm from "../components/forms/AuthForm";
 import Profile from "../components/user/Profile";
 import {
   isEmailValid,
