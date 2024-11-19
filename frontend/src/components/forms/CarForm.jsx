@@ -6,14 +6,14 @@ import {
   useParams,
 } from "react-router-dom";
 
-import Input from "../ui/Input";
+import Input, { Select } from "../ui/Input";
 import classes from "./CarForm.module.css";
 import { getAuthToken } from "../../util/authorization";
 
 const fuelsString =
   "None, G-Drive Diesel, G-Drive 100, OPTI Diesel, OPTI Benzin 95, OPTI Auto Gas, Euro Diesel, Euro Premium BMB95, Metan CNG, Electrical Charger";
 
-const CarForm = memo(({ method, car = null }) => {
+const CarForm = memo(({ method, car }) => {
   const [error, setError] = useState();
   const actionData = useActionData();
   const navigation = useNavigation();
@@ -159,7 +159,7 @@ const CarForm = memo(({ method, car = null }) => {
         ></textarea>
       </div>
       <div className={classes.control}>
-        <Input
+        <Select
           label="Type of fuel *"
           config={{
             type: "text",
@@ -170,7 +170,6 @@ const CarForm = memo(({ method, car = null }) => {
           options={fuelsString
             .split(",")
             .map((item) => item.trim().toUpperCase())}
-          isSelect={true}
           hasError={actionData?.errors?.find((error) => error.path === "fuel")}
           errorText={
             actionData?.errors?.find((error) => error.path === "fuel")?.message
