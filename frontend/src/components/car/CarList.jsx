@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLoaderData, useSearchParams } from "react-router-dom";
 
-import Car from "./Car";
+import CarArticle from "./CarArticle";
 import Pagination from "./Pagination";
 import classes from "./CarList.module.css";
 
@@ -49,7 +49,7 @@ const CarList = () => {
       <ul className={classes.list}>
         {data.map((item) => (
           <li key={item._id}>
-            <Car
+            <CarArticle
               id={item._id}
               title={`${item.vehicleMake} - ${item.vehicleModel}`}
               imageUrl={item.imageUrl}
