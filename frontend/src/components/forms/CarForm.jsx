@@ -57,7 +57,7 @@ const CarForm = memo(({ method, car }) => {
             id: "make",
             name: "vehicleMake",
             placeholder: "Enter vehicle make (Renault)",
-            defaultValue: car ? car.vehicleMake : null,
+            defaultValue: car?.vehicleMake ?? "",
           }}
           hasError={actionData?.errors?.find((error) => error.path === "make")}
           errorText={
@@ -73,7 +73,7 @@ const CarForm = memo(({ method, car }) => {
             id: "model",
             name: "vehicleModel",
             placeholder: "Enter vehicle model (Clio 1.2)",
-            defaultValue: car ? car.vehicleModel : null,
+            defaultValue: car?.vehicleModel ?? "",
           }}
           hasError={actionData?.errors?.find((error) => error.path === "model")}
           errorText={
@@ -89,7 +89,7 @@ const CarForm = memo(({ method, car }) => {
             id: "image",
             name: "imageUrl",
             placeholder: "http://www.imageUrl.com",
-            defaultValue: car ? car.imageUrl : null,
+            defaultValue: car?.imageUrl ?? "",
           }}
           hasError={actionData?.errors?.find((error) => error.path === "image")}
           errorText={
@@ -105,7 +105,7 @@ const CarForm = memo(({ method, car }) => {
             id: "price",
             name: "price",
             placeholder: "Enter a vehicle price (per day)",
-            defaultValue: car ? car.price : null,
+            defaultValue: car?.price ?? "",
           }}
           hasError={actionData?.errors?.find((error) => error.path === "price")}
           errorText={
@@ -121,7 +121,7 @@ const CarForm = memo(({ method, car }) => {
             id: "registration-number",
             name: "registrationNumber",
             placeholder: "Format (CC - 123 - AA)",
-            defaultValue: car ? car.registrationNumber : null,
+            defaultValue: car?.registrationNumber ?? "",
           }}
           hasError={actionData?.errors?.find(
             (error) => error.path === "reg_number"
@@ -139,7 +139,7 @@ const CarForm = memo(({ method, car }) => {
             type: "date",
             id: "reg-exp",
             name: "regExpiration",
-            defaultValue: car ? car.regExpiration.split("T")[0] : null,
+            defaultValue: car?.regExpiration.split("T")[0] ?? "",
           }}
           hasError={actionData?.errors?.find((error) => error.path === "date")}
           errorText={
@@ -155,7 +155,7 @@ const CarForm = memo(({ method, car }) => {
           name="moreInfo"
           id="more-info"
           placeholder="Enter more information about vehicle"
-          defaultValue={car ? car.moreInfo : null}
+          defaultValue={car?.moreInfo ?? ""}
         ></textarea>
       </div>
       <div className={classes.control}>
@@ -165,7 +165,7 @@ const CarForm = memo(({ method, car }) => {
             type: "text",
             id: "fuel",
             name: "fuel",
-            defaultValue: car ? car.fuel : null,
+            defaultValue: car?.fuel ?? "",
           }}
           options={fuelsString
             .split(",")
