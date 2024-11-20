@@ -94,7 +94,7 @@ const MainNavbar = () => {
         </div>
         <li className={classes.item}>
           <NavLink
-            to="auth?mode=login"
+            to={token ? "profile" : "auth?mode=login"}
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }

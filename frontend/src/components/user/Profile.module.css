@@ -25,6 +25,7 @@
   text-transform: uppercase;
   border-radius: 10px;
   letter-spacing: 1px;
+  text-decoration: none;
 }
 
 .edit-button {

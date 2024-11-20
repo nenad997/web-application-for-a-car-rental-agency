@@ -1,8 +1,7 @@
 import React from "react";
-import { json, redirect, useRouteLoaderData } from "react-router-dom";
+import { json, redirect } from "react-router-dom";
 
 import AuthForm from "../components/forms/AuthForm";
-import Profile from "../components/user/Profile";
 import {
   isEmailValid,
   isUsernameValid,
@@ -10,18 +9,10 @@ import {
 } from "../util/validator";
 import {
   setAuthToken,
-  removeAuthToken,
   setUserId,
-  getUserId,
 } from "../util/authorization";
 
 const Auth = () => {
-  const token = useRouteLoaderData("root");
-
-  if (token) {
-    return <Profile onRemoveAuthToken={removeAuthToken} userId={getUserId()} />;
-  }
-
   return <AuthForm />;
 };
 
@@ -75,8 +66,6 @@ export async function action({ request }) {
     );
   }
 
-  let redirectPath;
-
   if (mode === "signup") {
     try {
       const response = await fetch("http://localhost:3000/api/signup", {
@@ -95,15 +84,15 @@ export async function action({ request }) {
       }
 
       const responseData = await response.json();
-    
+
       if (!responseData.id) {
         return json(
           { message: "Invalid email or username or id card number" },
           { status: 409 }
         );
       }
-      alert("Registration successful");
-      redirectPath = "/auth?mode=login";
+
+      return redirect("/auth?mode=login");
     } catch (err) {
       return json(
         { message: err.message, field: err.path },
@@ -141,11 +130,11 @@ export async function action({ request }) {
       setAuthToken(token);
       setUserId(userId);
 
-      redirectPath = "/";
+      return redirect("/");
     } catch (err) {
       return json({ message: err.message }, { status: err.status });
     }
   }
 
-  return redirect(redirectPath);
+  return null;
 }

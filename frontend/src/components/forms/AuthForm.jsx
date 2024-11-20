@@ -8,16 +8,63 @@ import {
 } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
+import { getUserId } from "../../util/authorization";
 import Input from "../ui/Input";
 
-const AuthForm = () => {
+const AuthForm = ({ user }) => {
   const [error, setError] = useState();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const actionData = useActionData();
 
+  const isUserLoggedIn = Boolean(getUserId());
+
   const mode = searchParams.get("mode") || "signup";
   const submitButtonText = mode === "login" ? "Sign in" : "Signup";
+
+  let actions = (
+    <>
+      <input type="hidden" name="mode" value={mode} />
+      <div className={classes.control}>
+        <button
+          className={`${classes.button} ${classes["auth-button"]}`}
+          title={submitButtonText}
+          type="submit"
+        >
+          {submitButtonText}
+        </button>
+        <Link
+          className={`${classes.button} ${classes["switch-mode"]}`}
+          to={`?mode=${mode === "login" ? "signup" : "login"}`}
+        >
+          {mode === "login" ? "Register" : "Log in"}
+        </Link>
+      </div>
+    </>
+  );
+
+  if (isUserLoggedIn) {
+    actions = (
+      <>
+        <input type="hidden" name="uId" value={user?._id.toString() ?? ""} />
+        <div className={classes.control}>
+          <button
+            className={`${classes.button} ${classes["auth-button"]}`}
+            title="Edit"
+            type="submit"
+          >
+            Edit
+          </button>
+          <Link
+            className={`${classes.button} ${classes["cancel-button"]}`}
+            to="/profile"
+          >
+            Cancel
+          </Link>
+        </div>
+      </>
+    );
+  }
 
   const closeErrorTextHandler = () => {
     setError(null);
@@ -48,6 +95,7 @@ const AuthForm = () => {
             id: "email",
             name: "email",
             placeholder: "Enter your email address",
+            defaultValue: user?.email ?? "",
           }}
           hasError={actionData?.errors?.find((error) => error.path === "email")}
           errorText={
@@ -65,6 +113,7 @@ const AuthForm = () => {
                 id: "user_name",
                 name: "username",
                 placeholder: "Enter user name",
+                defaultValue: user?.username ?? "",
               }}
               hasError={actionData?.errors?.find(
                 (error) => error.path === "user_name"
@@ -83,6 +132,7 @@ const AuthForm = () => {
                 id: "id_card_number",
                 name: "id_card_number",
                 placeholder: "Enter your ID card number",
+                defaultValue: user?.id_card_number ?? "",
               }}
               hasError={actionData?.errors?.find(
                 (error) => error.path === "id_card_number"
@@ -134,22 +184,7 @@ const AuthForm = () => {
           />
         </div>
       )}
-      <input type="hidden" name="mode" value={mode} />
-      <div className={classes.control}>
-        <button
-          className={`${classes.button} ${classes["auth-button"]}`}
-          title={submitButtonText}
-          type="submit"
-        >
-          {submitButtonText}
-        </button>
-        <Link
-          className={`${classes.button} ${classes["switch-mode"]}`}
-          to={`?mode=${mode === "login" ? "signup" : "login"}`}
-        >
-          {mode === "login" ? "Register" : "Log in"}
-        </Link>
-      </div>
+      {actions}
     </Form>
   );
 };

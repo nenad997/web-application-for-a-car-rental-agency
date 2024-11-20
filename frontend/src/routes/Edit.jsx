@@ -11,10 +11,9 @@ import { getAuthToken } from "../util/authorization";
 
 const Edit = () => {
   const loadedData = useLoaderData();
+  const car = loadedData?.data ?? null;
 
-  return (
-    <CarForm method="PATCH" car={loadedData?.data ? loadedData.data : null} />
-  );
+  return <CarForm method="PATCH" car={car} />;
 };
 
 export default Edit;

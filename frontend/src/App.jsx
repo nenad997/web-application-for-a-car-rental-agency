@@ -27,6 +27,10 @@ import Edit, {
 } from "./routes/Edit";
 import Auth, { action as authAction } from "./routes/Auth";
 import { getAuthToken } from "./util/authorization";
+import LoggedInUser, {
+  action as editUserAction,
+} from "./components/user/LoggedInUser";
+import ProfilePage, { loader as userLoader } from "./routes/Profile";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +85,19 @@ const router = createBrowserRouter([
         path: "auth",
         element: <Auth />,
         action: authAction,
+      },
+      {
+        path: "profile",
+        element: <ProfilePage />,
+        loader: userLoader,
+        id: "profile-root",
+        children: [
+          {
+            path: "user",
+            element: <LoggedInUser />,
+            action: editUserAction,
+          },
+        ],
       },
     ],
   },
