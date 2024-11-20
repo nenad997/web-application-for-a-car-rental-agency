@@ -31,11 +31,13 @@ import LoggedInUser, {
   action as editUserAction,
 } from "./components/user/LoggedInUser";
 import ProfilePage, { loader as userLoader } from "./routes/Profile";
+import ErrorPage from "./components/ui/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     loader: rootLoader,
     id: "root",
     children: [
