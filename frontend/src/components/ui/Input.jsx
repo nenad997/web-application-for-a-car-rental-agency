@@ -57,7 +57,7 @@ export const ImagePickerInput = ({ car }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
-    if (!file) {
+    if (!file || file.size === 0) {
       setImagePreview(null);
       return;
     }
@@ -77,11 +77,14 @@ export const ImagePickerInput = ({ car }) => {
   return (
     <>
       {imagePreview && !isNewImagePicked && (
-        <img
-          src={`http://localhost:3000${imagePreview}`}
-          alt="Car Preview"
-          width="200"
-        />
+        <>
+          <input type="hidden" name="previewImage" value={imagePreview} />
+          <img
+            src={`http://localhost:3000${imagePreview}`}
+            alt="Car Preview"
+            width="200"
+          />
+        </>
       )}
       <label className={classes.label} htmlFor="image">
         Pick Image

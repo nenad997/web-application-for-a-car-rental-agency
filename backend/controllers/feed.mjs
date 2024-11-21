@@ -108,6 +108,7 @@ export const editCar = async (req, res, next) => {
   const {
     params: { carId },
   } = req;
+  const currentImage = req.body?.previewImage;
 
   const errors = validationResult(req);
 
@@ -118,7 +119,21 @@ export const editCar = async (req, res, next) => {
     throw error;
   }
 
+  let imagePath;
+
+  if (!req.file && !currentImage) {
+    return res.status(400).json({ message: "Image is required" });
+  }
+
   const bodyData = matchedData(req);
+
+  if (req.file) {
+    imagePath = `/uploads/${req.file.filename}`;
+  }
+
+  if (currentImage) {
+    imagePath = currentImage;
+  }
 
   try {
     const fetchedCar = await Car.findById(carId);
@@ -132,6 +147,7 @@ export const editCar = async (req, res, next) => {
     fetchedCar.set({
       ...bodyData,
       initialPrice: bodyData.price,
+      image: imagePath,
     });
 
     const savedCar = await fetchedCar.save();

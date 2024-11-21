@@ -30,7 +30,13 @@ router.post(
 
 router.get("/cars/:carId", getCarById);
 
-router.put("/cars/:carId", isAuth, addOrEditNewCarValidationChain, editCar);
+router.put(
+  "/cars/:carId",
+  isAuth,
+  upload.single("image"),
+  addOrEditNewCarValidationChain,
+  editCar
+);
 
 router.delete("/cars/:carId", isAuth, deleteCarById);
 
