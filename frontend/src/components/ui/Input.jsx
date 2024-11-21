@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import classes from "./Input.module.css";
 
@@ -20,7 +20,7 @@ const Input = ({ config, label, errorText, hasError }) => {
 
 export default Input;
 
-export const Select = ({
+export const SelectInput = ({
   label,
   config,
   hasError,
@@ -49,9 +49,40 @@ export const Select = ({
   );
 };
 
-export const ImagePickerInput = () => {
+export const ImagePickerInput = ({ car }) => {
+  const [imagePreview, setImagePreview] = useState(car?.image ?? null);
+
+  const isNewImagePicked = imagePreview !== car?.image;
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    if (!file) {
+      setImagePreview(null);
+      return;
+    }
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif"];
+
+    if (!allowedTypes.includes(file.type)) {
+      alert("Please pick a valid picture format (JPEG, PNG, JPG, GIF).");
+      event.target.value = "";
+      setImagePreview(null);
+      return;
+    }
+
+    setImagePreview(file);
+  };
+
   return (
     <>
+      {imagePreview && !isNewImagePicked && (
+        <img
+          src={`http://localhost:3000${imagePreview}`}
+          alt="Car Preview"
+          width="200"
+        />
+      )}
       <label className={classes.label} htmlFor="image">
         Pick Image
       </label>
@@ -60,6 +91,7 @@ export const ImagePickerInput = () => {
         id="image"
         name="image"
         accept="image/*"
+        onChange={handleFileChange}
       />
     </>
   );

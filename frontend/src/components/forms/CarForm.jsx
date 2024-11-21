@@ -6,7 +6,7 @@ import {
   useParams,
 } from "react-router-dom";
 
-import Input, { Select, ImagePickerInput } from "../ui/Input";
+import Input, { ImagePickerInput, SelectInput } from "../ui/Input";
 import classes from "./CarForm.module.css";
 import { getAuthToken } from "../../util/authorization";
 
@@ -86,7 +86,7 @@ const CarForm = memo(({ method, car }) => {
         />
       </div>
       <div className={classes.control}>
-        <ImagePickerInput />
+        <ImagePickerInput car={car} />
       </div>
       <div className={classes.control}>
         <Input
@@ -150,7 +150,7 @@ const CarForm = memo(({ method, car }) => {
         ></textarea>
       </div>
       <div className={classes.control}>
-        <Select
+        <SelectInput
           label="Type of fuel *"
           config={{
             type: "text",

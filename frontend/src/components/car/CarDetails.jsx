@@ -35,7 +35,7 @@ const CarDetails = () => {
       <figure className={classes.figure}>
         <img
           className={classes.image}
-          src={data.imageUrl}
+          src={`http://localhost:3000${data.image}`}
           alt={data.vehicleMake}
         />
       </figure>

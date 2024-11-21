@@ -10,7 +10,7 @@ const CarList = () => {
   const [limitValue, setLimitValue] = useState(2);
   const [_, setSearchParams] = useSearchParams();
 
-  const data = loaderData?.data ? loaderData.data : [];
+  const data = loaderData?.data ?? [];
   const buttonBehaviour = limitValue < loaderData?.total;
 
   const loadMoreDataHandler = () => {
@@ -52,7 +52,7 @@ const CarList = () => {
             <CarArticle
               id={item._id}
               title={`${item.vehicleMake} - ${item.vehicleModel}`}
-              imageUrl={item.imageUrl}
+              imageUrl={`http://localhost:3000${item.image}`}
               price={item.price}
               isAvailable={item.available}
             />
