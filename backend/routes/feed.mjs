@@ -14,12 +14,19 @@ import {
   addOrEditNewCarValidationChain,
   getRentedCarsValidationChain,
 } from "../validation/feed-chains.mjs";
+import upload from "../middlewares/image-upload.mjs";
 
 const router = Router();
 
 router.get("/cars", getAllCars);
 
-router.post("/car", isAuth, addOrEditNewCarValidationChain, addNewCar);
+router.post(
+  "/car",
+  isAuth,
+  upload.single("image"),
+  addOrEditNewCarValidationChain,
+  addNewCar
+);
 
 router.get("/cars/:carId", getCarById);
 

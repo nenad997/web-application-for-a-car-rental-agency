@@ -6,7 +6,7 @@ import {
   useParams,
 } from "react-router-dom";
 
-import Input, { Select } from "../ui/Input";
+import Input, { Select, ImagePickerInput } from "../ui/Input";
 import classes from "./CarForm.module.css";
 import { getAuthToken } from "../../util/authorization";
 
@@ -47,7 +47,11 @@ const CarForm = memo(({ method, car }) => {
   };
 
   return (
-    <Form className={classes.form} method={method}>
+    <Form
+      className={classes.form}
+      method={method}
+      encType="multipart/form-data"
+    >
       {error && <p className={classes.error}>{error}</p>}
       <div className={classes.control}>
         <Input
@@ -82,20 +86,7 @@ const CarForm = memo(({ method, car }) => {
         />
       </div>
       <div className={classes.control}>
-        <Input
-          label="Image URL *"
-          config={{
-            type: "url",
-            id: "image",
-            name: "imageUrl",
-            placeholder: "http://www.imageUrl.com",
-            defaultValue: car?.imageUrl ?? "",
-          }}
-          hasError={actionData?.errors?.find((error) => error.path === "image")}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "image")?.message
-          }
-        />
+        <ImagePickerInput />
       </div>
       <div className={classes.control}>
         <Input

@@ -20,11 +20,6 @@ export const addOrEditNewCarValidationChain = [
     }
     return true;
   }),
-  body("imageUrl")
-    .notEmpty()
-    .withMessage("This field should not be empty")
-    .isURL()
-    .withMessage("This field must be a valid URL"),
   body("fuel")
     .notEmpty()
     .withMessage("This field should not be empty")

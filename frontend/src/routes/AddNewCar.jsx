@@ -2,11 +2,7 @@ import React from "react";
 import { redirect, json } from "react-router-dom";
 
 import CarForm from "../components/forms/CarForm";
-import {
-  isDateValid,
-  isRegistrationNumberValid,
-  isValidURL,
-} from "../util/validator";
+import { isDateValid, isRegistrationNumberValid } from "../util/validator";
 import { getAuthToken } from "../util/authorization";
 
 const AddNewCar = () => {
@@ -25,6 +21,8 @@ export async function action({ request }) {
   const formData = await request.formData();
   const entries = Object.fromEntries(formData);
 
+  const pickedImage = formData.get("image");
+
   const validationErrors = [];
 
   if (!entries.vehicleMake) {
@@ -41,9 +39,9 @@ export async function action({ request }) {
     });
   }
 
-  if (!isValidURL(entries.imageUrl)) {
+  if (!pickedImage || pickedImage.size === 0) {
     validationErrors.push({
-      message: "The value you provided is not a valid URL",
+      message: "Please select an image",
       path: "image",
     });
   }
@@ -87,15 +85,9 @@ export async function action({ request }) {
     const response = await fetch("http://localhost:3000/api/car", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        ...entries,
-        vehicleMake: entries.vehicleMake.toUpperCase(),
-        vehicleModel: entries.vehicleModel.toUpperCase(),
-        registrationNumber: entries.registrationNumber.toUpperCase(),
-      }),
+      body: formData,
     });
 
     if (!response.ok) {

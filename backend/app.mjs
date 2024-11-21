@@ -1,7 +1,7 @@
-import { join } from "path";
 import express from "express";
 import cors from "cors";
 import { connect } from "mongoose";
+import multer from "multer";
 
 import { MONGO_DB_URL, PORT } from "./util/constants.mjs";
 import authRoutes from "./routes/auth.mjs";
@@ -10,7 +10,8 @@ import feedRoutes from "./routes/feed.mjs";
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(join(process.cwd(), "public")));
+
+app.use("/uploads", express.static("./uploads"));
 
 app.use("/api", authRoutes);
 app.use("/api", feedRoutes);

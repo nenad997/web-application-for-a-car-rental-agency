@@ -41,9 +41,28 @@ export const addNewCar = async (req, res, next) => {
     throw error;
   }
 
-  const bodyData = matchedData(req);
+  const {
+    vehicleMake,
+    vehicleModel,
+    registrationNumber,
+    fuel,
+    price,
+    regExpiration,
+  } = matchedData(req);
 
-  const newCar = new Car(bodyData);
+  if (!req.file) {
+    return res.status(400).json({ message: "Image is required" });
+  }
+
+  const newCar = new Car({
+    vehicleMake,
+    vehicleModel,
+    registrationNumber,
+    fuel,
+    price,
+    regExpiration,
+    image: `/uploads/${req.file.filename}`,
+  });
 
   try {
     const savedCar = await newCar.save();
