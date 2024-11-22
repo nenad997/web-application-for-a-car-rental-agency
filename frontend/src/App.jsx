@@ -32,7 +32,7 @@ import LoggedInUser, {
 } from "./components/user/LoggedInUser";
 import ProfilePage, { loader as userLoader } from "./routes/Profile";
 import ErrorPage from "./components/ui/Error";
-import { logout } from "../actions";
+import { logout } from "./actions";
 
 const router = createBrowserRouter([
   {
