@@ -52,14 +52,13 @@ export function getAuthToken() {
   return value;
 }
 
-export function removeAuthToken() {
+export function removeAuthToken(callback) {
   const tokenData = localStorage.getItem("token");
   if (!tokenData) {
-    return false;
+    throw new Error("Not Authorized!");
   }
 
   localStorage.removeItem("token");
   removeUserId();
-  location.href = "/auth?mode=login";
-  return true;
+  callback();
 }

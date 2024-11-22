@@ -1,8 +1,7 @@
 import React from "react";
-import { useRouteLoaderData, Link } from "react-router-dom";
+import { useRouteLoaderData, Link, Form } from "react-router-dom";
 
 import classes from "./Profile.module.css";
-import { removeAuthToken } from "../../util/authorization";
 
 const Profile = () => {
   const user = useRouteLoaderData("profile-root");
@@ -19,12 +18,14 @@ const Profile = () => {
         >
           Edit Profile
         </Link>
-        <button
-          className={`${classes.button} ${classes["logout-button"]}`}
-          onClick={removeAuthToken}
-        >
-          Logout
-        </button>
+        <Form method="POST" action="/logout">
+          <button
+            type="submit"
+            className={`${classes.button} ${classes["logout-button"]}`}
+          >
+            Logout
+          </button>
+        </Form>
       </div>
     </>
   );
