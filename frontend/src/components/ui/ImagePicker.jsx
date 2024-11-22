@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import classes from "./Input.module.css";
 
 const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
   const [imagePreview, setImagePreview] = useState(currentImage);
+  const [newImagePreview, setNewImagePreview] = useState();
+  const fileInputRef = useRef();
 
   const isNewImagePicked = imagePreview !== currentImage;
+
+  const openFileInputHandler = () => {
+    if (fileInputRef?.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
     if (!file || file.size === 0) {
       setImagePreview(null);
+      setNewImagePreview(null);
       return;
     }
 
@@ -21,34 +30,56 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
       alert("Please pick a valid picture format (JPEG, PNG, JPG, GIF).");
       event.target.value = "";
       setImagePreview(null);
+      setNewImagePreview(null);
       return;
     }
 
     setImagePreview(file);
+
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = (event) => {
+      setNewImagePreview(event.target.result);
+    };
   };
+
+  let imagePreviewContent;
+
+  if (imagePreview && !isNewImagePicked) {
+    imagePreviewContent = (
+      <>
+        <input type="hidden" name="imagePreview" value={imagePreview} />
+        <img
+          src={`http://localhost:3000${imagePreview}`}
+          alt="Car Preview"
+          width="200"
+        />
+      </>
+    );
+  }
+
+  if (newImagePreview && isNewImagePicked) {
+    imagePreviewContent = (
+      <img src={newImagePreview} alt="Car Preview" width="200" />
+    );
+  }
 
   return (
     <>
-      {imagePreview && !isNewImagePicked && (
-        <>
-          <input type="hidden" name="imagePreview" value={imagePreview} />
-          <img
-            src={`http://localhost:3000${imagePreview}`}
-            alt="Car Preview"
-            width="200"
-          />
-        </>
-      )}
-      <label className={classes.label} htmlFor="image">
-        Pick Image
-      </label>
-      <input
-        type="file"
-        id="image"
-        name="image"
-        accept="image/*"
-        onChange={handleFileChange}
-      />
+      {imagePreviewContent}
+      <div className={classes.actions}>
+        <button type="button" onClick={openFileInputHandler}>
+          Upload Image
+        </button>
+        <input
+          type="file"
+          id="image"
+          name="image"
+          accept="image/*"
+          onChange={handleFileChange}
+          ref={fileInputRef}
+        />
+      </div>
       {hasError && <p className={classes.error}>{errorText}</p>}
     </>
   );
