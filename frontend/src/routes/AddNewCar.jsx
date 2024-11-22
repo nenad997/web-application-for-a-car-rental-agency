@@ -67,9 +67,9 @@ export async function action({ request }) {
     });
   }
 
-  if (fuel.toString() === "NONE") {
+  if (entries.fuel.toString() === "NONE") {
     validationErrors.push({
-      message: "Fuel property must be set",
+      message: "Fuel property should not be NONE",
       path: "fuel",
     });
   }

@@ -49,6 +49,16 @@ const CarForm = memo(({ method, car }) => {
       });
   };
 
+  const errors = {
+    makeErr: filterError(actionData?.errors, "make"),
+    modelErr: filterError(actionData?.errors, "model"),
+    imageErr: filterError(actionData?.errors, "image"),
+    priceErr: filterError(actionData?.errors, "price"),
+    regErr: filterError(actionData?.errors, "reg_number"),
+    dateErr: filterError(actionData?.errors, "date"),
+    fuelErr: filterError(actionData?.errors, "fuel"),
+  };
+
   return (
     <Form
       className={classes.form}
@@ -66,8 +76,8 @@ const CarForm = memo(({ method, car }) => {
             placeholder: "Enter vehicle make (Renault)",
             defaultValue: car?.vehicleMake ?? "",
           }}
-          hasError={filterError(actionData?.errors, "make")}
-          errorText={filterError(actionData?.errors, "make")?.message}
+          hasError={errors.makeErr}
+          errorText={errors.makeErr?.message}
         />
       </div>
       <div className={classes.control}>
@@ -80,15 +90,15 @@ const CarForm = memo(({ method, car }) => {
             placeholder: "Enter vehicle model (Clio 1.2)",
             defaultValue: car?.vehicleModel ?? "",
           }}
-          hasError={filterError(actionData?.errors, "model")}
-          errorText={filterError(actionData?.errors, "model")?.message}
+          hasError={errors.modelErr}
+          errorText={errors.modelErr?.message}
         />
       </div>
       <div className={classes.control}>
         <ImagePickerInput
           currentImage={car?.image ?? null}
-          hasError={filterError(actionData?.errors, "image")}
-          errorText={filterError(actionData?.errors, "image")?.message}
+          hasError={errors.imageErr}
+          errorText={errors.imageErr?.message}
         />
       </div>
       <div className={classes.control}>
@@ -101,8 +111,8 @@ const CarForm = memo(({ method, car }) => {
             placeholder: "Enter a vehicle price (per day)",
             defaultValue: car?.price ?? "",
           }}
-          hasError={filterError(actionData?.errors, "price")}
-          errorText={filterError(actionData?.errors, "price")?.message}
+          hasError={errors.priceErr}
+          errorText={errors.priceErr?.message}
         />
       </div>
       <div className={classes.control}>
@@ -115,8 +125,8 @@ const CarForm = memo(({ method, car }) => {
             placeholder: "Format (CC - 123 - AA)",
             defaultValue: car?.registrationNumber ?? "",
           }}
-          hasError={filterError(actionData?.errors, "reg_number")}
-          errorText={filterError(actionData?.errors, "reg_number")?.message}
+          hasError={errors.regErr}
+          errorText={errors.regErr?.message}
         />
       </div>
       <div className={classes.control}>
@@ -128,8 +138,8 @@ const CarForm = memo(({ method, car }) => {
             name: "regExpiration",
             defaultValue: car?.regExpiration.split("T")[0] ?? "",
           }}
-          hasError={filterError(actionData?.errors, "date")}
-          errorText={filterError(actionData?.errors, "date")?.message}
+          hasError={errors.dateErr}
+          errorText={errors.dateErr?.message}
         />
       </div>
       <div className={classes.control}>
@@ -141,7 +151,7 @@ const CarForm = memo(({ method, car }) => {
           id="more-info"
           placeholder="Enter more information about vehicle"
           defaultValue={car?.moreInfo ?? ""}
-        ></textarea>
+        />
       </div>
       <div className={classes.control}>
         <SelectInput
@@ -155,8 +165,8 @@ const CarForm = memo(({ method, car }) => {
           options={fuelsString
             .split(",")
             .map((item) => item.trim().toUpperCase())}
-          hasError={filterError(actionData?.errors, "fuel")}
-          errorText={filterError(actionData?.errors, "fuel")?.message}
+          hasError={errors.fuelErr}
+          errorText={errors.fuelErr?.message}
         />
       </div>
       <div className={classes.control}>

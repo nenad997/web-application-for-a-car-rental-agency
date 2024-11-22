@@ -9,7 +9,7 @@ const Edit = () => {
   const loadedData = useLoaderData();
   const car = loadedData?.data ?? null;
 
-  return <CarForm method="PATCH" car={car} />;
+  return <CarForm method="PUT" car={car} />;
 };
 
 export default Edit;
@@ -96,9 +96,9 @@ export async function action({ params, request }) {
     });
   }
 
-  if (fuel.toString() === "NONE") {
+  if (entries.fuel.toString() === "NONE") {
     validationErrors.push({
-      message: "Fuel property must be set",
+      message: "Fuel property should not be NONE",
       path: "fuel",
     });
   }
