@@ -88,7 +88,13 @@ const CarForm = memo(({ method, car }) => {
         />
       </div>
       <div className={classes.control}>
-        <ImagePickerInput currentImage={car?.image ?? null} />
+        <ImagePickerInput
+          currentImage={car?.image ?? null}
+          hasError={actionData?.errors?.find((error) => error.path === "image")}
+          errorText={
+            actionData?.errors?.find((error) => error.path === "image")?.message
+          }
+        />
       </div>
       <div className={classes.control}>
         <Input

@@ -104,8 +104,6 @@ export async function action({ params, request }) {
   }
 
   if (validationErrors.length > 0) {
-    console.log(validationErrors);
-    console.log(entries);
     return json(
       { message: "Validation failed!", errors: validationErrors },
       { status: 403 }

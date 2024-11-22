@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import classes from "./Input.module.css";
 
-const ImagePickerInput = ({ currentImage }) => {
+const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
   const [imagePreview, setImagePreview] = useState(currentImage);
 
   const isNewImagePicked = imagePreview !== currentImage;
@@ -49,6 +49,7 @@ const ImagePickerInput = ({ currentImage }) => {
         accept="image/*"
         onChange={handleFileChange}
       />
+      {hasError && <p className={classes.error}>{errorText}</p>}
     </>
   );
 };
