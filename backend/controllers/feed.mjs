@@ -61,7 +61,7 @@ export const addNewCar = async (req, res, next) => {
     fuel,
     price,
     regExpiration,
-    image: `/uploads/${req.file.filename}`,
+    image: `/uploads/images/${req.file.filename}`,
   });
 
   try {
@@ -128,7 +128,7 @@ export const editCar = async (req, res, next) => {
   const bodyData = matchedData(req);
 
   if (req.file) {
-    imagePath = `/uploads/${req.file.filename}`;
+    imagePath = `/uploads/images/${req.file.filename}`;
   }
 
   if (currentImage) {
