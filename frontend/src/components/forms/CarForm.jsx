@@ -11,6 +11,7 @@ import classes from "./CarForm.module.css";
 import Input, { SelectInput } from "../ui/Input";
 import ImagePickerInput from "../ui/ImagePicker";
 import { getAuthToken } from "../../util/authorization";
+import { filterError } from "../../util/error-filter";
 
 const fuelsString =
   "None, G-Drive Diesel, G-Drive 100, OPTI Diesel, OPTI Benzin 95, OPTI Auto Gas, Euro Diesel, Euro Premium BMB95, Metan CNG, Electrical Charger";
@@ -65,10 +66,8 @@ const CarForm = memo(({ method, car }) => {
             placeholder: "Enter vehicle make (Renault)",
             defaultValue: car?.vehicleMake ?? "",
           }}
-          hasError={actionData?.errors?.find((error) => error.path === "make")}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "make")?.message
-          }
+          hasError={filterError(actionData?.errors, "make")}
+          errorText={filterError(actionData?.errors, "make")?.message}
         />
       </div>
       <div className={classes.control}>
@@ -81,19 +80,15 @@ const CarForm = memo(({ method, car }) => {
             placeholder: "Enter vehicle model (Clio 1.2)",
             defaultValue: car?.vehicleModel ?? "",
           }}
-          hasError={actionData?.errors?.find((error) => error.path === "model")}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "model")?.message
-          }
+          hasError={filterError(actionData?.errors, "model")}
+          errorText={filterError(actionData?.errors, "model")?.message}
         />
       </div>
       <div className={classes.control}>
         <ImagePickerInput
           currentImage={car?.image ?? null}
-          hasError={actionData?.errors?.find((error) => error.path === "image")}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "image")?.message
-          }
+          hasError={filterError(actionData?.errors, "image")}
+          errorText={filterError(actionData?.errors, "image")?.message}
         />
       </div>
       <div className={classes.control}>
@@ -106,10 +101,8 @@ const CarForm = memo(({ method, car }) => {
             placeholder: "Enter a vehicle price (per day)",
             defaultValue: car?.price ?? "",
           }}
-          hasError={actionData?.errors?.find((error) => error.path === "price")}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "price")?.message
-          }
+          hasError={filterError(actionData?.errors, "price")}
+          errorText={filterError(actionData?.errors, "price")?.message}
         />
       </div>
       <div className={classes.control}>
@@ -122,13 +115,8 @@ const CarForm = memo(({ method, car }) => {
             placeholder: "Format (CC - 123 - AA)",
             defaultValue: car?.registrationNumber ?? "",
           }}
-          hasError={actionData?.errors?.find(
-            (error) => error.path === "reg_number"
-          )}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "reg_number")
-              ?.message
-          }
+          hasError={filterError(actionData?.errors, "reg_number")}
+          errorText={filterError(actionData?.errors, "reg_number")?.message}
         />
       </div>
       <div className={classes.control}>
@@ -140,10 +128,8 @@ const CarForm = memo(({ method, car }) => {
             name: "regExpiration",
             defaultValue: car?.regExpiration.split("T")[0] ?? "",
           }}
-          hasError={actionData?.errors?.find((error) => error.path === "date")}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "date")?.message
-          }
+          hasError={filterError(actionData?.errors, "date")}
+          errorText={filterError(actionData?.errors, "date")?.message}
         />
       </div>
       <div className={classes.control}>
@@ -169,10 +155,8 @@ const CarForm = memo(({ method, car }) => {
           options={fuelsString
             .split(",")
             .map((item) => item.trim().toUpperCase())}
-          hasError={actionData?.errors?.find((error) => error.path === "fuel")}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "fuel")?.message
-          }
+          hasError={filterError(actionData?.errors, "fuel")}
+          errorText={filterError(actionData?.errors, "fuel")?.message}
         />
       </div>
       <div className={classes.control}>
