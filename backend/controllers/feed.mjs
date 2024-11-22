@@ -108,7 +108,7 @@ export const editCar = async (req, res, next) => {
   const {
     params: { carId },
   } = req;
-  const currentImage = req.body?.previewImage;
+  const currentImage = req.body?.imagePreview;
 
   const errors = validationResult(req);
 

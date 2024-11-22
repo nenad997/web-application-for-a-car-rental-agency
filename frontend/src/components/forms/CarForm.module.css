@@ -25,6 +25,12 @@
   background-color: #8eee07;
 }
 
+.cancel-button {
+  background-color: burlywood;
+  text-decoration: none;
+  font-size: 1.3rem;
+}
+
 .delete-button {
   background-color: red;
 }

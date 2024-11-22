@@ -50,7 +50,7 @@ export async function action({ params, request }) {
   const entries = Object.fromEntries(formData);
 
   const pickedImage = formData.get("image");
-  const currentImage = formData.get("previewImage");
+  const currentImage = formData.get("imagePreview");
 
   const validationErrors = [];
 

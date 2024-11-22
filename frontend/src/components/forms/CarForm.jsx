@@ -4,10 +4,12 @@ import {
   useActionData,
   useNavigation,
   useParams,
+  Link,
 } from "react-router-dom";
 
-import Input, { ImagePickerInput, SelectInput } from "../ui/Input";
 import classes from "./CarForm.module.css";
+import Input, { SelectInput } from "../ui/Input";
+import ImagePickerInput from "../ui/ImagePicker";
 import { getAuthToken } from "../../util/authorization";
 
 const fuelsString =
@@ -86,7 +88,7 @@ const CarForm = memo(({ method, car }) => {
         />
       </div>
       <div className={classes.control}>
-        <ImagePickerInput car={car} />
+        <ImagePickerInput currentImage={car?.image ?? null} />
       </div>
       <div className={classes.control}>
         <Input
@@ -175,11 +177,18 @@ const CarForm = memo(({ method, car }) => {
         >
           {isSubmitting ? "Submitting" : !car ? "Add" : "Edit"}
         </button>
+        <Link
+          to=".."
+          className={`${classes.button} ${classes["cancel-button"]}`}
+          title="Cancel"
+        >
+          Cancel
+        </Link>
         {car && (
           <button
             className={`${classes.button} ${classes["delete-button"]}`}
             type="button"
-            title="Confirm"
+            title="Delete"
             onClick={deleteCarHandler}
           >
             Delete
