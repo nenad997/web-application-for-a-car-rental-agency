@@ -1,39 +1,56 @@
 import React, { useEffect, useState } from "react";
 import { json, useSearchParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import CarList from "../components/car/CarList";
+import { generateToast } from "../util/toastify";
+import { adjustSearchParams } from "../util/helper";
 
 const Feed = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isNotified, setIsNotified] = useState(false);
 
-  const isLoggedout =
+  const isLoggedOut =
     searchParams.get("logout") && searchParams.get("logout") === "success";
+  const isLoggedIn =
+    searchParams.get("login") && searchParams.get("login") === "success";
 
   useEffect(() => {
-    if (isLoggedout && !isNotified) {
-      toast("Logout successful", {
-        style: {
-          backgroundColor: "lightgreen",
-          color: "black",
-          fontSize: "15px",
-        },
-      });
+    if (isLoggedOut && !isNotified) {
+      generateToast("Logout successful");
       setIsNotified(true);
     }
 
     const timer = setTimeout(() => {
-      if (isLoggedout) {
-        const updatedParams = new URLSearchParams(searchParams);
-        updatedParams.delete("logout");
-        setSearchParams(updatedParams);
+      if (isLoggedOut) {
+        adjustSearchParams(searchParams, (updatedParams) => {
+          updatedParams.delete("logout");
+          setSearchParams(updatedParams);
+        });
       }
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [isLoggedout, isNotified, searchParams, setSearchParams]);
+  }, [isLoggedOut, isNotified, searchParams]);
+
+  useEffect(() => {
+    if (isLoggedIn && !isNotified) {
+      generateToast("Login successful 🏆");
+      setIsNotified(true);
+    }
+
+    const timer = setTimeout(() => {
+      if (isLoggedIn) {
+        adjustSearchParams(searchParams, (updatedParams) => {
+          updatedParams.delete("login");
+          setSearchParams(updatedParams);
+        });
+      }
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [isLoggedIn, isNotified, searchParams]);
 
   return (
     <>

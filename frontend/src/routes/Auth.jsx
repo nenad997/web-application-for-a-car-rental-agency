@@ -130,7 +130,7 @@ export async function action({ request }) {
       setAuthToken(token);
       setUserId(userId);
 
-      return redirect("/");
+      return redirect("/?login=success");
     } catch (err) {
       return json({ message: err.message }, { status: err.status });
     }
