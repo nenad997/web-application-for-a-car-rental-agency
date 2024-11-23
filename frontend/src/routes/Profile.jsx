@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, json } from "react-router-dom";
+import { Outlet, json, redirect } from "react-router-dom";
 
 import { getUserId } from "../util/authorization";
 import Profile from "../components/user/Profile";
@@ -17,6 +17,10 @@ export default ProfilePage;
 
 export async function loader() {
   const loggedInUser = getUserId();
+
+  if (!loggedInUser) {
+    return redirect("/auth");
+  }
 
   try {
     const response = await fetch(
