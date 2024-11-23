@@ -25,7 +25,10 @@ import Edit, {
   action as editCarAction,
   loader as editCarLoader,
 } from "./routes/Edit";
-import Auth, { action as authAction } from "./routes/Auth";
+import Auth, {
+  action as authAction,
+  loader as authLoader,
+} from "./routes/Auth";
 import { getAuthToken } from "./util/authorization";
 import LoggedInUser, {
   action as editUserAction,
@@ -88,6 +91,7 @@ const router = createBrowserRouter([
         path: "auth",
         element: <Auth />,
         action: authAction,
+        loader: authLoader,
       },
       {
         path: "profile",

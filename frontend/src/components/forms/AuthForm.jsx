@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from "react";
-import {
-  Form,
-  useSearchParams,
-  useNavigate,
-  Link,
-  useActionData,
-} from "react-router-dom";
+import React from "react";
+import { Form, useSearchParams, Link, useActionData } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
 import { getUserId } from "../../util/authorization";
 import Input from "../ui/Input";
 
 const AuthForm = ({ user }) => {
-  const [error, setError] = useState();
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const actionData = useActionData();
 
   const isUserLoggedIn = Boolean(getUserId());
@@ -66,27 +58,8 @@ const AuthForm = ({ user }) => {
     );
   }
 
-  const closeErrorTextHandler = () => {
-    setError(null);
-  };
-
-  useEffect(() => {
-    if (mode !== "login" && mode !== "signup") {
-      navigate("?mode=login");
-    }
-  }, [mode, navigate]);
-
-  useEffect(() => {
-    setError(actionData);
-  }, [setError, actionData]);
-
   return (
     <Form method="POST" className={classes.form}>
-      {error?.message && (
-        <p className={classes.error} onClick={closeErrorTextHandler}>
-          {error?.message}
-        </p>
-      )}
       <div className={classes.control}>
         <Input
           label="Email address *"

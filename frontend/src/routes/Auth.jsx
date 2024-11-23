@@ -1,5 +1,6 @@
-import React from "react";
-import { json, redirect } from "react-router-dom";
+import React, { useEffect } from "react";
+import { json, redirect, useActionData } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import AuthForm from "../components/forms/AuthForm";
 import {
@@ -7,13 +8,22 @@ import {
   isUsernameValid,
   isPasswordValid,
 } from "../util/validator";
-import {
-  setAuthToken,
-  setUserId,
-} from "../util/authorization";
+import { setAuthToken, setUserId, getUserId } from "../util/authorization";
+import { generateToast } from "../util/toastify";
 
 const Auth = () => {
-  return <AuthForm />;
+  const actionData = useActionData();
+
+  useEffect(() => {
+    generateToast(actionData?.message);
+  }, [actionData?.message]);
+
+  return (
+    <>
+      <ToastContainer />
+      <AuthForm />
+    </>
+  );
 };
 
 export default Auth;
@@ -115,17 +125,22 @@ export async function action({ request }) {
       });
 
       if (!response.ok) {
-        return json({ message: "Invalid email or password" }, { status: 401 });
+        throw new Error("Invalid email address or password, try again");
       }
 
       const responseData = await response.json();
 
-      if (!responseData?.userId) {
-        return json({ message: "Invalid email or password" }, { status: 401 });
-      }
-
       const token = responseData?.token;
       const userId = responseData?.userId;
+
+      if (!token || !userId) {
+        return json(
+          {
+            message: "Invalid email address or password, try again",
+          },
+          { status: 401 }
+        );
+      }
 
       setAuthToken(token);
       setUserId(userId);
@@ -134,6 +149,26 @@ export async function action({ request }) {
     } catch (err) {
       return json({ message: err.message }, { status: err.status });
     }
+  }
+
+  return null;
+}
+
+export function loader({ request }) {
+  const userId = getUserId();
+
+  if(userId) {
+    return redirect("/profile");
+  }
+
+  const { url } = request;
+
+  const regex = /[?&]mode=([^&\s]+)/;
+  const match = url.match(regex);
+  const mode = Boolean(match) ? match[1] : undefined;
+
+  if (!mode || (mode !== "login" && mode !== "signup")) {
+    return redirect("/auth?mode=login");
   }
 
   return null;
