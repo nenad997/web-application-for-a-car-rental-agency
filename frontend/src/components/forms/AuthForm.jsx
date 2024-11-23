@@ -4,6 +4,7 @@ import { Form, useSearchParams, Link, useActionData } from "react-router-dom";
 import classes from "./AuthForm.module.css";
 import { getUserId } from "../../util/authorization";
 import Input from "../ui/Input";
+import { filterError } from "../../util/error-filter";
 
 const AuthForm = ({ user }) => {
   const [searchParams] = useSearchParams();
@@ -58,6 +59,13 @@ const AuthForm = ({ user }) => {
     );
   }
 
+  const errors = {
+    emailErr: filterError(actionData?.errors, "email"),
+    user_nameErr: filterError(actionData?.errors, "user_name"),
+    id_card_numberErr: filterError(actionData?.errors, "id_card_number"),
+    passwordErr: filterError(actionData?.errors, "password"),
+  };
+
   return (
     <Form method="POST" className={classes.form}>
       <div className={classes.control}>
@@ -70,10 +78,8 @@ const AuthForm = ({ user }) => {
             placeholder: "Enter your email address",
             defaultValue: user?.email ?? "",
           }}
-          hasError={actionData?.errors?.find((error) => error.path === "email")}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "email")?.message
-          }
+          hasError={errors.emailErr}
+          errorText={errors.emailErr?.message}
         />
       </div>
       {mode === "signup" && (
@@ -88,13 +94,8 @@ const AuthForm = ({ user }) => {
                 placeholder: "Enter user name",
                 defaultValue: user?.username ?? "",
               }}
-              hasError={actionData?.errors?.find(
-                (error) => error.path === "user_name"
-              )}
-              errorText={
-                actionData?.errors?.find((error) => error.path === "user_name")
-                  ?.message
-              }
+              hasError={errors.user_nameErr}
+              errorText={errors.user_nameErr?.message}
             />
           </div>
           <div className={classes.control}>
@@ -107,14 +108,8 @@ const AuthForm = ({ user }) => {
                 placeholder: "Enter your ID card number",
                 defaultValue: user?.id_card_number ?? "",
               }}
-              hasError={actionData?.errors?.find(
-                (error) => error.path === "id_card_number"
-              )}
-              errorText={
-                actionData?.errors?.find(
-                  (error) => error.path === "id_card_number"
-                )?.message
-              }
+              hasError={errors.id_card_numberErr}
+              errorText={errors.id_card_numberErr?.message}
             />
           </div>
         </>
@@ -128,13 +123,8 @@ const AuthForm = ({ user }) => {
             name: "password",
             placeholder: "Enter your password",
           }}
-          hasError={actionData?.errors?.find(
-            (error) => error.path === "password"
-          )}
-          errorText={
-            actionData?.errors?.find((error) => error.path === "password")
-              ?.message
-          }
+          hasError={errors.passwordErr}
+          errorText={errors.passwordErr?.message}
         />
       </div>
       {mode === "signup" && (
@@ -147,13 +137,8 @@ const AuthForm = ({ user }) => {
               name: "repeat_password",
               placeholder: "Repeat your password",
             }}
-            hasError={actionData?.errors?.find(
-              (error) => error.path === "password"
-            )}
-            errorText={
-              actionData?.errors?.find((error) => error.path === "password")
-                ?.message
-            }
+            hasError={errors.passwordErr}
+            errorText={errors.passwordErr?.message}
           />
         </div>
       )}
