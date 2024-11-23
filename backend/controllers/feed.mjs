@@ -1,7 +1,9 @@
+import { join } from "path";
 import { validationResult, matchedData } from "express-validator";
 
 import Car from "../models/Car.mjs";
 import User from "../models/User.mjs";
+import { deleteFile } from "../util/files-management.mjs";
 
 export const getAllCars = async (req, res, next) => {
   const limitValue = req.query.limit || 2;
@@ -194,6 +196,14 @@ export const deleteCarById = async (req, res, next) => {
       const error = new Error("Failed to delete the car");
       error.status = 404;
       throw error;
+    }
+
+    if (deletionResult.image) {
+      try {
+        await deleteFile(deletionResult.image);
+      } catch (err) {
+        console.log(`Failed to delete image file: ${err.message}`);
+      }
     }
 
     res.status(200).json({
