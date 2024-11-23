@@ -10,7 +10,7 @@ const Feed = () => {
   const [isNotified, setIsNotified] = useState(false);
 
   const isLoggedout =
-    searchParams.get("redirect") && searchParams.get("redirect") === "success";
+    searchParams.get("logout") && searchParams.get("logout") === "success";
 
   useEffect(() => {
     if (isLoggedout && !isNotified) {
@@ -18,7 +18,7 @@ const Feed = () => {
         style: {
           backgroundColor: "lightgreen",
           color: "black",
-          fontSize: "15px"
+          fontSize: "15px",
         },
       });
       setIsNotified(true);
@@ -27,7 +27,7 @@ const Feed = () => {
     const timer = setTimeout(() => {
       if (isLoggedout) {
         const updatedParams = new URLSearchParams(searchParams);
-        updatedParams.delete("redirect");
+        updatedParams.delete("logout");
         setSearchParams(updatedParams);
       }
     }, 3000);

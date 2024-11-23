@@ -5,5 +5,5 @@ import { removeAuthToken } from "./util/authorization";
 export function logout() {
   removeAuthToken(() => {});
 
-  return redirect("/?redirect=success");
+  return redirect("/?logout=success");
 }
