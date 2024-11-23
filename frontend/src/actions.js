@@ -3,9 +3,7 @@ import { redirect } from "react-router-dom";
 import { removeAuthToken } from "./util/authorization";
 
 export function logout() {
-  removeAuthToken(() => {
-    alert("Logout successful");
-  });
+  removeAuthToken(() => {});
 
-  return redirect("/");
+  return redirect("/?redirect=success");
 }

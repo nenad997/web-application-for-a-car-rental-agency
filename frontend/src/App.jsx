@@ -102,11 +102,11 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "logout",
+        action: logout,
+      },
     ],
-  },
-  {
-    path: "logout",
-    action: logout,
   },
 ]);
 

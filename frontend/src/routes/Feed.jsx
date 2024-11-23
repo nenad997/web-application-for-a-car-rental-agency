@@ -1,10 +1,46 @@
-import React from "react";
-import { json } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { json, useSearchParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import CarList from "../components/car/CarList";
 
 const Feed = () => {
-  return <CarList />;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isNotified, setIsNotified] = useState(false);
+
+  const isLoggedout =
+    searchParams.get("redirect") && searchParams.get("redirect") === "success";
+
+  useEffect(() => {
+    if (isLoggedout && !isNotified) {
+      toast("Logout successful", {
+        style: {
+          backgroundColor: "lightgreen",
+          color: "black",
+          fontSize: "15px"
+        },
+      });
+      setIsNotified(true);
+    }
+
+    const timer = setTimeout(() => {
+      if (isLoggedout) {
+        const updatedParams = new URLSearchParams(searchParams);
+        updatedParams.delete("redirect");
+        setSearchParams(updatedParams);
+      }
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [isLoggedout, isNotified, searchParams, setSearchParams]);
+
+  return (
+    <>
+      <ToastContainer />
+      <CarList />
+    </>
+  );
 };
 
 export default Feed;

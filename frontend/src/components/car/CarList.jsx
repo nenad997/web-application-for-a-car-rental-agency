@@ -8,7 +8,7 @@ import classes from "./CarList.module.css";
 const CarList = () => {
   const loaderData = useLoaderData();
   const [limitValue, setLimitValue] = useState(2);
-  const [_, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const data = loaderData?.data ?? [];
   const buttonBehaviour = limitValue < loaderData?.total;
@@ -20,8 +20,11 @@ const CarList = () => {
   };
 
   useEffect(() => {
-    setSearchParams({ limit: limitValue });
-  }, [setSearchParams, limitValue]);
+    const updatedParams = new URLSearchParams(searchParams);
+
+    updatedParams.set("limit", limitValue);
+    setSearchParams(updatedParams);
+  }, [searchParams, setSearchParams, limitValue]);
 
   if (!data) {
     return (
