@@ -1,4 +1,3 @@
-import { join } from "path";
 import { validationResult, matchedData } from "express-validator";
 
 import Car from "../models/Car.mjs";
@@ -122,23 +121,33 @@ export const editCar = async (req, res, next) => {
   }
 
   let imagePath;
+  let fetchedCar;
 
   if (!req.file && !currentImage) {
     return res.status(400).json({ message: "Image is required" });
   }
 
-  const bodyData = matchedData(req);
-
   if (req.file) {
     imagePath = `/uploads/images/${req.file.filename}`;
+
+    try {
+      fetchedCar = await Car.findById(carId);
+
+      await deleteFile(fetchedCar.image);
+    } catch (err) {
+      console.log(`Failed to delete image file: ${err.message}`);
+      next(err);
+    }
   }
 
   if (currentImage) {
     imagePath = currentImage;
   }
 
+  const bodyData = matchedData(req);
+
   try {
-    const fetchedCar = await Car.findById(carId);
+    fetchedCar = await Car.findById(carId);
 
     if (!fetchedCar) {
       const error = new Error("Could not fetch a car");
@@ -203,6 +212,7 @@ export const deleteCarById = async (req, res, next) => {
         await deleteFile(deletionResult.image);
       } catch (err) {
         console.log(`Failed to delete image file: ${err.message}`);
+        next(err);
       }
     }
 
