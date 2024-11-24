@@ -145,7 +145,7 @@ export async function action({ request }) {
       setAuthToken(token);
       setUserId(userId);
 
-      return redirect("/?login=success");
+      return redirect("/?auth=login");
     } catch (err) {
       return json({ message: err.message }, { status: err.status });
     }

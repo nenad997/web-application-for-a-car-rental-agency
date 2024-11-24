@@ -5,52 +5,33 @@ import "react-toastify/dist/ReactToastify.css";
 
 import CarList from "../components/car/CarList";
 import { generateToast } from "../util/toastify";
-import { adjustSearchParams } from "../util/helper";
 
 const Feed = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isNotified, setIsNotified] = useState(false);
 
-  const isLoggedOut =
-    searchParams.get("logout") && searchParams.get("logout") === "success";
-  const isLoggedIn =
-    searchParams.get("login") && searchParams.get("login") === "success";
+  const auth = searchParams.get("auth");
 
   useEffect(() => {
-    if (isLoggedOut && !isNotified) {
-      generateToast("Logout successful");
+    if (!auth) return;
+
+    if (auth && !isNotified) {
+      generateToast(
+        auth === "logout" ? "Logout successful" : "Login successful 🏆"
+      );
       setIsNotified(true);
     }
 
     const timer = setTimeout(() => {
-      if (isLoggedOut) {
-        adjustSearchParams(searchParams, (updatedParams) => {
-          updatedParams.delete("logout");
-          setSearchParams(updatedParams);
-        });
+      if (auth) {
+        const updatedParams = new URLSearchParams(searchParams);
+        updatedParams.delete("auth");
+        setSearchParams(updatedParams);
       }
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [isLoggedOut, isNotified, searchParams]);
-
-  useEffect(() => {
-    if (isLoggedIn && !isNotified) {
-      generateToast("Login successful 🏆");
-      setIsNotified(true);
-    }
-
-    const timer = setTimeout(() => {
-      if (isLoggedIn) {
-        adjustSearchParams(searchParams, (updatedParams) => {
-          updatedParams.delete("login");
-          setSearchParams(updatedParams);
-        });
-      }
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [isLoggedIn, isNotified, searchParams]);
+  }, [auth, isNotified, searchParams]);
 
   return (
     <>
