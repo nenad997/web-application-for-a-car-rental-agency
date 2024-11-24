@@ -1,28 +1,41 @@
 import React from "react";
-import { Form, useSearchParams, Link, useActionData } from "react-router-dom";
+import {
+  Form,
+  useSearchParams,
+  Link,
+  useActionData,
+  useNavigation,
+} from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
-import { getUserId } from "../../util/authorization";
 import Input from "../ui/Input";
 import { filterError } from "../../util/error-filter";
 
 const AuthForm = ({ user }) => {
   const [searchParams] = useSearchParams();
   const actionData = useActionData();
+  const navigation = useNavigation();
 
-  const isUserLoggedIn = Boolean(getUserId());
+  const isSubmitting = navigation.state === "submitting";
 
   const mode = searchParams.get("mode") || "signup";
-  const submitButtonText = mode === "login" ? "Sign in" : "Signup";
+  const submitButtonText = isSubmitting
+    ? "Submitting..."
+    : mode === "login"
+    ? "Sign in"
+    : "Signup";
 
   let actions = (
     <>
       <input type="hidden" name="mode" value={mode} />
       <div className={classes.control}>
         <button
-          className={`${classes.button} ${classes["auth-button"]}`}
+          className={`${classes.button} ${classes["auth-button"]} ${
+            isSubmitting ? classes.disabled : ""
+          }`}
           title={submitButtonText}
           type="submit"
+          disabled={isSubmitting}
         >
           {submitButtonText}
         </button>
@@ -36,17 +49,20 @@ const AuthForm = ({ user }) => {
     </>
   );
 
-  if (isUserLoggedIn) {
+  if (user?._id) {
     actions = (
       <>
         <input type="hidden" name="uId" value={user?._id.toString() ?? ""} />
         <div className={classes.control}>
           <button
-            className={`${classes.button} ${classes["auth-button"]}`}
+            className={`${classes.button} ${classes["auth-button"]} ${
+              isSubmitting ? classes.disabled : ""
+            }`}
             title="Edit"
             type="submit"
+            disabled={isSubmitting}
           >
-            Edit
+            {isSubmitting ? "Submitting..." : "Edit"}
           </button>
           <Link
             className={`${classes.button} ${classes["cancel-button"]}`}
