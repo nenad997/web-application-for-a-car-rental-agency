@@ -35,21 +35,3 @@
 .error-input {
   border: 1px solid red;
 }
-
-.actions {
-  margin-top: 10px;
-}
-
-.actions input {
-  display: none;
-}
-
-.actions button {
-  padding: 8px;
-  cursor: pointer;
-  border: none;
-  outline: none;
-  background-color: rgb(207, 136, 23);
-  color: white;
-  border-radius: 3px;
-}

@@ -1,0 +1,17 @@
+.picker {
+  margin-top: 10px;
+}
+
+.picker input {
+  display: none;
+}
+
+.picker button {
+  padding: 8px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: rgb(207, 136, 23);
+  color: white;
+  border-radius: 3px;
+}

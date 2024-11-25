@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 
-import classes from "./Input.module.css";
+import classes from "./ImagePicker.module.css";
+import Input from "./Input";
 import { generateToast } from "../../util/toastify";
 
 const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
@@ -75,20 +76,23 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
     <>
       <ToastContainer />
       {imagePreviewContent}
-      <div className={classes.actions}>
+      <div className={classes.picker}>
         <button type="button" onClick={openFileInputHandler}>
           Upload Image
         </button>
-        <input
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
-          onChange={handleFileChange}
+        <Input
+          config={{
+            type: "file",
+            id: "image",
+            name: "image",
+            accept: "image/*",
+            onChange: handleFileChange,
+          }}
           ref={fileInputRef}
+          hasError={hasError}
+          errorText={errorText}
         />
       </div>
-      {hasError && <p className={classes.error}>{errorText}</p>}
     </>
   );
 };
