@@ -4,7 +4,7 @@ import classes from "./Input.module.css";
 
 const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
   const [imagePreview, setImagePreview] = useState(currentImage);
-  const [newImagePreview, setNewImagePreview] = useState();
+  const [pickedImage, setPickedImage] = useState();
   const fileInputRef = useRef();
 
   const isNewImagePicked = imagePreview !== currentImage;
@@ -20,7 +20,7 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
 
     if (!file || file.size === 0) {
       setImagePreview(null);
-      setNewImagePreview(null);
+      setPickedImage(null);
       return;
     }
 
@@ -30,7 +30,7 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
       alert("Please pick a valid picture format (JPEG, PNG, JPG, GIF).");
       event.target.value = "";
       setImagePreview(null);
-      setNewImagePreview(null);
+      setPickedImage(null);
       return;
     }
 
@@ -39,7 +39,7 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
     fileReader.onload = (event) => {
-      setNewImagePreview(event.target.result);
+      setPickedImage(event.target.result);
     };
   };
 
@@ -58,9 +58,9 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
     );
   }
 
-  if (newImagePreview && isNewImagePicked) {
+  if (pickedImage && isNewImagePicked) {
     imagePreviewContent = (
-      <img src={newImagePreview} alt="Car Preview" width="200" />
+      <img src={pickedImage} alt="Car Preview" width="200" />
     );
   }
 
