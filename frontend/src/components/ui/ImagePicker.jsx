@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
+import { ToastContainer } from "react-toastify";
 
 import classes from "./Input.module.css";
+import { generateToast } from "../../util/toastify";
 
 const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
   const [imagePreview, setImagePreview] = useState(currentImage);
@@ -27,7 +29,12 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
     const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif"];
 
     if (!allowedTypes.includes(file.type)) {
-      alert("Please pick a valid picture format (JPEG, PNG, JPG, GIF).");
+      generateToast(
+        "Please pick a valid picture format (JPEG, PNG, JPG, GIF).",
+        {
+          color: "red",
+        }
+      );
       event.target.value = "";
       setImagePreview(null);
       setPickedImage(null);
@@ -66,6 +73,7 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
 
   return (
     <>
+      <ToastContainer />
       {imagePreviewContent}
       <div className={classes.actions}>
         <button type="button" onClick={openFileInputHandler}>
