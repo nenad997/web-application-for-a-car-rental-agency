@@ -51,7 +51,7 @@ const CarDetails = () => {
         <div className={classes.wrapper}>
           <Link
             className={`${classes.button} ${classes["edit-link"]}`}
-            to={`/edit/${carId}?edit=${true}`}
+            to={`/edit/${carId}`}
           >
             Edit
           </Link>

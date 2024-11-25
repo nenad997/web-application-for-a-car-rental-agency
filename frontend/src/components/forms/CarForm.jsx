@@ -5,7 +5,11 @@ import {
   useNavigation,
   useParams,
   Link,
+  useNavigate,
+  useRevalidator,
 } from "react-router-dom";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 import classes from "./CarForm.module.css";
 import Input, { SelectInput } from "../ui/Input";
@@ -21,32 +25,53 @@ const CarForm = memo(({ method, car }) => {
   const actionData = useActionData();
   const navigation = useNavigation();
   const { carId } = useParams();
+  const navigate = useNavigate();
+  const revalidator = useRevalidator();
 
   const isSubmitting = navigation.state === "submitting";
   const token = getAuthToken();
 
-  const deleteCarHandler = () => {
-    if (!window.confirm("Are you sure?")) {
-      return;
-    }
-
-    fetch(`http://localhost:3000/api/cars/${carId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          const error = new Error("Failed to delete car");
-          error.status = 404;
-          throw error;
-        }
-        location.href = "/";
-      })
-      .catch((err) => {
-        setError(err.message);
+  const deleteCarHandler = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/cars/${carId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete car!");
+      }
+
+      await response.json();
+
+      navigate("/");
+      revalidator.revalidate();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const confirmDeletion = () => {
+    confirmAlert({
+      title: "Confirm to delete",
+      message: "Are you sure?",
+      overlayClassName: classes.overlay,
+      buttons: [
+        {
+          label: "Delete",
+          className: classes["btn-confirm"],
+          onClick: deleteCarHandler,
+        },
+        {
+          label: "Cancel",
+          className: classes["btn-cancel"],
+          onClick: () => navigate("."),
+        },
+      ],
+      closeOnEscape: true,
+    });
   };
 
   const errors = {
@@ -177,6 +202,16 @@ const CarForm = memo(({ method, car }) => {
         >
           {isSubmitting ? "Submitting" : !car ? "Add" : "Edit"}
         </button>
+        {car && (
+          <button
+            className={`${classes.button} ${classes["delete-button"]}`}
+            type="button"
+            title="Delete"
+            onClick={confirmDeletion}
+          >
+            Delete
+          </button>
+        )}
         <Link
           to=".."
           className={`${classes.button} ${classes["cancel-button"]}`}
@@ -184,16 +219,6 @@ const CarForm = memo(({ method, car }) => {
         >
           Cancel
         </Link>
-        {car && (
-          <button
-            className={`${classes.button} ${classes["delete-button"]}`}
-            type="button"
-            title="Delete"
-            onClick={deleteCarHandler}
-          >
-            Delete
-          </button>
-        )}
       </div>
       <p className="text">* REQUIRED FIELDS</p>
     </Form>
