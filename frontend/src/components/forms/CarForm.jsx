@@ -125,7 +125,7 @@ const CarForm = memo(({ method, car }) => {
         </div>
         <div className={classes.control}>
           <ImagePickerInput
-            currentImage={car?.image ?? null}
+            image={car?.image ?? null}
             hasError={errors.imageErr}
             errorText={errors.imageErr?.message}
           />

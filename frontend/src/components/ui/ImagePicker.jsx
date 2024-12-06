@@ -5,12 +5,12 @@ import classes from "./ImagePicker.module.css";
 import Input from "./Input";
 import { generateToast } from "../../util/toastify";
 
-const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
-  const [imagePreview, setImagePreview] = useState(currentImage);
+const ImagePickerInput = ({ image, hasError, errorText }) => {
+  const [loadedImagePreview, setLoadedImagePreview] = useState(image);
   const [pickedImage, setPickedImage] = useState();
   const fileInputRef = useRef();
 
-  const isNewImagePicked = imagePreview !== currentImage;
+  const isNewImagePicked = loadedImagePreview !== image;
 
   const openFileInputHandler = () => {
     if (fileInputRef?.current) {
@@ -22,7 +22,7 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
     const file = event.target.files[0];
 
     if (!file || file.size === 0) {
-      setImagePreview(null);
+      setLoadedImagePreview(null);
       setPickedImage(null);
       return;
     }
@@ -37,12 +37,12 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
         }
       );
       event.target.value = "";
-      setImagePreview(null);
+      setLoadedImagePreview((currentImage) => currentImage);
       setPickedImage(null);
       return;
     }
 
-    setImagePreview(file);
+    setLoadedImagePreview(file);
 
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
@@ -53,12 +53,12 @@ const ImagePickerInput = ({ currentImage, hasError, errorText }) => {
 
   let imagePreviewContent;
 
-  if (imagePreview && !isNewImagePicked) {
+  if (loadedImagePreview && !isNewImagePicked) {
     imagePreviewContent = (
       <>
-        <input type="hidden" name="imagePreview" value={imagePreview} />
+        <input type="hidden" name="imagePreview" value={loadedImagePreview} />
         <img
-          src={`http://localhost:3000${imagePreview}`}
+          src={`http://localhost:3000${loadedImagePreview}`}
           alt="Car Preview"
           width="200"
         />

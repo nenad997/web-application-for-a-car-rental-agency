@@ -1,10 +1,6 @@
 .list {
-  max-width: 180rem;
-  margin: auto;
+  margin: 0 auto;
   padding: 1rem;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
   gap: 2rem;
   margin-top: 3rem;
 }
@@ -15,7 +11,7 @@
   max-width: fit-content;
   margin-top: 5rem;
   padding: 1rem 1.5rem;
-  background-color: rgba(236, 243, 226, .6);
+  background-color: rgba(236, 243, 226, 0.6);
   display: flex;
   flex-direction: column;
   gap: 15px;
