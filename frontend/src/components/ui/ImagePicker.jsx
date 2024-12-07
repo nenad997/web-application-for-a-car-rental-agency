@@ -8,6 +8,7 @@ import { generateToast } from "../../util/toastify";
 const ImagePickerInput = ({ image, hasError, errorText }) => {
   const [loadedImagePreview, setLoadedImagePreview] = useState(image);
   const [pickedImage, setPickedImage] = useState();
+  const [webUpload, setWebUpload] = useState(false);
   const fileInputRef = useRef();
 
   const isNewImagePicked = loadedImagePreview !== image;
@@ -61,6 +62,7 @@ const ImagePickerInput = ({ image, hasError, errorText }) => {
           src={`http://localhost:3000${loadedImagePreview}`}
           alt="Car Preview"
           width="200"
+          className={classes.preview}
         />
       </>
     );
@@ -68,7 +70,12 @@ const ImagePickerInput = ({ image, hasError, errorText }) => {
 
   if (pickedImage && isNewImagePicked) {
     imagePreviewContent = (
-      <img src={pickedImage} alt="Car Preview" width="200" />
+      <img
+        src={pickedImage}
+        alt="Car Preview"
+        width="200"
+        className={classes.preview}
+      />
     );
   }
 
@@ -77,7 +84,11 @@ const ImagePickerInput = ({ image, hasError, errorText }) => {
       <ToastContainer />
       {imagePreviewContent}
       <div className={classes.picker}>
-        <button type="button" onClick={openFileInputHandler}>
+        <button
+          className={`${classes.button} ${classes["upload-button"]}`}
+          type="button"
+          onClick={openFileInputHandler}
+        >
           Upload Image
         </button>
         <Input
@@ -87,6 +98,9 @@ const ImagePickerInput = ({ image, hasError, errorText }) => {
             name: "image",
             accept: "image/*",
             onChange: handleFileChange,
+            style: {
+              display: "none",
+            },
           }}
           ref={fileInputRef}
           hasError={hasError}

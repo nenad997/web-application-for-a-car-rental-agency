@@ -55,6 +55,14 @@ export const addNewCar = async (req, res, next) => {
     return res.status(400).json({ message: "Image is required" });
   }
 
+  const existingCar = await Car.findOne({ registrationNumber });
+
+  if (existingCar) {
+    return res.status(302).json({
+      message: "This registration number already exists in db",
+    });
+  }
+
   const newCar = new Car({
     vehicleMake,
     vehicleModel,

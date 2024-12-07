@@ -91,14 +91,17 @@ export async function action({ request }) {
     });
 
     if (!response.ok) {
-      const error = new Error("An Error Occurred!");
-      error.status = 500;
-      throw error;
+      const errorData = await response.json();
+      return { message: errorData?.message, status: 302 };
     }
 
-    return redirect("/");
+    await response.json();
+    redirect("/");
   } catch (error) {
-    return json({ message: error.message }, { status: error.status });
+    return json(
+      { message: error.message || "Server Error Occurred!" },
+      { status: error.status || 500 }
+    );
   }
 }
 
