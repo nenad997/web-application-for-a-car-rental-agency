@@ -120,13 +120,16 @@ export async function action({ params, request }) {
     });
 
     if (!response.ok) {
-      const error = new Error("An Error Occurred!");
-      error.status = 500;
-      throw error;
+      const errorData = await response.json();
+      console.log(errorData);
+      return { message: errorData?.message, serverPath: errorData.serverPath };
     }
 
     return redirect("/");
   } catch (err) {
-    return json({ message: err.message }, { status: err.status });
+    return json(
+      { message: err.message || "An Error Occurred!" },
+      { status: err.status || 500 }
+    );
   }
 }

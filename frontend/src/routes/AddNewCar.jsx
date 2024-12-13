@@ -82,7 +82,7 @@ export async function action({ request }) {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/api/car", {
+    const response = await fetch("http://localhost:3000/api/cars", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -92,11 +92,10 @@ export async function action({ request }) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      return { message: errorData?.message, status: 302 };
+      return { message: errorData?.message, serverPath: errorData.serverPath };
     }
 
-    await response.json();
-    redirect("/");
+    return redirect("/");
   } catch (error) {
     return json(
       { message: error.message || "Server Error Occurred!" },

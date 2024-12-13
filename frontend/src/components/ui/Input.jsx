@@ -3,14 +3,13 @@ import React, { forwardRef } from "react";
 import classes from "./Input.module.css";
 
 const Input = forwardRef(
-  ({ config, label, errorText, hasError, actionData }, ref) => {
+  ({ config, label, errorText, hasError, onServerErr }, ref) => {
     const inputClasses = `${classes.input} ${
-      hasError ? classes["error-input"] : undefined
+      hasError ? classes["error-input"] : ""
     }`;
 
-    const serverError = Boolean(
-      actionData?.message && actionData.status === 302
-    );
+    const serverError =
+      onServerErr && typeof onServerErr === "function" ? onServerErr() : null;
 
     return (
       <>
@@ -21,7 +20,7 @@ const Input = forwardRef(
         )}
         <input className={inputClasses} {...config} ref={ref} />
         {hasError && <p className={classes.error}>{errorText}</p>}
-        {serverError && <p className={classes.error}>{actionData?.message}</p>}
+        {serverError && <p className={classes.error}>{serverError}</p>}
       </>
     );
   }

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 import User from "../models/User.mjs";
 
-export const createUser = async (req, res, next) => {
+export const signup = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -140,7 +140,7 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const getUserDataById = async (req, res, next) => {
+export const getById = async (req, res, next) => {
   const {
     params: { userId },
   } = req;
@@ -168,7 +168,7 @@ export const getUserDataById = async (req, res, next) => {
   }
 };
 
-export const editUser = async (req, res, next) => {
+export const edit = async (req, res, next) => {
   const {
     params: { userId },
   } = req;
@@ -216,7 +216,7 @@ export const editUser = async (req, res, next) => {
   }
 };
 
-export const deleteUser = async (req, res, next) => {
+export const deleteOne = async (req, res, next) => {
   const {
     params: { userId },
   } = req;

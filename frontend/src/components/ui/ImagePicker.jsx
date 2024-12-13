@@ -5,10 +5,9 @@ import classes from "./ImagePicker.module.css";
 import Input from "./Input";
 import { generateToast } from "../../util/toastify";
 
-const ImagePickerInput = ({ image, hasError, errorText }) => {
+const ImagePickerInput = ({ image, hasError, errorText, onServerErr }) => {
   const [loadedImagePreview, setLoadedImagePreview] = useState(image);
-  const [pickedImage, setPickedImage] = useState();
-  const [webUpload, setWebUpload] = useState(false);
+  const [pickedImage, setPickedImage] = useState("");
   const fileInputRef = useRef();
 
   const isNewImagePicked = loadedImagePreview !== image;
@@ -105,6 +104,7 @@ const ImagePickerInput = ({ image, hasError, errorText }) => {
           ref={fileInputRef}
           hasError={hasError}
           errorText={errorText}
+          onServerErr={onServerErr}
         />
       </div>
     </>

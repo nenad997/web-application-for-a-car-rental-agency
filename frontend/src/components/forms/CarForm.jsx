@@ -156,7 +156,12 @@ const CarForm = memo(({ method, car }) => {
             }}
             hasError={errors.regErr}
             errorText={errors.regErr?.message}
-            actionData={actionData}
+            onServerErr={() => {
+              if (actionData?.serverPath === "regNumber") {
+                return actionData?.message;
+              }
+              return null;
+            }}
           />
         </div>
         <div className={classes.control}>

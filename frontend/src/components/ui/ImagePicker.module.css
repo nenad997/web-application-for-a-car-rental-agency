@@ -23,3 +23,7 @@
 .upload-web-button {
   background-color: rgb(41, 207, 23);
 }
+
+.picker .web-input {
+  margin-top: 1rem;
+}

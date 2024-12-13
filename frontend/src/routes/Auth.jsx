@@ -78,7 +78,7 @@ export async function action({ request }) {
 
   if (mode === "signup") {
     try {
-      const response = await fetch("http://localhost:3000/api/signup", {
+      const response = await fetch("http://localhost:3000/api/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -113,7 +113,7 @@ export async function action({ request }) {
 
   if (mode === "login") {
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch("http://localhost:3000/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -157,7 +157,7 @@ export async function action({ request }) {
 export function loader({ request }) {
   const userId = getUserId();
 
-  if(userId) {
+  if (userId) {
     return redirect("/profile");
   }
 

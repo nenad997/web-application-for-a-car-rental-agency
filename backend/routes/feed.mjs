@@ -1,13 +1,13 @@
 import { Router } from "express";
 
 import {
-  getAllCars,
-  addNewCar,
-  getCarById,
-  editCar,
-  deleteCarById,
-  rentCar,
-  getRentedCars,
+  getAll,
+  addNew,
+  getById,
+  edit,
+  deleteOne,
+  rent,
+  getRented,
 } from "../controllers/feed.mjs";
 import isAuth from "../middlewares/isAuth.mjs";
 import {
@@ -18,30 +18,30 @@ import upload from "../middlewares/image-upload.mjs";
 
 const router = Router();
 
-router.get("/cars", getAllCars);
+router.get("/", getAll);
 
 router.post(
-  "/car",
+  "/",
   isAuth,
   upload.single("image"),
   addOrEditNewCarValidationChain,
-  addNewCar
+  addNew
 );
 
-router.get("/cars/:carId", getCarById);
+router.get("/:carId", getById);
 
 router.put(
-  "/cars/:carId",
+  "/:carId",
   isAuth,
   upload.single("image"),
   addOrEditNewCarValidationChain,
-  editCar
+  edit
 );
 
-router.delete("/cars/:carId", isAuth, deleteCarById);
+router.delete("/:carId", isAuth, deleteOne);
 
-router.patch("/cars/:carId", isAuth, rentCar);
+router.patch("/:carId", isAuth, rent);
 
-router.get("/rents", getRentedCarsValidationChain, getRentedCars);
+router.get("/rents", getRentedCarsValidationChain, getRented);
 
 export default router;

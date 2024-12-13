@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { json, useSearchParams } from "react-router-dom";
+import { json, useSearchParams, redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import CarList from "../components/car/CarList";
 import { generateToast } from "../util/toastify";
+import { getAuthToken } from "../util/authorization";
+import { extractStringFromURL } from "../util/helper";
 
 const Feed = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,9 +46,13 @@ const Feed = () => {
 export default Feed;
 
 export async function loader({ request }) {
-  const regex = /[?&]limit=(\d+)/;
-  const match = request.url.match(regex);
-  const limit = Boolean(match) ? match[1] : 2;
+  const token = getAuthToken();
+
+  const limitRegex = /[?&]limit=(\d+)/;
+  const authRegex = /[?&]auth=([^&]+)/;
+
+  const limit = extractStringFromURL(request, limitRegex, 2);
+  const auth = extractStringFromURL(request, authRegex, null);
 
   try {
     const response = await fetch(

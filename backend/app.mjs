@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import { connect } from "mongoose";
-import multer from "multer";
 
 import { MONGO_DB_URL, PORT } from "./util/constants.mjs";
 import authRoutes from "./routes/auth.mjs";
@@ -13,8 +12,8 @@ app.use(express.json());
 
 app.use("/uploads/images", express.static("./uploads/images"));
 
-app.use("/api", authRoutes);
-app.use("/api", feedRoutes);
+app.use("/api/user", authRoutes);
+app.use("/api/cars", feedRoutes);
 
 app.use((err, req, res, next) => {
   const status = err?.status || 500;

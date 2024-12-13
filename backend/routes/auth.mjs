@@ -1,11 +1,11 @@
 import { Router } from "express";
 
 import {
-  createUser,
+  signup,
   login,
-  getUserDataById,
-  editUser,
-  deleteUser,
+  getById,
+  edit,
+  deleteOne,
 } from "../controllers/auth.mjs";
 import {
   signupOrEditValidationChain,
@@ -14,14 +14,14 @@ import {
 
 const router = Router();
 
-router.post("/signup", signupOrEditValidationChain, createUser);
+router.post("/signup", signupOrEditValidationChain, signup);
 
 router.post("/login", loginValidationChain, login);
 
-router.get("/user/:userId", getUserDataById);
+router.get("/:userId", getById);
 
-router.put("/user/:userId", signupOrEditValidationChain, editUser);
+router.put("/:userId", signupOrEditValidationChain, edit);
 
-router.delete("/user/:userId", deleteUser);
+router.delete("/:userId", deleteOne);
 
 export default router;

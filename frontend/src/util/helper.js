@@ -1,4 +1,6 @@
-export function adjustSearchParams(initParams, cb) {
-  const updatedParams = new URLSearchParams(initParams);
-  cb(updatedParams);
+export function extractStringFromURL(request, regex, fallbackVal) {
+  const match = request.url.match(regex);
+  const string = Boolean(match) ? match[1] : fallbackVal;
+
+  return string;
 }

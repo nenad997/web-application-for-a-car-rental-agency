@@ -4,7 +4,7 @@ import Car from "../models/Car.mjs";
 import User from "../models/User.mjs";
 import { deleteFile } from "../util/files-management.mjs";
 
-export const getAllCars = async (req, res, next) => {
+export const getAll = async (req, res, next) => {
   const limitValue = req.query.limit || 2;
   const skipValue = req.query.skip || 0;
 
@@ -32,7 +32,8 @@ export const getAllCars = async (req, res, next) => {
   }
 };
 
-export const addNewCar = async (req, res, next) => {
+export const addNew = async (req, res, next) => {
+  const imageQ = req.query.imageQ;
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -51,8 +52,21 @@ export const addNewCar = async (req, res, next) => {
     regExpiration,
   } = matchedData(req);
 
-  if (!req.file) {
-    return res.status(400).json({ message: "Image is required" });
+  let imagePath;
+
+  if (!req.file && imageQ === "file") {
+    imagePath = null;
+    return res
+      .status(400)
+      .json({ message: "Image is required", serverPath: "image" });
+  }
+
+  if (imageQ === "url") {
+    imagePath = req.body.image;
+  }
+
+  if (req.file) {
+    imagePath = `/uploads/images/${req.file.filename}`;
   }
 
   const existingCar = await Car.findOne({ registrationNumber });
@@ -60,6 +74,7 @@ export const addNewCar = async (req, res, next) => {
   if (existingCar) {
     return res.status(302).json({
       message: "This registration number already exists in db",
+      serverPath: "regNumber",
     });
   }
 
@@ -70,7 +85,7 @@ export const addNewCar = async (req, res, next) => {
     fuel,
     price,
     regExpiration,
-    image: `/uploads/images/${req.file.filename}`,
+    image: imagePath,
   });
 
   try {
@@ -90,7 +105,7 @@ export const addNewCar = async (req, res, next) => {
   }
 };
 
-export const getCarById = async (req, res, next) => {
+export const getById = async (req, res, next) => {
   const {
     params: { carId },
   } = req;
@@ -113,7 +128,7 @@ export const getCarById = async (req, res, next) => {
   }
 };
 
-export const editCar = async (req, res, next) => {
+export const edit = async (req, res, next) => {
   const {
     params: { carId },
   } = req;
@@ -132,20 +147,9 @@ export const editCar = async (req, res, next) => {
   let fetchedCar;
 
   if (!req.file && !currentImage) {
-    return res.status(400).json({ message: "Image is required" });
-  }
-
-  if (req.file) {
-    imagePath = `/uploads/images/${req.file.filename}`;
-
-    try {
-      fetchedCar = await Car.findById(carId);
-
-      await deleteFile(fetchedCar.image);
-    } catch (err) {
-      console.log(`Failed to delete image file: ${err.message}`);
-      next(err);
-    }
+    return res
+      .status(400)
+      .json({ message: "Image is required", serverPath: "image" });
   }
 
   if (currentImage) {
@@ -185,7 +189,7 @@ export const editCar = async (req, res, next) => {
   }
 };
 
-export const deleteCarById = async (req, res, next) => {
+export const deleteOne = async (req, res, next) => {
   const {
     params: { carId },
   } = req;
@@ -232,7 +236,7 @@ export const deleteCarById = async (req, res, next) => {
   }
 };
 
-export const rentCar = async (req, res, next) => {
+export const rent = async (req, res, next) => {
   const {
     body: { cancelRent },
     params: { carId },
@@ -293,7 +297,7 @@ export const rentCar = async (req, res, next) => {
   }
 };
 
-export const getRentedCars = async (req, res, next) => {
+export const getRented = async (req, res, next) => {
   const {
     query: { idCardNumber },
   } = req;
