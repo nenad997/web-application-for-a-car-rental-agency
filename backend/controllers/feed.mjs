@@ -33,7 +33,6 @@ export const getAll = async (req, res, next) => {
 };
 
 export const addNew = async (req, res, next) => {
-  const imageQ = req.query.imageQ;
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -54,15 +53,10 @@ export const addNew = async (req, res, next) => {
 
   let imagePath;
 
-  if (!req.file && imageQ === "file") {
-    imagePath = null;
+  if (!req.file) {
     return res
       .status(400)
       .json({ message: "Image is required", serverPath: "image" });
-  }
-
-  if (imageQ === "url") {
-    imagePath = req.body.image;
   }
 
   if (req.file) {
@@ -154,6 +148,17 @@ export const edit = async (req, res, next) => {
 
   if (currentImage) {
     imagePath = currentImage;
+  }
+
+  if (req.file) {
+    imagePath = `/uploads/images/${req.file.filename}`;
+    try {
+      fetchedCar = await Car.findById(carId);
+      await deleteFile(fetchedCar.image);
+    } catch (err) {
+      console.log(`Failed to delete image file: ${err.message}`);
+      next(err);
+    }
   }
 
   const bodyData = matchedData(req);
