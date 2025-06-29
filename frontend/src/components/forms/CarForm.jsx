@@ -47,7 +47,7 @@ const CarForm = memo(({ method, car }) => {
 
       await response.json();
 
-      navigate("/limit=2");
+      navigate("/?limit=2");
       revalidator.revalidate();
     } catch (err) {
       generateToast(err.message, {
