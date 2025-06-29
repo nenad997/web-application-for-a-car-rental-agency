@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLoaderData, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import CarArticle from "./CarArticle";
 import Pagination from "./Pagination";
 import classes from "./CarList.module.css";
+import { selectFeedState } from "../../store";
 
 const CarList = () => {
-  const loaderData = useLoaderData();
   const [limitValue, setLimitValue] = useState(2);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { data, isLoading, error } = useSelector(selectFeedState);
 
-  const data = loaderData?.data ?? [];
-  const buttonBehaviour = limitValue < loaderData?.total;
+  const buttonBehaviour = limitValue < data?.total;
 
   const loadMoreDataHandler = () => {
     setLimitValue((curLimit) =>
-      curLimit < loaderData?.total ? curLimit + 2 : curLimit
+      curLimit < data?.total ? curLimit + 2 : curLimit
     );
   };
 
@@ -26,16 +27,7 @@ const CarList = () => {
     setSearchParams(updatedParams);
   }, [searchParams, setSearchParams, limitValue]);
 
-  if (!data) {
-    return (
-      <div className={classes.fallback}>
-        <h1>Failed to fetch data</h1>
-        <p>Something went wrong, please try again later</p>
-      </div>
-    );
-  }
-
-  if (data && data.length === 0) {
+  if (!data || data.length === 0) {
     return (
       <div className={classes.fallback}>
         <h1>Nothing to show here</h1>
@@ -47,10 +39,18 @@ const CarList = () => {
     );
   }
 
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <>
       <ul className={classes.list}>
-        {data.map((item) => (
+        {data.data.map((item) => (
           <li key={item._id}>
             <CarArticle
               id={item._id}

@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout, {
   loader as rootLoader,
 } from "./components/layouts/RootLayout";
-import Feed, { loader as carsLoader } from "./routes/Feed";
+import Feed from "./routes/Feed";
 import AddNewCar, {
   action as addNewCarAction,
   loader as addNewCarLoader,
@@ -48,7 +48,6 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Feed />,
-        loader: carsLoader,
       },
       {
         path: "add-new-car",

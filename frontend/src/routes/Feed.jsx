@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { json, useSearchParams, redirect } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import CarList from "../components/car/CarList";
 import { generateToast } from "../util/toastify";
-import { getAuthToken } from "../util/authorization";
-import { extractStringFromURL } from "../util/helper";
+import { fetchData } from "../store/slices/feed-slice";
 
 const Feed = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isNotified, setIsNotified] = useState(false);
+  const dispatch = useDispatch();
 
   const auth = searchParams.get("auth");
+  const limit = searchParams.get("limit");
 
   useEffect(() => {
     if (!auth) return;
@@ -35,6 +37,10 @@ const Feed = () => {
     return () => clearTimeout(timer);
   }, [auth, isNotified, searchParams]);
 
+  useEffect(() => {
+    dispatch(fetchData(limit));
+  }, [limit]);
+
   return (
     <>
       <ToastContainer />
@@ -44,28 +50,3 @@ const Feed = () => {
 };
 
 export default Feed;
-
-export async function loader({ request }) {
-  const token = getAuthToken();
-
-  const limitRegex = /[?&]limit=(\d+)/;
-  const authRegex = /[?&]auth=([^&]+)/;
-
-  const limit = extractStringFromURL(request, limitRegex, 2);
-  const auth = extractStringFromURL(request, authRegex, null);
-
-  try {
-    const response = await fetch(
-      `http://localhost:3000/api/cars?limit=${limit}`
-    );
-
-    if (!response.ok) {
-      throw new Error("Could not fetch data");
-    }
-
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    return json({ message: error.message, data: null }, { status: 404 });
-  }
-}

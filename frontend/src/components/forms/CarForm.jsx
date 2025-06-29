@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import {
   Form,
   useActionData,
@@ -47,7 +47,7 @@ const CarForm = memo(({ method, car }) => {
 
       await response.json();
 
-      navigate("/");
+      navigate("/limit=2");
       revalidator.revalidate();
     } catch (err) {
       generateToast(err.message, {
@@ -70,7 +70,7 @@ const CarForm = memo(({ method, car }) => {
         {
           label: "Cancel",
           className: classes["btn-cancel"],
-          onClick: () => navigate("."),
+          onClick: () => navigate("/?limit=2"),
         },
       ],
       closeOnEscape: true,
@@ -223,7 +223,7 @@ const CarForm = memo(({ method, car }) => {
             </button>
           )}
           <Link
-            to=".."
+            to="/?limit=2"
             className={`${classes.button} ${classes["cancel-button"]}`}
             title="Cancel"
           >

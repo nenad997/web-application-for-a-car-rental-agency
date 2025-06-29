@@ -1,4 +1,3 @@
-import React from "react";
 import { redirect, json } from "react-router-dom";
 
 import CarForm from "../components/forms/CarForm";

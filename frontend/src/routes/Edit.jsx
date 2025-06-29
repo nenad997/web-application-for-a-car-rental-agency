@@ -1,41 +1,39 @@
-import React from "react";
-import { json, redirect, useLoaderData } from "react-router-dom";
+import { useEffect } from "react";
+import { json, redirect, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import CarForm from "../components/forms/CarForm";
 import { isRegistrationNumberValid, isDateValid } from "../util/validator";
 import { getAuthToken } from "../util/authorization";
+import { selectFeedState } from "../store";
+import { fetchCarById } from "../store/slices/feed-slice";
 
 const Edit = () => {
-  const loadedData = useLoaderData();
-  const car = loadedData?.data ?? null;
+  const { carId } = useParams();
+  const dispatch = useDispatch();
+  const { selectedCar, isLoading } = useSelector(selectFeedState);
 
-  return <CarForm method="PUT" car={car} />;
+  useEffect(() => {
+    dispatch(fetchCarById(carId));
+  }, [carId]);
+
+  if (isLoading || !selectedCar) {
+    return <p>Loading...</p>;
+  }
+
+  return <CarForm method="PUT" car={selectedCar} />;
 };
 
 export default Edit;
 
-export async function loader({ params }) {
+export async function loader() {
   const token = getAuthToken();
 
   if (!token) {
     return redirect("/auth?mode=login");
   }
 
-  const { carId } = params;
-  try {
-    const response = await fetch(`http://localhost:3000/api/cars/${carId}`);
-
-    if (!response.ok) {
-      const error = new Error("Failed to fetch the car");
-      error.status = 404;
-      throw error;
-    }
-
-    const responseData = await response.json();
-    return responseData;
-  } catch (err) {
-    return json({ message: err.message }, { status: err.status });
-  }
+  return null;
 }
 
 export async function action({ params, request }) {
@@ -125,7 +123,7 @@ export async function action({ params, request }) {
       return { message: errorData?.message, serverPath: errorData.serverPath };
     }
 
-    return redirect("/");
+    return redirect("/?limit=2");
   } catch (err) {
     return json(
       { message: err.message || "An Error Occurred!" },
