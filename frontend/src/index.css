@@ -37,7 +37,10 @@ textarea {
 }
 
 body {
-  background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+  background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .text-label {

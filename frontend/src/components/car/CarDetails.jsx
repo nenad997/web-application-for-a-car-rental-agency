@@ -25,13 +25,17 @@ const CarDetails = () => {
   }
 
   return (
-    <div
-      className={classes.item}
-      style={{ border: `2px solid ${data.available ? "green" : "red"}` }}
+    <section
+      className={`${classes.item} ${
+        data.available ? classes.available : classes.unavailable
+      }`}
     >
-      <h3 className={classes.title}>
-        {data.vehicleMake} - {data.vehicleModel}
-      </h3>
+      <header className={classes.header}>
+        <h2>
+          {data.vehicleMake} - {data.vehicleModel}
+        </h2>
+      </header>
+
       <figure className={classes.figure}>
         <img
           className={classes.image}
@@ -39,18 +43,22 @@ const CarDetails = () => {
           alt={data.vehicleMake}
         />
       </figure>
-      <details className={classes.details}>
-        <summary>Details</summary>
-        <p>Fuel: {data.fuel}</p>
-        <p>
-          Price {"(€ per day)"}: {data.price}
-        </p>
-        <p>More: {data.moreInfo}</p>
-      </details>
+
+      <div className={classes.info}>
+        <details className={classes.details}>
+          <summary>Details</summary>
+          <p>Fuel: {data.fuel}</p>
+          <p className={classes.priceTag}>
+            Price: <strong>{data.price} € / day</strong>
+          </p>
+          <p>More: {data.moreInfo}</p>
+        </details>
+      </div>
+
       {token && (
-        <div className={classes.wrapper}>
+        <footer className={classes.actions}>
           <Link
-            className={`${classes.button} ${classes["edit-link"]}`}
+            className={`${classes.button} ${classes.edit}`}
             to={`/edit/${carId}`}
           >
             Edit
@@ -58,19 +66,19 @@ const CarDetails = () => {
           <Form method="POST">
             <input type="hidden" name="cancelRent" value={!data.available} />
             <button
-              className={`${classes.button} ${classes["rent-button"]}`}
+              className={`${classes.button} ${classes.rent}`}
               type="submit"
             >
               {isSubmitting
-                ? "Submitting"
+                ? "Submitting..."
                 : data.available
                 ? "Rent"
                 : "Put Back"}
             </button>
           </Form>
-        </div>
+        </footer>
       )}
-    </div>
+    </section>
   );
 };
 

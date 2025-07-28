@@ -25,7 +25,7 @@ const CarList = () => {
 
     updatedParams.set("limit", limitValue);
     setSearchParams(updatedParams);
-  }, [searchParams, setSearchParams, limitValue]);
+  }, [searchParams, limitValue]);
 
   if (!data || data.length === 0) {
     return (

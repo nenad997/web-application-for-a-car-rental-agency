@@ -1,65 +1,105 @@
 .item {
-  max-width: 70rem;
-  margin: 5rem auto;
-  background-color: rgba(236, 243, 226, 0.6);
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 5rem;
-  padding: 2rem 0;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 2px solid;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background-color: #f2f2f2; /* svetlosiva pozadina */
+  transition: all 0.3s ease-in-out;
+  font-size: 1.1rem;
+  color: #222;
 }
 
-.title {
-  font-size: 3rem;
+.available {
+  border-color: green;
+}
+
+.unavailable {
+  border-color: red;
+}
+
+.header h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
   text-align: center;
+  color: #1a1a1a;
 }
 
 .figure {
-  max-width: 60rem;
-  border-radius: 20px;
-  margin: auto;
+  margin: 0 auto 1.5rem;
+  text-align: center;
 }
 
 .image {
-  width: 100%;
-  border-radius: 20px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+.info {
+  margin-bottom: 2rem;
 }
 
 .details {
-  font-size: 2.3rem;
-  padding: .5rem .7rem;
-  
-  & > *:not(summary) {
-    background-color: #c5b94b;
-    margin-bottom: .5rem;
-    padding: .5rem;
-    border-radius: .7rem;
-    text-align: justify;
-  }
+  background-color: #ffffffcc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
 }
 
-.wrapper {
+.details summary {
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.details p {
+  margin: 0.5rem 0;
+  font-size: 1.05rem;
+}
+
+.priceTag {
+  font-size: 1.2rem;
+  color: #111;
+  font-weight: bold;
+}
+
+.actions {
   display: flex;
-  align-self: center;
+  justify-content: center;
   gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
 }
 
 .button {
-  padding: 1.5rem 2rem;
-  text-decoration: none;
-  text-transform: uppercase;
+  padding: 0.8rem 1.6rem;
+  font-size: 1.05rem;
   border: none;
-  outline: none;
-  border-radius: 3px;
-  color: black;
-  font-size: 1.3rem;
+  border-radius: 0.5rem;
   cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+  font-weight: 500;
 }
 
-.edit-link {
-  background-color: #edd709;
+.edit {
+  background-color: #ffca28;
+  color: #000;
 }
 
-.rent-button {
-  background-color: #30e439;
+.edit:hover {
+  background-color: #f4b400;
+}
+
+.rent {
+  background-color: #28a745;
+  color: white;
+}
+
+.rent:hover {
+  background-color: #218838;
 }
