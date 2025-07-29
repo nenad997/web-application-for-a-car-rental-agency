@@ -28,12 +28,16 @@ export async function loader({ params }) {
 }
 
 export async function action({ params, request }) {
-  try {
-    const token = getAuthToken();
-    const { carId } = params;
-    const formData = await request.formData();
-    const { cancelRent } = Object.fromEntries(formData);
+  const token = getAuthToken();
+  const { carId } = params;
+  const formData = await request.formData();
+  const { cancelRent, userId } = Object.fromEntries(formData);
 
+  if (!userId) {
+    return json({ message: "Please select a user", path: "picker" });
+  }
+
+  try {
     const response = await fetch(`http://localhost:3000/api/cars/${carId}`, {
       method: "PATCH",
       headers: {
@@ -42,6 +46,7 @@ export async function action({ params, request }) {
       },
       body: JSON.stringify({
         cancelRent: cancelRent === "true" ? true : false,
+        userId,
       }),
     });
 

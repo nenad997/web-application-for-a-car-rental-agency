@@ -5,6 +5,7 @@ import { connect } from "mongoose";
 import { MONGO_DB_URL, PORT } from "./util/constants.mjs";
 import authRoutes from "./routes/auth.mjs";
 import feedRoutes from "./routes/feed.mjs";
+import usersRoutes from "./routes/user.mjs";
 
 const app = express();
 app.use(cors());
@@ -14,6 +15,7 @@ app.use("/uploads/images", express.static("./uploads/images"));
 
 app.use("/api/user", authRoutes);
 app.use("/api/cars", feedRoutes);
+app.use("/api/users", usersRoutes);
 
 app.use((err, req, res, next) => {
   const status = err?.status || 500;

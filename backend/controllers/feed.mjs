@@ -243,13 +243,13 @@ export const deleteOne = async (req, res, next) => {
 
 export const rent = async (req, res, next) => {
   const {
-    body: { cancelRent },
+    body: { cancelRent, userId },
     params: { carId },
   } = req;
 
   try {
     const fetchedCar = await Car.findById(carId);
-    const user = await User.findById(req.userId);
+    const user = await User.findById(userId);
 
     if (!fetchedCar) {
       const error = new Error("Could not fetch a car");
@@ -258,7 +258,7 @@ export const rent = async (req, res, next) => {
     }
 
     if (cancelRent) {
-      if (fetchedCar.rentedBy.toString() === req.userId.toString()) {
+      if (fetchedCar.rentedBy.toString() === userId.toString()) {
         fetchedCar.rentedBy = null;
         fetchedCar.rentedAt = null;
         user.rentedCars = user.rentedCars.filter(
@@ -268,7 +268,7 @@ export const rent = async (req, res, next) => {
       }
     } else {
       if (!fetchedCar.rentedBy && !fetchedCar.rentedAt) {
-        fetchedCar.rentedBy = req.userId;
+        fetchedCar.rentedBy = userId;
         fetchedCar.rentedAt = new Date();
         if (!user.rentedCars.includes(carId)) {
           user.rentedCars.push(carId);

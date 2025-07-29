@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 import classes from "./CarDetails.module.css";
+import PickUser from "../ui/PickUser";
 
 const CarDetails = () => {
   const { carId } = useParams();
@@ -56,27 +57,37 @@ const CarDetails = () => {
       </div>
 
       {token && (
-        <footer className={classes.actions}>
-          <Link
-            className={`${classes.button} ${classes.edit}`}
-            to={`/edit/${carId}`}
-          >
-            Edit
-          </Link>
-          <Form method="POST">
-            <input type="hidden" name="cancelRent" value={!data.available} />
-            <button
-              className={`${classes.button} ${classes.rent}`}
-              type="submit"
+        <>
+          <footer className={classes.actions}>
+            <p style={{ textAlign: "center" }}>
+              <Link
+                className={`${classes.button} ${classes.edit}`}
+                to={`/edit/${carId}`}
+              >
+                Edit
+              </Link>
+            </p>
+            <Form
+              method="POST"
+              style={{ display: "flex", flexDirection: "column" }}
             >
-              {isSubmitting
-                ? "Submitting..."
-                : data.available
-                ? "Rent"
-                : "Put Back"}
-            </button>
-          </Form>
-        </footer>
+              <input type="hidden" name="cancelRent" value={!data.available} />
+              <p style={{ textAlign: "center" }}>
+                <PickUser />
+                <button
+                  className={`${classes.button} ${classes.rent}`}
+                  type="submit"
+                >
+                  {isSubmitting
+                    ? "Submitting..."
+                    : data.available
+                    ? "Rent"
+                    : "Put Back"}
+                </button>
+              </p>
+            </Form>
+          </footer>
+        </>
       )}
     </section>
   );

@@ -43,6 +43,17 @@ const MainNavbar = () => {
               </li>
               <li className={classes.item}>
                 <NavLink
+                  to="add-new-user"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
+                  <IoIosAddCircleOutline />
+                  <span>Add New User</span>
+                </NavLink>
+              </li>
+              <li className={classes.item}>
+                <NavLink
                   to="record"
                   className={({ isActive }) =>
                     isActive ? classes.active : undefined

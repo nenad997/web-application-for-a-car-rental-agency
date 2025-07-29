@@ -33,6 +33,7 @@ import { getAuthToken } from "./util/authorization";
 import LoggedInUser, {
   action as editUserAction,
 } from "./components/user/LoggedInUser";
+import AddNewUser, { action as addNewUserAction } from "./routes/AddNewUser";
 import ProfilePage, { loader as userLoader } from "./routes/Profile";
 import ErrorPage from "./components/ui/Error";
 import { logout } from "./actions";
@@ -54,6 +55,11 @@ const router = createBrowserRouter([
         element: <AddNewCar />,
         action: addNewCarAction,
         loader: addNewCarLoader,
+      },
+      {
+        path: "add-new-user",
+        element: <AddNewUser />,
+        action: addNewUserAction,
       },
       {
         path: "record",
