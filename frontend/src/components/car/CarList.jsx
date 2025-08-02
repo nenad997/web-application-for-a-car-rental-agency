@@ -40,11 +40,11 @@ const CarList = () => {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className={classes.center}>{error}</p>;
   }
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <p className={classes.center}>Loading...</p>;
   }
 
   return (

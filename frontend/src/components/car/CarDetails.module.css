@@ -105,3 +105,12 @@
 .rent:hover {
   background-color: #218838;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.center {
+  text-align: center;
+}

@@ -1,39 +1,33 @@
-import { useState, useEffect, act } from "react";
+import { useState, useEffect } from "react";
 import { useLoaderData, useActionData } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import classes from "./PickUser.module.css";
+import { selectUsersState } from "../../store";
 
 const PickUser = () => {
-  const [users, setUsers] = useState([]);
   const loaderData = useLoaderData();
   const [idValue, setIdValue] = useState(
     loaderData.data?.rentedBy?._id.toString() ?? ""
   );
   const actionData = useActionData();
 
-  useEffect(() => {
-    async function fetchUsers() {
-      const response = await fetch("http://localhost:3000/api/users");
+  const { users, isLoading, error } = useSelector(selectUsersState);
 
-      const users = await response.json();
+  const selectClasses = loaderData.data?.rentedBy?._id
+    ? `${classes.select} ${classes.disabled}`
+    : classes.select;
 
-      setUsers(users);
-    }
+  let usersContent = <p>Loading users...</p>;
 
-    fetchUsers();
-  }, []);
+  if (error) {
+    usersContent = <p>{error}</p>;
+  }
 
-  useEffect(() => {
-    setIdValue(loaderData.data.rentedBy?._id?.toString() ?? "");
-  }, [loaderData.data.rentedBy]);
-
-  return (
-    <>
+  if (!isLoading && users.length > 0) {
+    usersContent = (
       <select
-        style={{
-          padding: ".7rem",
-          width: "100%",
-          border: "none",
-          borderRadius: "2px",
-        }}
+        className={selectClasses}
         name="userId"
         onChange={(event) => setIdValue(event.target.value)}
         value={idValue}
@@ -45,8 +39,18 @@ const PickUser = () => {
           </option>
         ))}
       </select>
+    );
+  }
+
+  useEffect(() => {
+    setIdValue(loaderData.data.rentedBy?._id?.toString() ?? "");
+  }, [loaderData.data.rentedBy]);
+
+  return (
+    <>
+      {usersContent}
       {actionData?.path === "picker" && (
-        <span style={{ color: "red" }}>{actionData.message}</span>
+        <span className={classes.error}>{actionData.message}</span>
       )}
     </>
   );

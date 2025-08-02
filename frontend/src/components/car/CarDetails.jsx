@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import {
   useLoaderData,
   Link,
@@ -7,19 +7,26 @@ import {
   Form,
   useNavigation,
 } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import classes from "./CarDetails.module.css";
 import PickUser from "../ui/PickUser";
+import { fetchUsers } from "../../store/slices/user-slice";
 
 const CarDetails = () => {
   const { carId } = useParams();
   const loaderData = useLoaderData();
   const token = useRouteLoaderData("root");
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const data = loaderData?.data ? loaderData.data : null;
 
   const isSubmitting = navigation.state === "submitting";
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, []);
 
   if (!data) {
     return <h1>No data</h1>;
@@ -59,7 +66,7 @@ const CarDetails = () => {
       {token && (
         <>
           <footer className={classes.actions}>
-            <p style={{ textAlign: "center" }}>
+            <p className={classes.center}>
               <Link
                 className={`${classes.button} ${classes.edit}`}
                 to={`/edit/${carId}`}
@@ -67,12 +74,9 @@ const CarDetails = () => {
                 Edit
               </Link>
             </p>
-            <Form
-              method="POST"
-              style={{ display: "flex", flexDirection: "column" }}
-            >
+            <Form method="POST" className={classes.form}>
               <input type="hidden" name="cancelRent" value={!data.available} />
-              <p style={{ textAlign: "center" }}>
+              <div className={classes.center}>
                 <PickUser />
                 <button
                   className={`${classes.button} ${classes.rent}`}
@@ -84,7 +88,7 @@ const CarDetails = () => {
                     ? "Rent"
                     : "Put Back"}
                 </button>
-              </p>
+              </div>
             </Form>
           </footer>
         </>
