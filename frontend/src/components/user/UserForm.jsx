@@ -1,38 +1,60 @@
 import { Form } from "react-router-dom";
 
 import classes from "./UserForm.module.css";
+import Input from "../ui/Input";
 
 const UserForm = () => {
   return (
     <Form className={classes.form} method="POST">
       <h2 className={classes.title}>Add New User</h2>
 
-      <label htmlFor="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Enter email" />
+      <div>
+        <Input
+          label="Email"
+          config={{
+            type: "email",
+            id: "email",
+            name: "email",
+            placeholder: "Enter email",
+          }}
+        />
+      </div>
 
-      <label htmlFor="username">Username</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        placeholder="Enter username"
-      />
+      <div>
+        <Input
+          label="Username"
+          config={{
+            type: "text",
+            id: "username",
+            name: "username",
+            placeholder: "Enter username",
+          }}
+        />
+      </div>
 
-      <label htmlFor="id_card_number">ID Card Number</label>
-      <input
-        type="text"
-        id="id_card_number"
-        name="id_card_number"
-        placeholder="Enter ID card number"
-      />
+      <div>
+        <Input
+          label="ID Card Number"
+          config={{
+            type: "text",
+            id: "id_card_number",
+            name: "id_card_number",
+            placeholder: "Enter ID card number",
+          }}
+        />
+      </div>
 
-      <label htmlFor="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Enter password"
-      />
+      <div>
+        <Input
+          label="Password"
+          config={{
+            type: "password",
+            id: "password",
+            name: "password",
+            placeholder: "Please choose a password",
+          }}
+        />
+      </div>
 
       <button type="submit" className={classes.submitButton}>
         Add User
