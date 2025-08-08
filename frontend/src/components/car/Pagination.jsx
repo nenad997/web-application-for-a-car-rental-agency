@@ -2,7 +2,7 @@ import React from "react";
 
 import classes from "./Pagination.module.css";
 
-const Pagination = ({ isDisabled, onLoadMore }) => {
+const CarPagination = ({ isDisabled, onLoadMore }) => {
   return (
     <div className={classes.wrapper}>
       <button
@@ -20,4 +20,4 @@ const Pagination = ({ isDisabled, onLoadMore }) => {
   );
 };
 
-export default Pagination;
+export default CarPagination;

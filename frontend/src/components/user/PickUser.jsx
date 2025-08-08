@@ -24,7 +24,7 @@ const PickUser = () => {
     usersContent = <p>{error}</p>;
   }
 
-  if (!isLoading && users.length > 0) {
+  if (!isLoading) {
     usersContent = (
       <select
         className={selectClasses}
@@ -33,11 +33,12 @@ const PickUser = () => {
         value={idValue}
       >
         <option value="">No User Selected</option>
-        {users.map((user) => (
-          <option key={user._id} value={user._id}>
-            {user.username}
-          </option>
-        ))}
+        {users.length > 0 &&
+          users.map((user) => (
+            <option key={user._id} value={user._id}>
+              {user.username}
+            </option>
+          ))}
       </select>
     );
   }

@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { json, useRouteLoaderData, redirect } from "react-router-dom";
 
 import Modal from "../ui/Modal";
-import AuthForm from "../forms/AuthForm";
+import AuthForm from "../auth/AuthForm";
 import {
   isEmailValid,
   isPasswordValid,

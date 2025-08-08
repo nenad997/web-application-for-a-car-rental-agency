@@ -10,7 +10,7 @@ import {
 import { useDispatch } from "react-redux";
 
 import classes from "./CarDetails.module.css";
-import PickUser from "../ui/PickUser";
+import PickUser from "../user/PickUser";
 import { fetchUsers } from "../../store/slices/user-slice";
 
 const CarDetails = () => {

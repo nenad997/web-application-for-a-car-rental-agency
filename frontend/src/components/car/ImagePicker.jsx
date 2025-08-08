@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 
 import classes from "./ImagePicker.module.css";
-import Input from "./Input";
+import Input from "../ui/Input";
 import { generateToast } from "../../util/toastify";
 
 const ImagePickerInput = ({ image, hasError, errorText, onServerErr }) => {

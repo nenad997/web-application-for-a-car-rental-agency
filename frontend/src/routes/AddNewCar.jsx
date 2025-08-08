@@ -1,6 +1,6 @@
 import { redirect, json } from "react-router-dom";
 
-import CarForm from "../components/forms/CarForm";
+import CarForm from "../components/car/CarForm";
 import { isDateValid, isRegistrationNumberValid } from "../util/validator";
 import { getAuthToken } from "../util/authorization";
 

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { json, redirect, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import CarForm from "../components/forms/CarForm";
+import CarForm from "../components/car/CarForm";
 import { isRegistrationNumberValid, isDateValid } from "../util/validator";
 import { getAuthToken } from "../util/authorization";
 import { selectFeedState } from "../store";

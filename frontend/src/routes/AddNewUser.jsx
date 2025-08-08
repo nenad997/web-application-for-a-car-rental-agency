@@ -8,8 +8,12 @@ export default AddNewUser;
 
 export async function action({ request }) {
   const formData = await request.formData();
-  const { email, username, id_card_number, password } =
-    Object.fromEntries(formData);
+  const entries = Object.fromEntries(formData);
+  const { email, username, id_card_number, password } = entries;
+
+  for (const val of Object.values(entries)) {
+    if (!val) return null;
+  }
 
   try {
     const response = await fetch("http://localhost:3000/api/users/add", {

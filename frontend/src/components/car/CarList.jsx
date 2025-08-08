@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import CarArticle from "./CarArticle";
-import Pagination from "./Pagination";
+import CarPagination from "./Pagination";
 import classes from "./CarList.module.css";
 import { selectFeedState } from "../../store";
 
@@ -62,7 +62,7 @@ const CarList = () => {
           </li>
         ))}
       </ul>
-      <Pagination
+      <CarPagination
         isDisabled={!buttonBehaviour}
         onLoadMore={loadMoreDataHandler}
       />

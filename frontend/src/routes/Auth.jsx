@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { json, redirect, useActionData } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-import AuthForm from "../components/forms/AuthForm";
+import AuthForm from "../components/auth/AuthForm";
 import {
   isEmailValid,
   isUsernameValid,

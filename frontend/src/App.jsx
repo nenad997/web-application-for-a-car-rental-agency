@@ -36,7 +36,7 @@ import LoggedInUser, {
 import AddNewUser, { action as addNewUserAction } from "./routes/AddNewUser";
 import ProfilePage, { loader as userLoader } from "./routes/Profile";
 import ErrorPage from "./components/ui/Error";
-import { logout } from "./actions";
+import { logout } from "./route-actions";
 
 const router = createBrowserRouter([
   {

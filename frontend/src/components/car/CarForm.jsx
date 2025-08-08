@@ -14,7 +14,7 @@ import { ToastContainer } from "react-toastify";
 
 import classes from "./CarForm.module.css";
 import Input, { SelectInput } from "../ui/Input";
-import ImagePickerInput from "../ui/ImagePicker";
+import ImagePickerInput from "./ImagePicker";
 import { getAuthToken } from "../../util/authorization";
 import { filterError } from "../../util/error-filter";
 import { generateToast } from "../../util/toastify";
